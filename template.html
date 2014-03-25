@@ -5,6 +5,7 @@
     <title>Flat UI Free</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    
     <style>
 		.time-selectors {margin-top: 30px;}
 		.time-selector {float: right; margin-left: 10px; margin-bottom: 2em;}
@@ -14,15 +15,12 @@
 		.report-row {border-top: 1px solid #ecf0f1; padding-top: 1.5em;}
 		body { padding-top: 70px; }
     </style>
-
     <!-- Loading Bootstrap -->
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-
     <!-- Loading Flat UI -->
     <link href="css/flat-ui.css" rel="stylesheet">
-
     <link rel="shortcut icon" href="images/favicon.ico">
-
+ 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
@@ -92,27 +90,27 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2 stats">
+			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
 				<div class="stat text-center">15</div>
 				<div class="stat-type text-center">reviews</div>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
 				<div class="stat text-center">30</div>
 				<div class="stat-type text-center">comments</div>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
 				<div class="stat text-center">5%</div>
 				<div class="stat-type text-center">visitors used social media</div>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
 				<div class="stat text-center">30%</div>
 				<div class="stat-type text-center">used official website</div>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
 				<div class="stat text-center">10</div>
 				<div class="stat-type text-center">contributors</div>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
 				<div class="stat text-center">100</div>
 				<div class="stat-type text-center">total reach</div>
 			</div>
@@ -127,19 +125,23 @@
 		</div>
 		<div class="row report-row">
 			<div class="col-md-1 text-center">
+				<a href="http://facebook.com/" data-placement="top" data-toggle="tooltip" title="Go to park Facebook page.">
 				<img class="stat-image" src="images/icons/facebook/facebook-128-black.png" height="64" width="64" alt="Facebook"/>
 				Facebook
+				</a>
 			</div>
 			<div class="col-md-1 text-center">
 				<div class="stat">5</div>
 				<div class="stat-type">posts from park</div>
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat">14</div>
-				<div class="stat-type">posts from others</div>
+				<a href="#" data-placement="top" data-toggle="tooltip" title="View all Facebook posts.">
+					<div class="stat">14</div>
+					<div class="stat-type">posts from others</div>
+				</a>
 			</div>
 			<div class="col-md-4">
-				Graph goes here.
+				<div id="container" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 			</div>
 			<div class="col-md-2 text-center">
 				<div class="stat">14/3.6</div>
@@ -175,19 +177,24 @@
 		</div>
 		<div class="row report-row">
 			<div class="col-md-1 text-center">
+				<a href="http://tripadvisor.com" data-placement="top" data-toggle="tooltip" title="Go to park TripAdvisor page."F>
 				<img class="stat-image" src="images/icons/tripadvisor/tripadvisor-128-black.png" height="64" width="64" alt="Facebook"/>
 				TripAdvisor
+				</a>
+				
 			</div>
 			<div class="col-md-1 text-center">
 				<div class="stat">5</div>
 				<div class="stat-type">posts from park</div>
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat">14</div>
-				<div class="stat-type">posts from others</div>
+				<a href="#" data-placement="top" data-toggle="tooltip" title="View all Facebook posts.">
+					<div class="stat">14</div>
+					<div class="stat-type">posts from others</div>
+				</a>
 			</div>
 			<div class="col-md-4">
-				Graph goes here.
+				<div id="container10" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 			</div>
 			<div class="col-md-2 text-center">
 				<div class="stat">14/3.6</div>
@@ -223,19 +230,23 @@
 		</div>
 		<div class="row report-row">
 			<div class="col-md-1 text-center">
+				<a href="http://yelp.com" data-placement="top" data-toggle="tooltip" title="Go to park Yelp page.">
 				<img class="stat-image" src="images/icons/yelp/yelp-128-black.png" height="64" width="64" alt="Facebook"/>
 				Yelp
+				</a>
 			</div>
 			<div class="col-md-1 text-center">
 				<div class="stat">5</div>
 				<div class="stat-type">posts from park</div>
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat">14</div>
-				<div class="stat-type">posts from others</div>
+				<a href="#" data-placement="top" data-toggle="tooltip" title="View all Facebook posts.">
+					<div class="stat">14</div>
+					<div class="stat-type">posts from others</div>
+				</a>
 			</div>
 			<div class="col-md-4">
-				Graph goes here.
+				<div id="container3" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 			</div>
 			<div class="col-md-2 text-center">
 				<div class="stat">14/3.6</div>
@@ -284,9 +295,13 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-select.js"></script>
     <script src="js/bootstrap-switch.js"></script>
+    <script src="js/bootstrap-tooltip.js"></script>
     <script src="js/flatui-checkbox.js"></script>
     <script src="js/flatui-radio.js"></script>
     <script src="js/jquery.tagsinput.js"></script>
     <script src="js/jquery.placeholder.js"></script>
+  	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+	<script src="chart_javascript.js"></script>
   </body>
 </html>
