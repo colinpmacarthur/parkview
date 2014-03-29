@@ -67,7 +67,64 @@ $(function () {
 	        });
 		});
 
-		
+		$('#container_other').highcharts({
+	            chart: {
+	                type: 'bar',
+	                style: {
+							fontFamily: 'Lato, Helvetica'
+							}
+	            },
+	            title: {
+	                text: ''
+	            },
+	            subtitle: {
+	                text: ''
+	            },
+	            xAxis: {
+	                categories: [
+	                    "Facebook",
+	                    "Twitter",
+	                    "TripAdvisor"
+	                ],
+	                tickLength: 0,
+	                
+	            },
+	            yAxis: {
+	                    gridLineWidth: 0,	
+						title: {
+							text: ''
+						},
+						labels: {
+							enabled: false
+						},
+						stackLabels: {
+							style: {
+									color: 'black'
+									},
+							enabled: true
+						}
+	            },
+	            plotOptions: {
+	                bar: {
+						stacking: 'normal',
+	                    pointPadding: 0.2,
+	                    borderWidth: 0
+	                }
+	                
+	            },
+	            series: [{
+	                name: 'Facebook Comments',
+	                data: [45, 47, 52]
+	    
+	            }],
+	            legend: { 
+					enabled: false 
+				},
+				exporting: {
+					enabled: false
+				},
+				colors: ['#27ae60']
+	        });
 		
         $('#container').highcharts({
             chart: {
