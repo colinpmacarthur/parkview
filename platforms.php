@@ -1,11 +1,19 @@
+<?php
+include 'parkdbquery.php';
+$db = new ParkDBQuery;
+$db->setYear(htmlspecialchars($_GET["year"]));
+$db->setQuarter(htmlspecialchars($_GET["quarter"]));
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>ParkView - Lassen Volcanic NP - Popular Platforms</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
     <style>
 		.time-selectors {margin-top: 30px;}
 		.time-selector {float: right; margin-left: 10px; margin-bottom: 2em;}
@@ -13,6 +21,7 @@
 		.stat-type {line-height: 1.2em; margin-bottom: 0.5em;}
 		.stat-context {font-size: 0.75em; color: #27ae60; margin-bottom: 2em; line-height: 1em;}
 		.report-row {border-top: 1px solid #ecf0f1; padding-top: 1.5em;}
+		.gray {color: #D8D8D8;}
 		body { padding-top: 70px; }
     </style>
     <!-- Loading Bootstrap -->
@@ -67,224 +76,214 @@
 			</div>
 			<div class="col-md-4 time-selectors" >
 				<div class="dropdown time-selector">
-				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">2014<span class="caret"></span></button>
+				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $db->year." - Quarter ".$db->quarter; ?><span class="caret"></span></button>
 				<span class="dropdown-arrow"></span>
 					<ul class="dropdown-menu">
-					    <li><a href="#fakelink">2013</a></li>
-					    <li><a href="#fakelink">2012</a></li>
-					    <li><a href="#fakelink">2011</a></li>
+					    <li><a href="?year=2013&quarter=1">2013 - Quarter 1</a></li>
+					    <li><a href="?year=2013&quarter=2">2013 - Quarter 2</a></li>
+					    <li><a href="?year=2013&quarter=3">2013 - Quarter 3</a></li>
+					    <li><a href="?year=2013&quarter=4">2013 - Quarter 4</a></li>
 					</u>
 				</div>
-				
-				<div class="dropdown time-selector">
-				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Spring<span class="caret"></span></button>
-				<span class="dropdown-arrow"></span>
-					<ul class="dropdown-menu">
-					    <li><a href="#fakelink">Summer</a></li>
-					    <li><a href="#fakelink">Fall</a></li>
-					    <li><a href="#fakelink">Winter</a></li>
-					</u>
-				</div>
-				
-				
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center">15</div>
+			<div class="col-md-2 stats" data-container="body" data-toggle="ReviewsPopover" data-placement="top" data-content='<div id="Reviews" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
+				<div class="stat text-center">
+					<?php echo $db->getAggregateCount(['Yelp','TripAdvisor']); ?>
+				</div>
 				<div class="stat-type text-center">reviews</div>
 			</div>
-			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center">30</div>
+			<div class="col-md-2 stats" data-container="body" data-toggle="CommentsPopover" data-placement="top" data-content='<div id="Comments" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
+				<div class="stat text-center">
+					<?php echo $db->getAggregateCount(['Twitter']); ?>
+				</div>
 				<div class="stat-type text-center">comments</div>
 			</div>
 			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center">5%</div>
-				<div class="stat-type text-center">visitors used social media</div>
+				<div class="stat text-center gray">5%*</div>
+				<div class="stat-type text-center gray">visitors used social media</div>
 			</div>
 			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center">30%</div>
-				<div class="stat-type text-center">used official website</div>
+				<div class="stat text-center gray">30%*</div>
+				<div class="stat-type text-center gray">used official website</div>
 			</div>
 			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center">10</div>
-				<div class="stat-type text-center">contributors</div>
+				<div class="stat text-center gray">10*</div>
+				<div class="stat-type text-center gray">contributors</div>
 			</div>
-			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center">100</div>
+			<div class="col-md-2 stats" data-container="body" data-toggle="TotalReachPopover" data-placement="top" data-content='<div id="TotalReach" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
+				<div class="stat text-center"><?php echo $db->getAggregateCount(['Twitter','TripAdvisor','Yelp']); ?>*</div>
 				<div class="stat-type text-center">total reach</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2"><div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
+			<div class="col-md-2"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Yelp','TripAdvisor']) ?> from last year</div></div>
+			<div class="col-md-2"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Twitter']) ?> from last year</div></div>
+			<div class="col-md-2"><div class="stat-context gray text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
+			<div class="col-md-2"><div class="stat-context gray text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
+			<div class="col-md-2"><div class="stat-context gray text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
+			<div class="col-md-2"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Yelp','TripAdvisor','Twitter']) ?> from last year</div></div>
 		</div>
+		<!--Twitter-->
 		<div class="row report-row">
 			<div class="col-md-1 text-center">
-				<a href="http://facebook.com/" data-placement="top" data-toggle="tooltip" title="Go to park Facebook page.">
-				<img class="stat-image" src="images/icons/facebook/facebook-128-black.png" height="64" width="64" alt="Facebook"/>
-				Facebook
-				</a>
+				<img class="stat-image" src="images/icons/twitter/twitter-128-black.png" height="64" width="64" alt="Twitter"/>
+				Twitter
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat">5</div>
-				<div class="stat-type">posts from park</div>
-			</div>
-			<div class="col-md-1 text-center">
-				<a href="#" data-placement="top" data-toggle="tooltip" title="View all Facebook posts.">
-					<div class="stat">14</div>
-					<div class="stat-type">posts from others</div>
-				</a>
-			</div>
-			<div class="col-md-4">
-				<div id="container" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
+				<div class="stat gray">5*</div>
+				<div class="stat-type gray">posts from park</div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat">14/3.6</div>
+					<div class="stat"><?php echo $db->getCount('Twitter'); ?></div>
+					<div class="stat-type">posts from others</div>
+			</div>
+			<div class="col-md-4">
+				<div id="Twitter" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
+			</div>
+			<div class="col-md-2 text-center">
+				<div class="stat">N/A</div>
 				<div class="stat-type">avg. rating</div>
 			</div>
 			<div class="col-md-2 text-center">
-				"This is a recent comment to include here."
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat">2%</div>
-				<div class="stat-type">used prior to visit</div>
+				<comment>
+					"<?php echo $db->getLastComment('Twitter'); ?>"
+				</comment>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-1 text-center">
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
-			</div>
-			<div class="col-md-4">
+				<div class="stat-context gray text-center">30%* <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
-			</div>
-			<div class="col-md-2 text-center">
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+				<div class="stat-context text-center"><?php echo $db->getCountPercentChange('Twitter');?> from last year</div>
 			</div>
 		</div>
+		<!--TripAdvisor-->
 		<div class="row report-row">
 			<div class="col-md-1 text-center">
-				<a href="http://tripadvisor.com" data-placement="top" data-toggle="tooltip" title="Go to park TripAdvisor page."F>
-				<img class="stat-image" src="images/icons/tripadvisor/tripadvisor-128-black.png" height="64" width="64" alt="Facebook"/>
+				<img class="stat-image" src="images/icons/tripadvisor/tripadvisor-128-black.png" height="64" width="64" alt="Twitter"/>
 				TripAdvisor
-				</a>
-				
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat">5</div>
-				<div class="stat-type">posts from park</div>
-			</div>
-			<div class="col-md-1 text-center">
-				<a href="#" data-placement="top" data-toggle="tooltip" title="View all Facebook posts.">
-					<div class="stat">14</div>
-					<div class="stat-type">posts from others</div>
-				</a>
-			</div>
-			<div class="col-md-4">
-				<div id="container10" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
+				<div class="stat gray">0*</div>
+				<div class="stat-type gray">from park</div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat">14/3.6</div>
+					<div class="stat"><?php echo $db->getCount('TripAdvisor'); ?></div>
+					<div class="stat-type">reviews from visitors</div>
+			</div>
+			<div class="col-md-4">
+				<div id="TripAdvisor" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
+			</div>
+			<div class="col-md-2 text-center">
+				<div class="stat"><?php echo $db->getAverageRating('trip_advisor'); ?>/10</div>
 				<div class="stat-type">avg. rating</div>
 			</div>
 			<div class="col-md-2 text-center">
-				"This is a recent comment to include here."
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat">2%</div>
-				<div class="stat-type">used prior to visit</div>
+				<comment>
+					"<?php echo $db->getLastComment('TripAdvisor'); ?>"
+				</comment>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-1 text-center">
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
-			</div>
-			<div class="col-md-4">
+				<div class="stat-context gray text-center">30%* <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+				<div class="stat-context text-center"><?php echo $db->getCountPercentChange('TripAdvisor');?> from last year</div>
+			</div>
+			<div class="col-md-4 text-center">
 			</div>
 			<div class="col-md-2 text-center">
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+				<div class="stat-context text-center"><?php echo $db->getAverageRatingChange('trip_advisor');?> from last year</div>
 			</div>
 		</div>
+		<!--Yelp-->
 		<div class="row report-row">
 			<div class="col-md-1 text-center">
-				<a href="http://yelp.com" data-placement="top" data-toggle="tooltip" title="Go to park Yelp page.">
-				<img class="stat-image" src="images/icons/yelp/yelp-128-black.png" height="64" width="64" alt="Facebook"/>
+				<img class="stat-image" src="images/icons/yelp/yelp-128-black.png" height="64" width="64" alt="Twitter"/>
 				Yelp
-				</a>
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat">5</div>
-				<div class="stat-type">posts from park</div>
-			</div>
-			<div class="col-md-1 text-center">
-				<a href="#" data-placement="top" data-toggle="tooltip" title="View all Facebook posts.">
-					<div class="stat">14</div>
-					<div class="stat-type">posts from others</div>
-				</a>
-			</div>
-			<div class="col-md-4">
-				<div id="container3" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
+				<div class="stat gray">0*</div>
+				<div class="stat-type gray">from park</div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat">14/3.6</div>
+					<div class="stat"><?php echo $db->getCount('Yelp'); ?></div>
+					<div class="stat-type">reviews from visitors</div>
+			</div>
+			<div class="col-md-4">
+				<div id="Yelp" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
+			</div>
+			<div class="col-md-2 text-center">
+				<div class="stat"><?php echo $db->getAverageRating('yelp'); ?>/10</div>
 				<div class="stat-type">avg. rating</div>
 			</div>
 			<div class="col-md-2 text-center">
-				"This is a recent comment to include here."
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat">2%</div>
-				<div class="stat-type">used prior to visit</div>
+				<comment>
+					"<?php echo $db->getLastComment('Yelp'); ?>"
+				</comment>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-1 text-center">
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+				<div class="stat-context gray text-center">30%* <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+			</div>
+			<div class="col-md-2 text-center">
+				<div class="stat-context text-center"><?php echo $db->getCountPercentChange('Yelp');?> from last year</div>
+			</div>
+			<div class="col-md-4 text-center">
+			</div>
+			<div class="col-md-2 text-center">
+				<div class="stat-context text-center"><?php echo $db->getAverageRatingChange('yelp');?> from last year</div>
+			</div>
+		</div>
+		<!--Flickr-->
+		<div class="row report-row">
+			<div class="col-md-1 text-center">
+				<img class="stat-image" src="images/icons/flickr/flickr-128-black.png" height="64" width="64" alt="Twitter"/>
+				Flickr
 			</div>
 			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+				<div class="stat gray">5*</div>
+				<div class="stat-type gray">posts from park</div>
+			</div>
+			<div class="col-md-2 text-center">
+					<div class="stat"><?php echo $db->FLgetCount('Flickr'); ?></div>
+					<div class="stat-type">pictures from others</div>
 			</div>
 			<div class="col-md-4">
+				<div id="Flickr" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+				<div class="stat">N/A</div>
+				<div class="stat-type">avg. rating</div>
 			</div>
 			<div class="col-md-2 text-center">
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+				<comment>
+					<a href="<?php echo $db->FLgetLastComment('Flickr'); ?>">View image</a>
+				</comment>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6 small">Copyright 2014 ParkView. All rights reserved.</div>
+			<div class="col-md-1 text-center">
+			</div>
+			<div class="col-md-1 text-center">
+				<div class="stat-context gray text-center">30%* <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+			</div>
+			<div class="col-md-2 text-center">
+				<div class="stat-context text-center">
+					<?php echo $db->FLgetCountPercentChange('Flickr');?> from last year</div>
+			</div>
 		</div>
-	</div>
-    
     <!-- /.container -->
 
 
@@ -302,6 +301,7 @@
     <script src="js/jquery.placeholder.js"></script>
   	<script src="http://code.highcharts.com/highcharts.js"></script>
 	<script src="http://code.highcharts.com/modules/exporting.js"></script>
-	<script src="chart_javascript.js"></script>
+	<script src="http://jedfoster.com/js/readmore.min.js"></script>
+	<?php include 'chart_javascript.php'; ?>
   </body>
 </html>
