@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ParkView - Lassen Volcanic NP - Popular Platforms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+			.time-selectors {margin-top: 30px;}
+			.time-selector {float: right; margin-left: 10px; margin-bottom: 2em;}
+			.stat {font-size: 3em; line-height: 1em; margin-top: 0em;}
+			.stat-type {line-height: 1.2em; margin-bottom: 0.5em;}
+			.stat-context {font-size: 0.75em; color: #27ae60; margin-bottom: 2em; line-height: 1em;}
+			.report-row {border-top: 1px solid #ecf0f1; padding-top: 1.5em;}
+			body { padding-top: 70px; }
+    </style>
+<!-- Loading Bootstrap -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+
+<!-- Loading Flat UI -->
+    <link href="css/flat-ui.css" rel="stylesheet">
+    <link rel="shortcut icon" href="images/favicon.ico">
+
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+		<script type="text/javascript" src="js/maplabel.js"></script>
+		<script src="http://people.ischool.berkeley.edu/~sasaki/fp/d3-master/d3.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+    <script src="js/bootstrap-tooltip.js"></script>
+    <script src="js/flatui-checkbox.js"></script>
+    <script src="js/flatui-radio.js"></script>
+    <script src="js/jquery.tagsinput.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+   <!-- <script src="parkview-master/js/jquery.stacktable.js"></script> -->
+    <script src="http://vjs.zencdn.net/4.3/video.js"></script>
+    <script src="js/application.js"></script>
+ 
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+<!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+
+		<?php
+			$quarter = 4;
+			if(isset($_GET['quarter'])){
+			  $quarter = $_GET['quarter'];
+			}
+			$year = 2013;
+			if(isset($_GET['year'])){
+			  $year = $_GET['year'];
+			}
+			$endmonth = intval($quarter)*3;
+			$startmonth = $endmonth-2;
+
+			if ($quarter == 4){
+				$p1quarter = 3;
+				$p1year = $year;
+				$p2quarter = 2;
+				$p2year = $year;
+				$p3quarter = 1;
+				$p3year = $year;
+				$p4quarter = 4;
+				$p4year = $year-1;
+			}elseif ($quarter == 3){
+				$p1quarter = 2;
+				$p1year = $year;
+				$p2quarter = 1;
+				$p2year = $year;
+				$p3quarter = 4;
+				$p3year = $year-1;
+				$p4quarter = 3;
+				$p4year = $year-1;
+			}elseif ($quarter == 2){
+				$p1quarter = 1;
+				$p1year = $year;
+				$p2quarter = 4;
+				$p2year = $year-1;
+				$p3quarter = 3;
+				$p3year = $year-1;
+				$p4quarter = 2;
+				$p4year = $year-1;
+			}else{
+				$p1quarter = 4;
+				$p1year = $year-1;
+				$p2quarter = 3;
+				$p2year = $year-1;
+				$p3quarter = 2;
+				$p3year = $year-1;
+				$p4quarter = 1;
+				$p4year = $year-1;
+			}
+			
+		?>
+
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container-fluid">
+<!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">ParkView</a>
+	    </div>
+	    
+<!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li><a href="#">Popular Places</a></li>
+	        <li><a href="template.html">Popular Platforms</a></li>
+	        <li class="active"><a href="problems.html">Problems</a></li>
+	      </ul>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Current Park: Lassen Volcanic NP <b class="caret"></b></a>
+	          <ul class="dropdown-menu">
+	            <li>No other parks available.</li>
+	          </ul>
+	        </li>
+	      </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<h3>Problems: <?php echo $year . " - Quarter " . $quarter; ?></h3>
+			</div>
+			<div class="col-md-2 time-selectors col-md-offset-2" >
+				<form>
+	        <select id="seasonList" name="herolist" value="Season" class="select-block" onChange="top.location.href=value">
+						<option value="#">Select Qtr</option>
+	          <option value="?quarter=4&year=2013">2013 - Q4</option>
+	          <option value="?quarter=3&year=2013">2013 - Q3</option>
+	          <option value="?quarter=2&year=2013">2013 - Q2</option>
+	          <option value="?quarter=1&year=2013">2013 - Q1</option>
+	          <option value="?quarter=4&year=2012">2012 - Q4</option>
+	          <option value="?quarter=3&year=2012">2012 - Q3</option>
+	          <option value="?quarter=2&year=2012">2012 - Q2</option>
+	          <option value="?quarter=1&year=2012">2012 - Q1</option>
+        	</select>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Quality vs. Importance Rating of Services (source: Lassen NP visitor servey</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Rating History (source: Yelp & Trip advisor)</div>
+		</div>
+		<div class="row" id="upper">
+			<div class="col-md-6" id="scatter-plot" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
+				<script>
+					(function($){ // encapsulate jQuery
+						$(function () {
+							$('#scatter-plot').highcharts({
+								chart: {
+									type: 'scatter',
+									zoomType: 'xy',
+									backgroundColor: '#F8FFF8'
+								},
+								title: {
+									text: ''
+								},
+								subtitle: {
+									text: ''
+								},
+								xAxis: {
+									title: {
+										enabled: true,
+										text: 'Average Importance Score'
+									},
+									startOnTick: true,
+									endOnTick: true,
+									showLastLabel: true
+								},
+								yAxis: {
+									title: {
+										text: 'Poor/Very Poor(%)'
+									},
+									labels: {
+										format: '{value} %'
+									}
+								},
+								legend: {
+									enabled: false,
+									layout: 'vertical',
+									align: 'left',
+									verticalAlign: 'top',
+									x: 100,
+									y: 70,
+									floating: true,
+									backgroundColor: '#FFFFFF',
+									borderWidth: 1
+								},
+								plotOptions: {
+									scatter: {
+										animation: {
+											duration: 500
+										},
+										marker: {
+											radius: 5,
+											symbol: 'circle',
+											states: {
+												hover: {
+													enabled: true,
+													lineColor: 'rgb(100,100,100)'
+												}
+											}
+										},
+										dataLabels: {
+											enabled: true,
+											format: '{series.name}',
+											x: 15,
+											y: -10
+										},
+										states: {
+											hover: {
+												marker: {
+													enabled: false
+												}
+											}
+										},
+										tooltip: {
+											headerFormat: '<b>{series.name}</b><br>',
+											pointFormat: '{point.x}, {point.y}%'
+										}
+								}
+							},
+							series: [{
+									name: 'Bookstore items',
+									color: 'rgba(255, 83, 83, .8)',
+									data: [[4.3, 4]],
+								}, {
+									name: 'Park website',
+									color: 'rgba(255, 83, 83, .8)',
+									data: [[4.3, 1]]
+								}, {
+									name: 'Videos',
+									color: 'rgba(255, 83, 83, .8)',
+									data: [[4.5, 2]]
+								}, {
+									name: 'Visitor center exhibits',
+									color: 'rgba(255, 83, 83, .8)',
+									data: [[4.5, 1]]
+								}, {
+									name: 'Staff assistance',
+									color: 'rgba(255, 83, 83, .8)',
+									data: [[4.7, 1]]
+								}]
+							});
+						});
+					})(jQuery);
+				</script>)
+			</div><!-- id="scatter-plot" -->
+			<div class="col-md-6" id="nega-posi-history" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
+				<script> // Stack Bar Graph by Highcharts
+						$.ajax({
+							type: 'POST',
+							url: 'getSnsRatingsByQ.php',
+							data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
+							dataType: "json",
+
+							success: function(hoge) {
+								var nega4;
+								var nega3;
+								var nega2;
+								var naga1;
+								var naga0;
+								var posi4;
+								var posi3;
+								var posi2;
+								var posi1;
+								var posi0;
+								
+								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '1"'; ?>])==="undefined") {
+									posi0 = NaN;
+								} else {
+									posi0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '1"'; ?>]);
+								}
+
+								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '1"'; ?>])==="undefined") {
+									posi1 = 0;
+								} else {
+									posi1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '1"'; ?>]);
+								}
+
+								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '1"'; ?>])==="undefined") {
+									posi2 = 0;
+								} else {
+									posi2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '1"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '1"'; ?>])==="undefined") {
+									posi1 = 0;
+								} else {
+									posi3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '1"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '1"'; ?>])==="undefined") {
+									posi4 = 0;
+								} else {
+									posi4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '1"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '0"'; ?>])==="undefined") {
+									nega0 = 0;
+								} else {
+									nega0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '0"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '0"'; ?>])==="undefined") {
+									nega1 = 0;
+								} else {
+									nega1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '0"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '0"'; ?>])==="undefined") {
+									nega2 = 0;
+								} else {
+									nega2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '0"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '0"'; ?>])==="undefined") {
+									nega3 = 0;
+								} else {
+									nega3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '0"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '0"'; ?>])==="undefined") {
+									nega4 = 0;
+								} else {
+									nega4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '0"'; ?>]);
+								}
+								(function($){ // encapsulate jQuery
+									$(function () {
+										$("#nega-posi-history").highcharts({
+											chart: {
+												type: 'column',
+												backgroundColor: '#F8FFF8'
+											},
+											title: {
+												text: ''
+											}, 
+											xAxis: {
+												categories: ['<?php echo "Q" . $p4quarter . "-" . $p4year; ?>', '<?php echo "Q" . $p3quarter . "-" . $p3year; ?>', '<?php echo "Q" . $p2quarter . "-" . $p2year; ?>', '<?php echo "Q" . $p1quarter . "-" . $p1year; ?>', '<?php echo "Q" . $quarter . "-" . $year; ?>']
+											},
+											yAxis: {
+												min: 0,
+												title: {
+														text: 'Total Reviews'
+												},
+												stackLabels: {
+														enabled: true,
+														style: {
+															fontWeight: 'bold',
+															color: (Highcharts.theme && Highcharts.theme.textColor) || 'grey'
+														}
+												}
+											},
+											legend: {
+												align: 'right',
+												x: -30,
+												verticalAlign: 'top',
+												y: -3,
+												floating: true,
+												backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || '#F8FFF8',
+												borderColor: '#CCC',
+												borderWidth: 1,
+												shadow: false
+											},
+											tooltip: {
+												formatter: function() {
+													return '<b>'+ this.x +'</b><br/>'+
+													this.series.name +': '+ this.y +'<br/>'+
+													'Total: '+ this.point.stackTotal;
+												}
+											},
+											plotOptions: {
+												column: {
+													stacking: 'normal',
+													dataLabels: {
+														enabled: true,
+														color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || '#D8D8D8',
+														style: {
+															textShadow: '0 0 3px black, 0 0 3px black'
+														}
+													}
+												}
+											},
+											series: [
+											{name: 'Negative',
+												data: [nega4, nega3, nega2, nega1, nega0],
+												color: '#FFCC99'
+											}, {
+												name: 'Positive',
+												data: [posi4, posi3, posi2, posi1, posi0],
+												color: '#27ae60'
+											}]
+										});
+									});
+								})(jQuery);
+								//console.log(nega0);
+							}, //success closed
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert('Error : ' + errorThrown);
+							} // error closed
+						}); //ajax closed
+
+				</script>
+			</div><!-- id="nega-posi-history" -->
+		</div><!-- id="upper" -->
+		<div class="row" id="rower">
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">Reviews with less than 3 stars (source: Tripadvisor)</div>
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">3 negative reviews around <?php echo $year . " - Quarter " . $quarter; ?> (source: Tripadvisor & Yelp)</div>
+		</div>
+		<div class="row">
+			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+			<div class="col-md-6" id="map_canvas" style="height: 350px;"><!-- border-radius: 5px; border: 1px solid #000000;"> --></div><!-- map-canvas -->
+			<script type='text/javascript'>
+
+				// piyo is a variable that represent JSON data returned from php
+				var piyo = $.ajax({
+						type: 'POST',
+						url: 'getDoughnatDataByLocation.php',
+						data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
+						dataType: "json",
+						context: document.body,
+						global: false,
+						async:false,
+        		success: function(data){
+            	return data;
+        		}, //success closed
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert('Error : ' + errorThrown);
+						} // error closed
+					}).responseJSON; //ajax closed
+				//console.log(JSON.stringify(piyo));
+				//console.log(piyo[0].siteName);
+
+				// loading google Google Charts
+				google.load( 'visualization', '1', { packages:['corechart'] });
+
+				function ChartMarker(options){
+					this.setValues(options);
+					this.$inner = $('<div>').css({
+						position: 'relative',
+						left: '-50%', top: '-50%',
+						width: '200px',
+						height: options.height,
+						fontSize: '1px',
+						lineHeight: '1px',
+						backgroundColor: 'transparent',
+						cursor: 'default'
+					});
+					this.$div = $('<div>')
+						.append(this.$inner)
+						.css({
+							position: 'absolute',
+							display: 'none'
+						});
+				};
+
+				ChartMarker.prototype = new google.maps.OverlayView;
+
+				ChartMarker.prototype.onAdd = function(){
+					$(this.getPanes().overlayMouseTarget).append(this.$div);
+				};
+
+				ChartMarker.prototype.onRemove = function() {
+					this.$div.remove();
+				};
+
+				ChartMarker.prototype.draw = function() {
+					var marker = this;
+					var projection = this.getProjection();
+					var position = projection.fromLatLngToDivPixel(this.get('position'));
+
+					this.$div.css({
+						left: position.x,
+						top: position.y,
+						display: 'block'
+					})
+
+					this.$inner
+						.html('<img src="' + this.get('image') + '"/>')
+						.click(function(event){
+							var events = marker.get('events');
+							events && events.click(event);
+						});
+					
+					this.chart = new google.visualization.PieChart(this.$inner[0]);
+					this.chart.draw( this.get('chartData'), this.get('chartOptions'));
+				};
+
+				function initialize(){
+
+					// map values
+					var map = new google.maps.Map($('#map_canvas')[0], {
+						zoom: 11,
+						center: new google.maps.LatLng(40.468507, -121.454999),
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					});
+
+					// start for loop
+					var i;
+					for (i =0; i<Object.keys(piyo).length; i++) {
+
+						// create label
+						var mapLabel = new MapLabel({
+							text: piyo[i].siteName,
+							map: map,
+							fontSize: 12,
+							align: 'center'
+						});
+
+						// add the label to the map
+						mapLabel.set('position', new google.maps.LatLng(piyo[i].latitude, piyo[i].longitude));
+
+						// each chart data from JSON
+						var data = google.visualization.arrayToDataTable(
+						[
+							['Rating', 'Numbers'],
+							['3 stars', Number(piyo[i].ratingThree)],
+							['2 stars', Number(piyo[i].ratingTwo)],
+							['1 star', Number(piyo[i].ratingOne)]
+						]);
+
+						// set chart options
+						var options = {
+							fontSize: 'automatic',
+							//title: piyo[i].siteName, //don't need because of labeling by mapLabel function
+							pieHole: 0.35,
+							pieSliceText: 'value',
+							backgroundColor: 'transparent',
+							legend: 'none'
+						};
+			
+						// put a doughnat chart on googlemaps as a marker
+						var marker = new ChartMarker({
+							map: map,
+							position: new google.maps.LatLng(Number(piyo[i].latitude), Number(piyo[i].longitude)),
+							width: 10*(Number(piyo[i].ratingThree) + Number(piyo[i].ratingTwo) + Number(piyo[i].ratingOne)),
+							height: 10*(Number(piyo[i].ratingThree) + Number(piyo[i].ratingTwo) + Number(piyo[i].ratingOne)),
+							chartData: data,
+							chartOptions: options
+						});
+					};
+				};
+
+				$(initialize);
+			</script>
+
+			<div class="col-md-6" id="recent-nega-comments" style="height: 350px; font-size: small;"> <!-- border-radius: 5px; border: 1px solid #000000; "> -->
+<?php
+		$modosu = $endmonth+1;
+
+		//get data from mysql and put them into an array
+		try{
+			$reviews = null;
+			require_once('cfg.php');
+			$dbh = new PDO($db['dsn'], $db['user'], $db['password']);
+
+			$sql_user_review = 'SELECT * from SNSratings WHERE rating BETWEEN 1 and 3 AND date < "' . $year . '-' . $modosu . '-01" Order By date desc LIMIT 0,3';
+			$st = $dbh->query($sql_user_review);
+
+			while ($row = $st->fetchObject()) {
+	     	$reviews[] = array(
+					'SNS' => $row->SNS,
+					'username' => $row->userName,
+					'address' => $row->address,
+					'date'=> $row->date, 
+					'rating'=> $row->rating, 
+					'comment'=> $row->comment, 
+					'URL' => $row->pageURL);
+			}
+
+			echo ('
+							<div class="row">
+								<div class="col-md-3">
+								<img class="stat-image" src="images/icons/SNS/' . $reviews[0]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[0]["SNS"]. '"/></a><br>' . $reviews[0]["username"] . '</b> from ' . $reviews[0]["address"] . '
+								</div>
+								<div class="col-md-9">
+									<b>' . $reviews[0]["rating"] . ' </b>star(s) at  ' . $reviews[0]["date"] . ' <br>' . substr($reviews[0]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[0]["URL"] . '" title="Read more..." target="_blank" >Read more at the original SNS.</a>
+								</div>
+							</div>
+							<hr>
+
+							<div class="row">
+								<div class="col-md-3">
+								<img class="stat-image" src="images/icons/SNS/' . $reviews[1]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[1]["SNS"]. '"/></a><br>' . $reviews[1]["username"] . '</b> from ' . $reviews[1]["address"] . '
+								</div>
+								<div class="col-md-9">
+									<b>' . $reviews[1]["rating"] . ' </b>star(s) at  ' . $reviews[1]["date"] . ' <br>' . substr($reviews[1]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[1]["URL"] . '" title="Read more..." target="_blank" >Read more at the original SNS.</a>
+								</div>
+
+							</div>
+							<hr>
+
+							<div class="row">
+								<div class="col-md-3">
+								<img class="stat-image" src="images/icons/SNS/' . $reviews[2]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[2]["SNS"]. '"/></a><br>' . $reviews[2]["username"] . '</b> from ' . $reviews[2]["address"] . '
+								</div>
+								<div class="col-md-9">
+									<b>' . $reviews[2]["rating"] . ' </b>star(s) at  ' . $reviews[2]["date"] . ' <br>' . substr($reviews[2]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[2]["URL"] . '" title="Read more..." target="_blank" >Read more at the original SNS.</a>
+								</div>
+
+							</div>
+							<hr>
+						');
+		}
+
+		catch (PDOException $e){
+			print('Error:'.$e->getMessage());
+	    die();
+		}
+
+				$dbh = null;
+ ?>
+
+				<!-- PHP below should be rewrited, and separated as an outer module.-->
+			</div><!-- recent-nega-comments -->
+		</div>
+		<div class="row">
+			<div class="col-md-6 small">Copyright 2014 ParkView. All rights reserved.</div>
+		</div>
+	</div><!-- /.container -->
+  </body>
+</html>
