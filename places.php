@@ -1,3 +1,9 @@
+<?php
+include 'parkdbquery.php';
+$db = new ParkDBQuery;
+$db->setYear(htmlspecialchars($_GET["year"]));
+$db->setQuarter(htmlspecialchars($_GET["quarter"]));
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,6 +19,8 @@
 		.stat-type {line-height: 1.2em; margin-bottom: 0.5em;}
 		.stat-context {font-size: 0.75em; color: #27ae60; margin-bottom: 2em; line-height: 1em;}
 		.report-row {border-top: 1px solid #ecf0f1; padding-top: 1.5em; padding-bottom: 1em;}
+		.gray {color: #D8D8D8;}
+
 		body { padding-top: 70px; }
     </style>
     <!-- Loading Bootstrap -->
@@ -63,26 +71,17 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8">
-				<h3>Popular Places - Spring 2014</h3>
+				<h3>Popular Places - <?php echo htmlspecialchars($_GET["year"])." - Quarter ".htmlspecialchars($_GET["quarter"]); ?></h3>
 			</div>
 			<div class="col-md-4 time-selectors" >
 				<div class="dropdown time-selector">
-				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">2014<span class="caret"></span></button>
+				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $db->year." - Quarter ".$db->quarter; ?><span class="caret"></span></button>
 				<span class="dropdown-arrow"></span>
 					<ul class="dropdown-menu">
-					    <li><a href="#fakelink">2013</a></li>
-					    <li><a href="#fakelink">2012</a></li>
-					    <li><a href="#fakelink">2011</a></li>
-					</u>
-				</div>
-				
-				<div class="dropdown time-selector">
-				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Spring<span class="caret"></span></button>
-				<span class="dropdown-arrow"></span>
-					<ul class="dropdown-menu">
-					    <li><a href="#fakelink">Summer</a></li>
-					    <li><a href="#fakelink">Fall</a></li>
-					    <li><a href="#fakelink">Winter</a></li>
+					    <li><a href="?year=2013&quarter=1">2013 - Quarter 1</a></li>
+					    <li><a href="?year=2013&quarter=2">2013 - Quarter 2</a></li>
+					    <li><a href="?year=2013&quarter=3">2013 - Quarter 3</a></li>
+					    <li><a href="?year=2013&quarter=4">2013 - Quarter 4</a></li>
 					</u>
 				</div>
 			</div>
@@ -90,47 +89,37 @@
 				<div class="col-md-6">Graph goes here</div>
 				<div class="col-md-6">
 					<b>Number of Mentions Over Time</b>
-					<div id="container" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
-					<div class="row">
-						<div class="col-md-6">Manzanita Lake</div>
+					<div id="TotalActivityOverMonths" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
+					
+					<?php
+						$i = 1;
+						foreach ($db->getTop3Places() as $name => $number)
+						{
+							echo '<div class="row">
+						<div class="col-md-6">'.$db->getFullName($name).'</div>
 					</div>
 					<div class="row report-row">
-						<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-							<div class="stat text-center">15</div>
-							<div class="stat-type text-center">Traffic Count</div>
+						<div class="col-md-2 stats">
+							<div class="stat gray text-center">15</div>
+							<div class="stat-type gray text-center">Traffic Count</div>
 						</div>
 						<div class="col-md-6">
-							<div id="container_other" style="min-width: 200px; height: 100px; margin: 0 auto"></div>
+							<div id="'.$i.'" style="min-width: 200px; height: 100px; margin: 0 auto"></div>
 						</div>
 						<div class="col-md-2 stats">
-							<div class="stat text-center">15</div>
+							<div class="stat text-center">'.$db->getAverageRatingForPlace($name).'</div>
 							<div class="stat-type text-center">Avg. Rating</div>
-						</div>
-						<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='The popularity index is calculated....'>
-							<div class="stat text-center">15</div>
-							<div class="stat-type text-center">Popularity Index</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6">Manzanita Lake</div>
-					</div>
-					<div class="row report-row">
-						<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-							<div class="stat text-center">15</div>
-							<div class="stat-type text-center">Traffic Count</div>
-						</div>
-						<div class="col-md-6">
-							<div id="container_other" style="min-width: 200px; height: 100px; margin: 0 auto"></div>
 						</div>
 						<div class="col-md-2 stats">
-							<div class="stat text-center">15</div>
-							<div class="stat-type text-center">Avg. Rating</div>
-						</div>
-						<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='The popularity index is calculated....'>
-							<div class="stat text-center">15</div>
+							<div class="stat text-center">'.$db->getAggregateCountForPlace(['Twitter','Yelp','TripAdvisor'],$name).'</div>
 							<div class="stat-type text-center">Popularity Index</div>
 						</div>
-					</div>
+					</div>';
+						$i++;
+						}
+					?>
+										
+					
 				</div>
 			</div>
 			<div class="row">
@@ -158,6 +147,7 @@
     <script src="js/jquery.placeholder.js"></script>
   	<script src="http://code.highcharts.com/highcharts.js"></script>
 	<script src="http://code.highcharts.com/modules/exporting.js"></script>
-	<script src="chart_javascript.js"></script>
+	<?php include 'chart_javascript_places.php'; ?>
+
   </body>
 </html>

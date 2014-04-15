@@ -7,6 +7,24 @@ class ParkDBQuery
 	var $year;
 	var $quarter;
 	var $datasources = array();
+	var $places = [
+		'Bumpass' => "Bumpass Hell",
+		"Manzanita" => "Manzanita Lake",
+		"Visitor" => "Visitor Center",
+		"Sulphur" => "Sulphur Works",
+		"King" => "King's Creek",
+		"Southwest" => "Southwest Campground",
+		"Warner" => "Warner Valley",
+		"Summit" => "Summit Lake North",
+		"Mount" => "Mount Lassen",
+		"Fantastic" => "Fantastic Lava Beds",
+		"Boiling" => "Boiling Springs Lake",
+		"Devil" => "Devil's Kitchen",
+		"Juniper" => "Juniper Lake",
+		"Terminal" => "Terminal Geyser",
+		"Snag" => "Snag Lake",
+		"Cliff" => "Cliff Lake"
+		];
 	
 	function setYear($year)
 	{
@@ -48,6 +66,11 @@ class ParkDBQuery
 		return $results;
 	}
 	
+	function getFullName($short_name)
+	{
+		return $this->places[$short_name];
+	}
+	
 	function getCountsForGraph($service)
 	{
 		$array = array();
@@ -65,6 +88,92 @@ class ParkDBQuery
 			array_push($array,$result->getCount());
 		};
 		return join($array,",");		
+	}
+	
+	function getPlaceCountsForGraph()
+	{
+		$data = [];
+		foreach (['Yelp','TripAdvisor','Twitter'] as $service)
+		{
+			$name = $service.'Query';
+			$datasource = new $name;
+			$date_range = $this->getDateRange($this->year,$this->quarter);	
+			$results = $datasource::create()
+				->filterByDate($date_range)
+				->withColumn('MONTH(date)','Month')
+				->groupBy('Month')
+				->withColumn('COUNT(date)','Count')
+				->find();
+			foreach ( $results as $result)
+			{
+				if (isset($data[$result->getMonth()]))
+				{
+					$data[$result->getMonth()] =+ $result->getCount();
+				}
+				else
+				{
+					$data[$result->getMonth()] = $result->getCount();
+				}
+				
+			}
+		}
+		$datasource = new FlickrQuery;
+		$results = $datasource::create()
+				->filterByDatetaken($date_range)
+				->withColumn('MONTH(dateTaken)','Month')
+				->groupBy('Month')
+				->withColumn('COUNT(dateTaken)','Count')
+				->find();
+		foreach ( $results as $result)
+		{
+				$data[$result->getMonth()] = $data[$result->getMonth()] + $result->getCount();
+		}		
+		return join(",",$data);
+	}
+	
+	function getSpecificPlaceCountForGraph($place)
+	{
+		$data = [];
+		$placeString = 'filterBy'.$place;
+		foreach (['Yelp','TripAdvisor','Twitter'] as $service)
+		{
+			$name = $service.'Query';
+			$datasource = new $name;
+			$date_range = $this->getDateRange($this->year,$this->quarter);	
+			$results = $datasource::create()
+				->filterByDate($date_range)
+				->$placeString(1)
+				->withColumn('MONTH(date)','Month')
+				->groupBy('Month')
+				->withColumn('COUNT(date)','Count')
+				
+				->find();
+			foreach ( $results as $result)
+			{
+				if (isset($data[$result->getMonth()]))
+				{
+					$data[$result->getMonth()] =+ $result->getCount();
+				}
+				else
+				{
+					$data[$result->getMonth()] = $result->getCount();
+				}
+				
+			}
+		}
+		$datasource = new FlickrQuery;
+		$results = $datasource::create()
+				->filterByDatetaken($date_range)
+				->$placeString(1)
+				->withColumn('MONTH(dateTaken)','Month')
+				->groupBy('Month')
+				->withColumn('COUNT(dateTaken)','Count')
+				->find();
+		foreach ( $results as $result)
+		{
+				$data[$result->getMonth()] = $data[$result->getMonth()] + $result->getCount();
+		}		
+		return join(",",$data);
 	}
 	
 	function getMonthsForGraph($service)
@@ -102,6 +211,61 @@ class ParkDBQuery
 			$this_year_total = $this_year + $this_year_total;	
 		}
 		return $this_year_total;
+	}
+	
+	function getTop3Places()
+	{
+		$array = [];
+		foreach( $this->places as $short_name => $full_name )
+		{
+			$array[$short_name] = $this->getAggregateCountForPlace(['Yelp','Twitter','TripAdvisor'],$short_name);
+		}
+		arsort($array);
+		$array = array_slice($array,0,3);
+		return $array;
+	}
+	
+	function getFirstPlaceCountsForGraph()
+	{
+		$place = key(array_slice($this->getTop3Places(),0,1));
+		return $this->getSpecificPlaceCountForGraph($place);
+	}
+	
+	function getSecondPlaceCountsForGraph()
+	{
+		$place = key(array_slice($this->getTop3Places(),1,1));
+		return $this->getSpecificPlaceCountForGraph($place);
+	}
+	
+	function getThirdPlaceCountsForGraph()
+	{
+		$place = key(array_slice($this->getTop3Places(),2,1));
+		return $this->getSpecificPlaceCountForGraph($place);
+	}
+	
+	function getAggregateCountForPlace($services_array,$place)
+	{
+		$this_year_total = 0;
+		$placeString = 'filterBy'.$place;
+		$date_range = $this->getDateRange($this->year,$this->quarter);
+		foreach ( $services_array as $service )
+		{
+			$name = $service.'Query';
+			$datasource = new $name;	
+			$this_year = $datasource::create()
+				->filterByDate($date_range)
+				->$placeString(1)
+				->count();
+			$this_year_total = $this_year + $this_year_total;	
+		}
+		
+		$datasource = new FlickrQuery;	
+		$flickr = $datasource::create()
+			->filterByDatetaken($date_range)
+			->$placeString(1)
+			->count();
+		
+		return $this_year_total + $flickr;
 	}
 	
 	function getCountPercentChange($service)
@@ -185,6 +349,36 @@ class ParkDBQuery
 				->find();
 		
 		return round(current($avg_rating)->getAverage(),1);
+	}
+	
+	function getAverageRatingForPlace($place)
+	{
+		$con = Propel::getConnection();
+		$sql = "SELECT AVG(`rating`) FROM
+(
+	SELECT ft_Reviews.rating
+	FROM ft_Reviews
+	JOIN YELP on ft_Reviews.recordID = YELP.id
+	WHERE ft_Reviews.social = 'yelp' 
+		AND YELP.".$place." > 0
+		AND YEAR(ft_Reviews.date) = ".$this->year."
+		AND QUARTER(ft_Reviews.date) = ".$this->quarter."
+
+	UNION ALL
+
+	SELECT ft_Reviews.rating
+	FROM ft_Reviews
+	JOIN TRIP_ADVISOR on ft_Reviews.recordID = TRIP_ADVISOR.id
+	WHERE ft_Reviews.social = 'trip_advisor' 
+		AND QUARTER(ft_Reviews.date) = ".$this->quarter."
+		AND YEAR(TRIP_ADVISOR.date) = ".$this->year."
+		AND TRIP_ADVISOR.".$place." > 0
+
+) AS child";
+		$stmt = $con->prepare($sql);
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return round(current($results)['AVG(`rating`)'],1);
 	}
 		
 	function getAverageRatingChange($service)
@@ -326,6 +520,10 @@ class ParkDBQuery
 		$last_year = $datasource::create()
 			->filterByDatetaken($date_range)
 			->count();
+		if ( $this_year == 0 OR $last_year == 0 )
+		{
+			return false;
+		}
 		$change = round( ( ( $this_year - $last_year ) / $this_year ) * 100 );
 		if ( $change < 0 )
 		{
@@ -355,7 +553,11 @@ class ParkDBQuery
 				->filterByDatetaken($date_range)
 				->count();
 			$last_year_total = $last_year_total + $last_year;	
-		}	
+		}
+		if ( $this_year_total == 0 OR $last_year_total == 0 )
+		{
+			return false;
+		}
 		$change = round( ( ( $this_year_total - $last_year_total ) / $this_year_total ) * 100 );
 		if ( $change < 0 )
 		{
@@ -390,26 +592,39 @@ class ParkDBQuery
 				->orderByDatetaken('desc')
 				->limit(1)
 				->find();
-		switch ($service)
+		if ( count($last_comment) > 0 )
 		{
-			case 'Twitter':
-				$message = current($last_comment)->getTweet();
-				break;
-			case 'Yelp':
-				print('!');
-				$message = current($last_comment)->getComment();
+			switch ($service)
+			{
+				case 'Twitter':
+					$message = current($last_comment)->getTweet();
 					break;
-			case 'Flickr':
-				$message = current($last_comment)->getPhotourl();
-				break;
-			case 'TripAdvisor':
-				$message = current($last_comment)->getComment();
-				break;
-		}	
-		return $message;
+				case 'Yelp':
+					print('!');
+					$message = current($last_comment)->getComment();
+						break;
+				case 'Flickr':
+					$message = current($last_comment)->getPhotourl();
+					break;
+				case 'TripAdvisor':
+					$message = current($last_comment)->getComment();
+					break;
+			}	
+			return $message;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 
 	
 }
+
+$db = new ParkDBQuery;
+$db->setYear(htmlspecialchars(2013));
+$db->setQuarter(htmlspecialchars(3));
+print $db->getThirdPlaceCountsForGraph();
 
 ?>

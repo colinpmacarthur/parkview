@@ -72,7 +72,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8">
-				<h3>Popular Platforms - Spring 2014</h3>
+				<h3>Popular Platforms - <?php echo htmlspecialchars($_GET["year"])." - Quarter ".htmlspecialchars($_GET["quarter"]); ?></h3>
 			</div>
 			<div class="col-md-4 time-selectors" >
 				<div class="dropdown time-selector">
@@ -125,6 +125,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			<div class="col-md-2"><div class="stat-context gray text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
 			<div class="col-md-2"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Yelp','TripAdvisor','Twitter']) ?> from last year</div></div>
 		</div>
+
 		<!--Twitter-->
 		<div class="row report-row">
 			<div class="col-md-1 text-center">
@@ -269,7 +270,8 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			</div>
 			<div class="col-md-2 text-center">
 				<comment>
-					<a href="<?php echo $db->FLgetLastComment('Flickr'); ?>">View image</a>
+					<?php if ( $db->FLgetLastComment('Flickr') ) { echo '<a href="'.$db->FLgetLastComment('Flickr').'">View image</a>'; }; ?>
+					
 				</comment>
 			</div>
 		</div>
@@ -281,7 +283,8 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			</div>
 			<div class="col-md-2 text-center">
 				<div class="stat-context text-center">
-					<?php echo $db->FLgetCountPercentChange('Flickr');?> from last year</div>
+					<?php if ( $db->FLgetCountPercentChange('Flickr') ) { echo $db->FLgetCountPercentChange('Flickr'); } ?>
+				</div>
 			</div>
 		</div>
     <!-- /.container -->

@@ -1,6 +1,5 @@
 <script type="text/javascript">
 $(function () {
-		alert('!!!!');
 		$("[data-toggle=tooltip]").tooltip();
 		$("[data-toggle=ReviewsPopover]").popover({trigger:"hover", html:"true", placement:"bottom"});
 		$('[data-toggle=ReviewsPopover]').on('shown.bs.popover', function () {
@@ -410,6 +409,66 @@ $(function () {
             series: [{
                 name: 'Yelp Reviews',
                 data: [<?php echo $db->FLgetCountsForGraph('Flickr');?>]
+    
+            }],
+            legend: { 
+				enabled: false 
+			},
+			exporting: {
+				enabled: false
+			},
+			colors: ['#27ae60']
+        });
+        $('#TotalActivityOverMonths').highcharts({
+            chart: {
+                type: 'column',
+                style: {
+						fontFamily: 'Lato, Helvetica'
+						}
+            },
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [
+                <?php echo $db->getMonthsForGraph('Twitter');?>
+                    
+                ],
+                tickLength: 0,
+                title: {
+						text: "Posts, reviews or other activity from visitors",
+						style: "color: black;"
+						}
+            },
+            yAxis: {
+                    stackLabels: {
+						style: {
+								color: 'black'
+								},
+						enabled: true
+					},
+                    gridLineWidth: 0,	
+					title: {
+						text: ''
+					},
+					labels: {
+						enabled: false
+					}
+            },
+            plotOptions: {
+                column: {
+					stacking: 'normal',
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+                
+            },
+            series: [{
+                name: 'Counts',
+                data: [<?php echo $db->getPlaceCountsForGraph();?>]
     
             }],
             legend: { 
