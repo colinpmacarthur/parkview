@@ -155,12 +155,12 @@
 			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p4quarter . " 
 			AND Year(DIM_PERIOD.creation_date) = " . $p4year . " 
 			AND FACT_SNSDATA.sentiment < -0.5
-";
+		";
 		$st = $dbh->query($sql_ratings);
 
 		//put data into an array
 		while ($row = $st->fetchObject()) {
-			$snsRatingsQ[$row->year . "Q" . $row->quarter . $row->senti] = $row->count;
+			$snsRatingsQ[$row->year . "Q" . $row->quarter . $row->sentiment] = $row->count;
 		}
 
 				//encode $snsRatings as json format for javascript
