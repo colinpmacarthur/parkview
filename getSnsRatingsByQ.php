@@ -45,12 +45,122 @@
 		require_once('cfg.php');
 		$dbh = new PDO($db['dsn'], $db['user'], $db['password']);
 
-		$sql_ratings = "SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive from SNSratings where ceil((Month(date))/3) = " . $quarter . " and Year(date) = " . $year . " and rating between 4 and 5 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive from SNSratings where ceil((Month(date))/3) = " . $p1quarter . " and Year(date) = " . $p1year . " and rating between 4 and 5 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive from SNSratings where ceil((Month(date))/3) = " . $p2quarter . " and Year(date) = " . $p2year . " and rating between 4 and 5 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive from SNSratings where ceil((Month(date))/3) = " . $p3quarter . " and Year(date) = " . $p3year . " and rating between 4 and 5 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive from SNSratings where ceil((Month(date))/3) = " . $p4quarter . " and Year(date) = " . $p4year . " and rating between 4 and 5 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive  from SNSratings where ceil((Month(date))/3) = " . $quarter . " and Year(date) = " . $year . " and rating between 1 and 3 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive  from SNSratings where ceil((Month(date))/3) = " . $p1quarter . " and Year(date) = " . $p1year . " and rating between 1 and 3 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive from SNSratings where ceil((Month(date))/3) = " . $p2quarter . " and Year(date) = " . $p2year . " and rating between 1 and 3 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive from SNSratings where ceil((Month(date))/3) = " . $p3quarter . " and Year(date) = " . $p3year . " and rating between 1 and 3 group by year(date), ceil((Month(date))/3) union all SELECT year(date) as year, ceil((Month(date))/3) as quarter, count(*) as count, rating between 4 and 5 as positive from SNSratings where ceil((Month(date))/3) = " . $p4quarter . " and Year(date) = " . $p4year . " and rating between 1 and 3 group by year(date), ceil((Month(date))/3)";
+		$sql_ratings = "
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'P' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $year . " 
+			AND FACT_SNSDATA.sentiment >= 0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'P' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p1quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p1year . " 
+			AND FACT_SNSDATA.sentiment >= 0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'P' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p2quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p2year . " 
+			AND FACT_SNSDATA.sentiment >= 0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'P' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p3quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p3year . " 
+			AND FACT_SNSDATA.sentiment >= 0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'P' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p4quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p4year . " 
+			AND FACT_SNSDATA.sentiment >= 0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'O' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $year . " 
+			AND FACT_SNSDATA.sentiment between -0.5 AND 0.5 
+			AND NOT FACT_SNSDATA.sentiment = 0 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'O' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p1quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p1year . " 
+			AND FACT_SNSDATA.sentiment between -0.5 AND 0.5 
+			AND NOT FACT_SNSDATA.sentiment = 0 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'O' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p2quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p2year . " 
+			AND FACT_SNSDATA.sentiment between -0.5 AND 0.5 
+			AND NOT FACT_SNSDATA.sentiment = 0 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'O' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p3quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p3year . " 
+			AND FACT_SNSDATA.sentiment between -0.5 AND 0.5 
+			AND NOT FACT_SNSDATA.sentiment = 0 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'O' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p4quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p4year . " 
+			AND FACT_SNSDATA.sentiment between -0.5 AND 0.5 
+			AND NOT FACT_SNSDATA.sentiment = 0 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'N' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $year . " 
+			AND FACT_SNSDATA.sentiment < -0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'N' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p1quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p1year . " 
+			AND FACT_SNSDATA.sentiment < -0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'N' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p2quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p2year . " 
+			AND FACT_SNSDATA.sentiment < -0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'N' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p3quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p3year . " 
+			AND FACT_SNSDATA.sentiment < -0.5 
+				union all 
+			SELECT year(DIM_PERIOD.creation_date) as year, ceil((Month(DIM_PERIOD.creation_date))/3) as quarter, count(*) as count, 'N' as senti 
+			FROM FACT_SNSDATA, DIM_PERIOD 
+			WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id 
+			AND ceil((Month(DIM_PERIOD.creation_date))/3) = " . $p4quarter . " 
+			AND Year(DIM_PERIOD.creation_date) = " . $p4year . " 
+			AND FACT_SNSDATA.sentiment < -0.5
+";
 		$st = $dbh->query($sql_ratings);
 
 		//put data into an array
 		while ($row = $st->fetchObject()) {
-			$snsRatingsQ[$row->year . "Q" . $row->quarter . $row->positive] = $row->count;
+			$snsRatingsQ[$row->year . "Q" . $row->quarter . $row->senti] = $row->count;
 		}
 
 				//encode $snsRatings as json format for javascript

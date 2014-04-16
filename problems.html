@@ -155,8 +155,8 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Quality vs. Importance Rating of Services (source: Lassen NP visitor servey</div>
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Rating History (source: Yelp & Trip advisor)</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Average sentimental scores v. Total mentions of each site</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Sentimental history about entire park</div>
 		</div>
 		<div class="row" id="upper">
 			<div class="col-md-6" id="scatter-plot" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
@@ -178,7 +178,7 @@
 								xAxis: {
 									title: {
 										enabled: true,
-										text: 'Average Importance Score'
+										text: 'Total mentions'
 									},
 									startOnTick: true,
 									endOnTick: true,
@@ -186,7 +186,7 @@
 								},
 								yAxis: {
 									title: {
-										text: 'Poor/Very Poor(%)'
+										text: 'Sentimental score'
 									},
 									labels: {
 										format: '{value} %'
@@ -277,63 +277,95 @@
 								var nega2;
 								var naga1;
 								var naga0;
+
+								var neut4;
+								var neut3;
+								var neut2;
+								var neut1;
+								var neut0;
+
 								var posi4;
 								var posi3;
 								var posi2;
 								var posi1;
 								var posi0;
 								
-								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '1"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'P"'; ?>])==="undefined") {
 									posi0 = NaN;
 								} else {
-									posi0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '1"'; ?>]);
+									posi0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'P"'; ?>]);
 								}
-
-								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '1"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'P"'; ?>])==="undefined") {
 									posi1 = 0;
 								} else {
-									posi1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '1"'; ?>]);
+									posi1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'P"'; ?>]);
 								}
-
-								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '1"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'P"'; ?>])==="undefined") {
 									posi2 = 0;
 								} else {
-									posi2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '1"'; ?>]);
+									posi2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'P"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '1"'; ?>])==="undefined") {
-									posi1 = 0;
+								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'P"'; ?>])==="undefined") {
+									posi3 = 0;
 								} else {
-									posi3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '1"'; ?>]);
+									posi3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'P"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '1"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'P"'; ?>])==="undefined") {
 									posi4 = 0;
 								} else {
-									posi4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '1"'; ?>]);
+									posi4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'P"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '0"'; ?>])==="undefined") {
+
+								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'O"'; ?>])==="undefined") {
+									neut0 = NaN;
+								} else {
+									neut0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'O"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'O"'; ?>])==="undefined") {
+									neut1 = 0;
+								} else {
+									neut1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'O"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'O"'; ?>])==="undefined") {
+									neut2 = 0;
+								} else {
+									neut2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'O"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'O"'; ?>])==="undefined") {
+									neut3 = 0;
+								} else {
+									neut3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'O"'; ?>]);
+								}
+								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'O"'; ?>])==="undefined") {
+									neut4 = 0;
+								} else {
+									neut4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'O"'; ?>]);
+								}
+
+								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'N"'; ?>])==="undefined") {
 									nega0 = 0;
 								} else {
-									nega0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '0"'; ?>]);
+									nega0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'N"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '0"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'N"'; ?>])==="undefined") {
 									nega1 = 0;
 								} else {
-									nega1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '0"'; ?>]);
+									nega1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'N"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '0"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'N"'; ?>])==="undefined") {
 									nega2 = 0;
 								} else {
-									nega2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '0"'; ?>]);
+									nega2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'N"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '0"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'N"'; ?>])==="undefined") {
 									nega3 = 0;
 								} else {
-									nega3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '0"'; ?>]);
+									nega3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'N"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '0"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'N"'; ?>])==="undefined") {
 									nega4 = 0;
 								} else {
-									nega4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '0"'; ?>]);
+									nega4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'N"'; ?>]);
 								}
 								(function($){ // encapsulate jQuery
 									$(function () {
@@ -351,7 +383,7 @@
 											yAxis: {
 												min: 0,
 												title: {
-														text: 'Total Reviews'
+														text: "Users' sentiment"
 												},
 												stackLabels: {
 														enabled: true,
@@ -396,6 +428,10 @@
 												data: [nega4, nega3, nega2, nega1, nega0],
 												color: '#FFCC99'
 											}, {
+												name: 'Neutral',
+												data: [neut4, neut3, neut2, neut1, neut0],
+												color: '#B0C184'
+											}, {
 												name: 'Positive',
 												data: [posi4, posi3, posi2, posi1, posi0],
 												color: '#27ae60'
@@ -414,8 +450,8 @@
 			</div><!-- id="nega-posi-history" -->
 		</div><!-- id="upper" -->
 		<div class="row" id="rower">
-			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">Reviews with less than 3 stars (source: Tripadvisor)</div>
-			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">3 negative reviews around <?php echo $year . " - Quarter " . $quarter; ?> (source: Tripadvisor & Yelp)</div>
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">Sentimental score map</div>
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">3 negative reviews around <?php echo $year . " - Quarter " . $quarter; ?></div>
 		</div>
 		<div class="row">
 			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
