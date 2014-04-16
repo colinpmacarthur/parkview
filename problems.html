@@ -272,6 +272,7 @@
 							dataType: "json",
 
 							success: function(hoge) {
+								console.log(hoge);
 								var nega4;
 								var nega3;
 								var nega2;
@@ -290,82 +291,82 @@
 								var posi1;
 								var posi0;
 								
-								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'P"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '1"'; ?>])==="undefined") {
 									posi0 = NaN;
 								} else {
-									posi0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'P"'; ?>]);
+									posi0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '1"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'P"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '1"'; ?>])==="undefined") {
 									posi1 = 0;
 								} else {
-									posi1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'P"'; ?>]);
+									posi1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '1"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'P"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '1"'; ?>])==="undefined") {
 									posi2 = 0;
 								} else {
-									posi2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'P"'; ?>]);
+									posi2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '1"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'P"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '1"'; ?>])==="undefined") {
 									posi3 = 0;
 								} else {
-									posi3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'P"'; ?>]);
+									posi3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '1"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'P"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '1"'; ?>])==="undefined") {
 									posi4 = 0;
 								} else {
-									posi4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'P"'; ?>]);
+									posi4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '1"'; ?>]);
 								}
 
-								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'O"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '0"'; ?>])==="undefined") {
 									neut0 = NaN;
 								} else {
-									neut0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'O"'; ?>]);
+									neut0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '0"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'O"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '0"'; ?>])==="undefined") {
 									neut1 = 0;
 								} else {
-									neut1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'O"'; ?>]);
+									neut1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '0"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'O"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '0"'; ?>])==="undefined") {
 									neut2 = 0;
 								} else {
-									neut2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'O"'; ?>]);
+									neut2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '0"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'O"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '0"'; ?>])==="undefined") {
 									neut3 = 0;
 								} else {
-									neut3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'O"'; ?>]);
+									neut3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '0"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'O"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '0"'; ?>])==="undefined") {
 									neut4 = 0;
 								} else {
-									neut4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'O"'; ?>]);
+									neut4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '0"'; ?>]);
 								}
 
-								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'N"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '-1"'; ?>])==="undefined") {
 									nega0 = 0;
 								} else {
-									nega0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . 'N"'; ?>]);
+									nega0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '-1"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'N"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '-1"'; ?>])==="undefined") {
 									nega1 = 0;
 								} else {
-									nega1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . 'N"'; ?>]);
+									nega1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '-1"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'N"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '-1"'; ?>])==="undefined") {
 									nega2 = 0;
 								} else {
-									nega2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . 'N"'; ?>]);
+									nega2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '-1"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'N"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '-1"'; ?>])==="undefined") {
 									nega3 = 0;
 								} else {
-									nega3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . 'N"'; ?>]);
+									nega3 = Number(hoge[<?php echo '"' . $p3year . 'Q' . $p3quarter . '-1"'; ?>]);
 								}
-								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'N"'; ?>])==="undefined") {
+								if (Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '-1"'; ?>])==="undefined") {
 									nega4 = 0;
 								} else {
-									nega4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . 'N"'; ?>]);
+									nega4 = Number(hoge[<?php echo '"' . $p4year . 'Q' . $p4quarter . '-1"'; ?>]);
 								}
 								(function($){ // encapsulate jQuery
 									$(function () {
