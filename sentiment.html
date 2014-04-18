@@ -572,7 +572,7 @@
 				AND TRACK_SITES.sns_id = SOCIALNETS.sns_id
 				AND TRACK_SITES.sns_id IN(1, 3)
 				AND date < "' . $year . '-' . $modosu . '-01"
-				GROUP BY user_id
+				GROUP BY user_id, userName
 				ORDER By date desc LIMIT 0,3
 			';
 			$st = $dbh->query($sql_user_review);
