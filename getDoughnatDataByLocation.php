@@ -16,7 +16,6 @@
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
 				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
 				AND FACT_SNSDATA.sentiment < -0.1
-				AND FACT_SNSDATA.date_id = DIM_PERIOD.date_id
 				AND TRACK_SITES.place <>""
 				AND TRACK_SITES.sns_id IN(1, 3)
 				GROUP BY year(DIM_PERIOD.creation_date), quarter(DIM_PERIOD.creation_date), TRACK_SITES.place
@@ -28,7 +27,6 @@
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
 				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
 				AND FACT_SNSDATA.sentiment between -0.1 and 0.1
-				AND FACT_SNSDATA.date_id = DIM_PERIOD.date_id
 				AND TRACK_SITES.place <>""
 				AND TRACK_SITES.sns_id IN(1, 3)
 				GROUP BY year(DIM_PERIOD.creation_date), quarter(DIM_PERIOD.creation_date), TRACK_SITES.place
@@ -40,7 +38,6 @@
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
 				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
 				AND FACT_SNSDATA.sentiment > 0.1
-				AND FACT_SNSDATA.date_id = DIM_PERIOD.date_id
 				AND TRACK_SITES.place <>""
 				AND TRACK_SITES.sns_id IN(1, 3)
 				GROUP BY year(DIM_PERIOD.creation_date), quarter(DIM_PERIOD.creation_date), TRACK_SITES.place

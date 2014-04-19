@@ -70,9 +70,9 @@
 <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
-	        <li><a href="#">Popular Places</a></li>
-	        <li><a href="template.html">Popular Platforms</a></li>
-	        <li class="active"><a href="problems.html">Problems</a></li>
+	        <li><a href="places.php">Popular Places</a></li>
+	        <li><a href="platforms.php">Popular Platforms</a></li>
+	        <li class="active"><a href="sentiment.html">Sentiment Analysis</a></li>
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	        <li class="dropdown">
@@ -95,14 +95,23 @@
 				<form>
 	        <select id="seasonList" name="herolist" value="Season" class="select-block" onChange="top.location.href=value">
 						<option value="#">Select Qtr</option>
-	          <option value="?quarter=1&year=2013">2013 - Q1</option>
-	          <option value="?quarter=2&year=2013">2013 - Q2</option>
-	          <option value="?quarter=3&year=2013">2013 - Q3</option>
+	          <option value="?quarter=1&year=2014">2014 - Q1</option>
 	          <option value="?quarter=4&year=2013">2013 - Q4</option>
-	          <option value="?quarter=1&year=2012">2012 - Q1</option>
-	          <option value="?quarter=2&year=2012">2012 - Q2</option>
-	          <option value="?quarter=3&year=2012">2012 - Q3</option>
+	          <option value="?quarter=3&year=2013">2013 - Q3</option>
+	          <option value="?quarter=2&year=2013">2013 - Q2</option>
+	          <option value="?quarter=1&year=2013">2013 - Q1</option>
 	          <option value="?quarter=4&year=2012">2012 - Q4</option>
+	          <option value="?quarter=3&year=2012">2012 - Q3</option>
+	          <option value="?quarter=2&year=2012">2012 - Q2</option>
+	          <option value="?quarter=1&year=2012">2012 - Q1</option>
+	          <option value="?quarter=4&year=2011">2011 - Q4</option>
+	          <option value="?quarter=3&year=2011">2011 - Q3</option>
+	          <option value="?quarter=2&year=2011">2011 - Q2</option>
+	          <option value="?quarter=1&year=2011">2011 - Q1</option>
+	          <option value="?quarter=4&year=2010">2010 - Q4</option>
+	          <option value="?quarter=3&year=2010">2010 - Q3</option>
+	          <option value="?quarter=2&year=2010">2010 - Q2</option>
+	          <option value="?quarter=1&year=2010">2010 - Q1</option>
         	</select>
 				</form>
 			</div>
@@ -124,15 +133,6 @@
 						}; //var mapOptions closed
 
 						var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-					//function to attach message to a marker
-					//	function attachMessage(marker, msg) {
-					//		google.maps.event.addListener(marker, 'click', function(event) {
-				//				new google.maps.InfoWindow({
-				//					content: msg
-				//				}).open(marker.getMap(), marker);
-				//			}); // click event closed
-				//		} //attach function closed
 
 					//ordering php to get data
 						$.ajax({
