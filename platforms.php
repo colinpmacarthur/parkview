@@ -88,64 +88,49 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2 stats" data-container="body" data-toggle="ReviewsPopover" data-placement="top" data-content='<div id="Reviews" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
+			<div class="col-md-3 stats" data-container="body" data-toggle="ReviewsPopover" data-placement="top" data-content='<div id="Reviews" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
 				<div class="stat text-center">
-					<?php echo $db->getAggregateCount(['Yelp','TripAdvisor']); ?>
+					<?php echo $db->getCount(['Yelp','Trip_Advisor']); ?>
 				</div>
 				<div class="stat-type text-center">reviews</div>
 			</div>
-			<div class="col-md-2 stats" data-container="body" data-toggle="CommentsPopover" data-placement="top" data-content='<div id="Comments" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
+			<div class="col-md-3 stats" data-container="body" data-toggle="CommentsPopover" data-placement="top" data-content='<div id="Comments" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
 				<div class="stat text-center">
-					<?php echo $db->getAggregateCount(['Twitter']); ?>
+					<?php echo $db->getCount(['Facebook','Twitter']); ?>
 				</div>
 				<div class="stat-type text-center">comments</div>
 			</div>
-			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center gray">5%*</div>
-				<div class="stat-type text-center gray">visitors used social media</div>
+			<div class="col-md-3 stats" data-container="body" data-toggle="ContributorsPopover" data-placement="top" data-content='<div id="Contributors" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
+				<div class="stat text-center"><?php echo $db->getContributors(); ?> </div>
+				<div class="stat-type text-center">contributors</div>
 			</div>
-			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center gray">30%*</div>
-				<div class="stat-type text-center gray">used official website</div>
-			</div>
-			<div class="col-md-2 stats" data-container="body" data-toggle="popover" data-placement="top" data-content='<div id="container2" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center gray">10*</div>
-				<div class="stat-type text-center gray">contributors</div>
-			</div>
-			<div class="col-md-2 stats" data-container="body" data-toggle="TotalReachPopover" data-placement="top" data-content='<div id="TotalReach" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
-				<div class="stat text-center"><?php echo $db->getAggregateCount(['Twitter','TripAdvisor','Yelp']); ?>*</div>
+			<div class="col-md-3 stats" data-container="body" data-toggle="TotalReachPopover" data-placement="top" data-content='<div id="TotalReach" style="min-width: 200px; height: 150px; margin: 0 auto"></div>'>
+				<div class="stat text-center"><?php echo $db->getCount(); ?></div>
 				<div class="stat-type text-center">total reach</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Yelp','TripAdvisor']) ?> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Twitter']) ?> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context gray text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context gray text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context gray text-center">30% <span class="glyphicon glyphicon-arrow-up"></span> from last year</div></div>
-			<div class="col-md-2"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Yelp','TripAdvisor','Twitter']) ?> from last year</div></div>
+			<div class="col-md-3"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Yelp','Trip_Advisor']) ?> from last year</div></div>
+			<div class="col-md-3"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Twitter']) ?> from last year</div></div>
+			<div class="col-md-3"><div class="stat-context text-center"><?php echo $db->getContributorsPercentChange(); ?> from last year</div></div>
+			<div class="col-md-3"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Yelp','Trip_Advisor','Twitter']) ?> from last year</div></div>
 		</div>
 
 		<!--Twitter-->
 		<div class="row report-row">
-			<div class="col-md-1 text-center">
+			<div class="col-md-2 text-center">
 				<img class="stat-image" src="images/icons/twitter/twitter-128-black.png" height="64" width="64" alt="Twitter"/>
 				Twitter
 			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat gray">5*</div>
-				<div class="stat-type gray">posts from park</div>
-			</div>
 			<div class="col-md-2 text-center">
 					<div class="stat"><?php echo $db->getCount('Twitter'); ?></div>
-					<div class="stat-type">posts from others</div>
+					<div class="stat-type">reviews from visitors</div>
 			</div>
 			<div class="col-md-4">
 				<div id="Twitter" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat">N/A</div>
-				<div class="stat-type">avg. rating</div>
+				<div class="stat gray">-</div>
 			</div>
 			<div class="col-md-2 text-center">
 				<comment>
@@ -154,10 +139,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-1 text-center">
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context gray text-center">30%* <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+			<div class="col-md-2 text-center">
 			</div>
 			<div class="col-md-2 text-center">
 				<div class="stat-context text-center"><?php echo $db->getCountPercentChange('Twitter');?> from last year</div>
@@ -165,39 +147,32 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 		</div>
 		<!--TripAdvisor-->
 		<div class="row report-row">
-			<div class="col-md-1 text-center">
+			<div class="col-md-2 text-center">
 				<img class="stat-image" src="images/icons/tripadvisor/tripadvisor-128-black.png" height="64" width="64" alt="Twitter"/>
 				TripAdvisor
 			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat gray">0*</div>
-				<div class="stat-type gray">from park</div>
-			</div>
 			<div class="col-md-2 text-center">
-					<div class="stat"><?php echo $db->getCount('TripAdvisor'); ?></div>
+					<div class="stat"><?php echo $db->getCount('Trip_Advisor'); ?></div>
 					<div class="stat-type">reviews from visitors</div>
 			</div>
 			<div class="col-md-4">
 				<div id="TripAdvisor" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat"><?php echo $db->getAverageRating('trip_advisor'); ?>/10</div>
+				<div class="stat"><?php echo $db->getAverageRating('trip_advisor'); ?>/5</div>
 				<div class="stat-type">avg. rating</div>
 			</div>
 			<div class="col-md-2 text-center">
 				<comment>
-					"<?php echo $db->getLastComment('TripAdvisor'); ?>"
+					"<?php echo $db->getLastComment('Trip_Advisor'); ?>"
 				</comment>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-1 text-center">
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context gray text-center">30%* <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+			<div class="col-md-2 text-center">
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat-context text-center"><?php echo $db->getCountPercentChange('TripAdvisor');?> from last year</div>
+				<div class="stat-context text-center"><?php echo $db->getCountPercentChange('Trip_Advisor');?> from last year</div>
 			</div>
 			<div class="col-md-4 text-center">
 			</div>
@@ -207,13 +182,9 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 		</div>
 		<!--Yelp-->
 		<div class="row report-row">
-			<div class="col-md-1 text-center">
+			<div class="col-md-2 text-center">
 				<img class="stat-image" src="images/icons/yelp/yelp-128-black.png" height="64" width="64" alt="Twitter"/>
 				Yelp
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat gray">0*</div>
-				<div class="stat-type gray">from park</div>
 			</div>
 			<div class="col-md-2 text-center">
 					<div class="stat"><?php echo $db->getCount('Yelp'); ?></div>
@@ -223,8 +194,14 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 				<div id="Yelp" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat"><?php echo $db->getAverageRating('yelp'); ?>/10</div>
-				<div class="stat-type">avg. rating</div>
+				<?php if ( $db->getAverageRating('yelp'))
+				{ echo '
+				<div class="stat">'.$db->getAverageRating('yelp').'/5</div>
+				<div class="stat-type">avg. rating</div>'; }
+				else
+				{ echo '
+				<div class="stat gray">-</div>'; }
+			?>
 			</div>
 			<div class="col-md-2 text-center">
 				<comment>
@@ -233,10 +210,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-1 text-center">
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context gray text-center">30%* <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+			<div class="col-md-2 text-center">
 			</div>
 			<div class="col-md-2 text-center">
 				<div class="stat-context text-center"><?php echo $db->getCountPercentChange('Yelp');?> from last year</div>
@@ -247,15 +221,44 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 				<div class="stat-context text-center"><?php echo $db->getAverageRatingChange('yelp');?> from last year</div>
 			</div>
 		</div>
+		<!--Facebook-->
+		<div class="row report-row">
+			<div class="col-md-2 text-center">
+				<img class="stat-image" src="images/icons/facebook/facebook-128-black.png" height="64" width="64" alt="Twitter"/>
+				Facebook
+			</div>
+			<div class="col-md-2 text-center">
+					<div class="stat"><?php echo $db->getCount('Facebook'); ?></div>
+					<div class="stat-type">comments from others</div>
+			</div>
+			<div class="col-md-4">
+				<div id="Facebook" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
+			</div>
+			<div class="col-md-2 text-center">
+				<div class="stat gray">-</div>
+			</div>
+			<div class="col-md-2 text-center">
+				<comment>
+					<?php if ( $db->getLastComment('Facebook') ) { echo '<a href="'.$db->getLastComment('Facebook').'">View image</a>'; }; ?>
+					
+				</comment>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 text-center">
+			</div>
+			<div class="col-md-2 text-center">
+				<div class="stat-context text-center">
+					<?php if ( $db->getCountPercentChange('Facebook') ) { echo $db->getCountPercentChange('Facebook'); } ?>
+				</div>
+			</div>
+		</div>
+
 		<!--Flickr-->
 		<div class="row report-row">
-			<div class="col-md-1 text-center">
+			<div class="col-md-2 text-center">
 				<img class="stat-image" src="images/icons/flickr/flickr-128-black.png" height="64" width="64" alt="Twitter"/>
 				Flickr
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat gray">5*</div>
-				<div class="stat-type gray">posts from park</div>
 			</div>
 			<div class="col-md-2 text-center">
 					<div class="stat"><?php echo $db->FLgetCount('Flickr'); ?></div>
@@ -265,8 +268,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 				<div id="Flickr" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 			</div>
 			<div class="col-md-2 text-center">
-				<div class="stat">N/A</div>
-				<div class="stat-type">avg. rating</div>
+				<div class="stat gray">-</div>
 			</div>
 			<div class="col-md-2 text-center">
 				<comment>
@@ -276,10 +278,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-1 text-center">
-			</div>
-			<div class="col-md-1 text-center">
-				<div class="stat-context gray text-center">30%* <span class="glyphicon glyphicon-arrow-up"></span> from last year</div>
+			<div class="col-md-2 text-center">
 			</div>
 			<div class="col-md-2 text-center">
 				<div class="stat-context text-center">

@@ -93,10 +93,10 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 					
 					<?php
 						$i = 1;
-						foreach ($db->getTop3Places() as $name => $number)
+						foreach ($db->getPlaceRanked() as $place)
 						{
 							echo '<div class="row">
-						<div class="col-md-6">'.$db->getFullName($name).'</div>
+						<div class="col-md-6">'.$place['place'].'</div>
 					</div>
 					<div class="row report-row">
 						<div class="col-md-2 stats">
@@ -107,11 +107,11 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 							<div id="'.$i.'" style="min-width: 200px; height: 100px; margin: 0 auto"></div>
 						</div>
 						<div class="col-md-2 stats">
-							<div class="stat text-center">'.$db->getAverageRatingForPlace($name).'</div>
+							<div class="stat text-center">'.$db->getAverageRating('all',$place['place']).'</div>
 							<div class="stat-type text-center">Avg. Rating</div>
 						</div>
 						<div class="col-md-2 stats">
-							<div class="stat text-center">'.$db->getAggregateCountForPlace(['Twitter','Yelp','TripAdvisor'],$name).'</div>
+							<div class="stat text-center">'.$place['count'].'</div>
 							<div class="stat-type text-center">Popularity Index</div>
 						</div>
 					</div>';

@@ -49,7 +49,7 @@ $(function () {
 	            },
 	            series: [{
 	                name: 'Number of Reviews',
-	                data: [<?php echo $db->getAggregateCountsForGraph(['Yelp','TripAdvisor']);?>]
+	                data: [<?php echo $db->getAggregateCountsForGraph(['Yelp','Trip_Advisor']);?>]
 	    
 	            }],
 	            legend: { 
@@ -78,7 +78,7 @@ $(function () {
 	            },
 	            xAxis: {
 	                categories: [
-	                    "Twitter"
+	                    "Facebook","Twitter"
 	                ],
 	                tickLength: 0,
 	                
@@ -108,7 +108,7 @@ $(function () {
 	            },
 	            series: [{
 	                name: 'Number of Comments',
-	                data: [<?php echo $db->getAggregateCountsForGraph(['Twitter']);?>]
+	                data: [<?php echo $db->getAggregateCountsForGraph(['Facebook','Twitter']);?>]
 	    
 	            }],
 	            legend: { 
@@ -120,7 +120,69 @@ $(function () {
 				colors: ['#27ae60']
 	        });
 	    });
-	    $("[data-toggle=TotalReachPopover]").popover({trigger:"hover", html:"true", placement:"bottom"});
+		$("[data-toggle=ContributorsPopover]").popover({trigger:"hover", html:"true", placement:"bottom"});
+		$('[data-toggle=ContributorsPopover]').on('shown.bs.popover', function () {
+			$('#Contributors').highcharts({
+	            chart: {
+	                type: 'bar',
+	                style: {
+							fontFamily: 'Lato, Helvetica'
+							}
+	            },
+	            title: {
+	                text: ''
+	            },
+	            subtitle: {
+	                text: ''
+	            },
+	            xAxis: {
+	                categories: [
+	                    "Trip Advisor",
+	                    "Yelp",
+			    "Twitter",
+			    "Flickr"
+	                ],
+	                tickLength: 0,
+	                
+	            },
+	            yAxis: {
+	                    gridLineWidth: 0,	
+						title: {
+							text: ''
+						},
+						labels: {
+							enabled: false
+						},
+						stackLabels: {
+							style: {
+									color: 'black'
+									},
+							enabled: true
+						}
+	            },
+	            plotOptions: {
+	                bar: {
+						stacking: 'normal',
+	                    pointPadding: 0.2,
+	                    borderWidth: 0
+	                }
+	                
+	            },
+	            series: [{
+	                name: 'Number of Contributors',
+	                data: [<?php echo $db->getContributors('Trip_Advisor');?>]
+	    
+	            }],
+	            legend: { 
+					enabled: false 
+				},
+				exporting: {
+					enabled: false
+				},
+				colors: ['#27ae60']
+	        });
+	    });
+		    $("[data-toggle=TotalReachPopover]").popover({trigger:"hover", html:"true", placement:"bottom"});
 	    $('[data-toggle=TotalReachPopover]').on('shown.bs.popover', function () {
 			$('#TotalReach').highcharts({
 	            chart: {
@@ -169,7 +231,7 @@ $(function () {
 	            },
 	            series: [{
 	                name: 'Number of Comments',
-	                data: [<?php echo $db->getAggregateCountsForGraph(['Yelp','TripAdvisor','Twitter']);?>]
+	                data: [<?php echo $db->getAggregateCountsForGraph(['Yelp','Trip_Advisor','Twitter']);?>]
 	    
 	            }],
 	            legend: { 
@@ -257,7 +319,7 @@ $(function () {
             },
             xAxis: {
                 categories: [
-                    <?php echo $db->getMonthsForGraph('TripAdvisor');?>
+                    <?php echo $db->getMonthsForGraph('Trip_Advisor');?>
                 ],
                 tickLength: 0,
                 title: {
@@ -290,7 +352,7 @@ $(function () {
             },
             series: [{
                 name: 'TripAdvisor Reviews',
-                data: [<?php echo $db->getCountsForGraph('TripAdvisor');?>]
+                data: [<?php echo $db->getCountsForGraph('Trip_Advisor');?>]
     
             }],
             legend: { 
@@ -360,7 +422,8 @@ $(function () {
 			},
 			colors: ['#27ae60']
         });
-        $('#Flickr').highcharts({
+
+        $('#Facebook').highcharts({
             chart: {
                 type: 'column',
                 style: {
@@ -375,7 +438,7 @@ $(function () {
             },
             xAxis: {
                 categories: [
-                    <?php echo $db->FLgetMonthsForGraph('Flickr');?>
+                    <?php echo $db->getMonthsForGraph('Facebook');?>
                 ],
                 tickLength: 0,
                 title: {
@@ -408,7 +471,66 @@ $(function () {
             },
             series: [{
                 name: 'Yelp Reviews',
-                data: [<?php echo $db->FLgetCountsForGraph('Flickr');?>]
+                data: [<?php echo $db->getCountsForGraph('Twitter');?>]
+    
+            }],
+            legend: { 
+				enabled: false 
+			},
+			exporting: {
+				enabled: false
+			},
+			colors: ['#27ae60']
+        });
+        $('#Flickr').highcharts({
+            chart: {
+                type: 'column',
+                style: {
+						fontFamily: 'Lato, Helvetica'
+						}
+            },
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [
+                    <?php echo $db->getCountForGraph('Flickr')['months'];?>
+                ],
+                tickLength: 0,
+                title: {
+						text: "Reviews from visitors",
+						style: "color: black;"
+						}
+            },
+            yAxis: {
+                    stackLabels: {
+						style: {
+								color: 'black'
+								},
+						enabled: true
+					},
+                    gridLineWidth: 0,	
+					title: {
+						text: ''
+					},
+					labels: {
+						enabled: false
+					}
+            },
+            plotOptions: {
+                column: {
+					stacking: 'normal',
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+                
+            },
+            series: [{
+                name: 'Flickr Photos',
+                data: [<?php echo $db->getCountForGraph('Flickr')['counts'];?>]
     
             }],
             legend: { 
@@ -479,6 +601,6 @@ $(function () {
 			},
 			colors: ['#27ae60']
         });
-    });
+     });
 </script>
     

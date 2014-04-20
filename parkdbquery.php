@@ -25,18 +25,19 @@ class ParkDBQuery
 		"Snag" => "Snag Lake",
 		"Cliff" => "Cliff Lake"
 		];
+	var $rankedplaces;
 	
 	function setYear($year)
 	{
 		$this->year = $year;
 	}
 	
-	function getYear($year)
+	function getYear()
 	{
 		return $this->year;
 	}
 	
-	function getQuarter($quarter)
+	function getQuarter()
 	{
 		return $this->quarter;
 	}
@@ -55,15 +56,36 @@ class ParkDBQuery
 					  "max" => $year.'-'.$end_month.'-31 00:00:00');
 	}
 	
-	function getCount($service)
+	function getCount($services=['all'],$place=false)
 	{
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		$name = $service.'Query';
-		$datasource = new $name;	
-		$results = $datasource::create()
-			->filterByDate($date_range)
-			->count();
-		return $results;
+		if ( is_string($services) )
+		{
+			$services = [$services];
+		};
+		$total = 0;
+		foreach ( $services as $service )
+		{
+			$count = FactSnsdataQuery::create()
+			  	->_if($service!="all"||$place)
+                          	  ->useTrackSitesQuery()
+		 	           ->_if($service!="all")
+			            ->useSocialnetsQuery()
+			             ->filterBySns($service)
+			            ->endUse()
+                                   ->_endif()
+			          ->_if($place)
+			           ->filterByPlace($place)
+			          ->_endif()
+		      	         ->endUse()
+			        ->_endif()
+				->useDimPeriodQuery()
+				 ->filterByYear($this->getYear())
+				 ->filterByQuarter($this->getQuarter())
+				->endUse()
+				->count();
+			$total =+ $count;
+		}
+		return $total;
 	}
 	
 	function getFullName($short_name)
@@ -71,218 +93,139 @@ class ParkDBQuery
 		return $this->places[$short_name];
 	}
 	
-	function getCountsForGraph($service)
+	function getCountForGraph($service=false, $place=false)
 	{
-		$array = array();
-		$name = $service.'Query';
-		$datasource = new $name;
-		$date_range = $this->getDateRange($this->year,$this->quarter);	
-		$results = $datasource::create()
-			->filterByDate($date_range)
-			->withColumn('MONTH(date)','Month')
-			->groupBy('Month')
-			->withColumn('COUNT(date)','Count')
-			->find();
+		$counts = array();
+		$months = array();
+		$results = FactSnsdataQuery::create()
+			 ->_if($service||$place)
+                          ->useTrackSitesQuery()
+		 	   ->_if($service)
+			    ->useSocialnetsQuery()
+			     ->filterBySns($service)
+			    ->endUse()
+                           ->_endif()
+			   ->_if($place)
+			    ->filterByPlace($place)
+			   ->_endif()
+			  ->endUse()
+			 ->_endif()
+			 ->useDimPeriodQuery()
+			  ->filterByYear($this->getYear())
+			  ->filterByQuarter($this->getQuarter())
+			  ->groupBy('month')
+			 ->endUse()
+			 ->withColumn('COUNT(id)','Count')
+			 ->withColumn('DIM_PERIOD.Month', 'Month')
+			 ->find();
 		foreach ( $results as $result)
 		{
-			array_push($array,$result->getCount());
+			array_push($counts,$result->getCount());
+			$dateTimeObj = DateTime::createFromFormat('!m', $result->getMonth());
+			array_push($months,"'".$dateTimeObj->format('F')."'");
 		};
-		return join($array,",");		
+		return [ 'counts' => join($counts,","),
+			 'months' => join($months,",")
+		       ];		
+
 	}
 	
+	function getCountsForGraph($service)
+	{
+		return $this->getCountForGraph($service)['counts'];
+	}
 	function getPlaceCountsForGraph()
 	{
-		$data = [];
-		foreach (['Yelp','TripAdvisor','Twitter'] as $service)
-		{
-			$name = $service.'Query';
-			$datasource = new $name;
-			$date_range = $this->getDateRange($this->year,$this->quarter);	
-			$results = $datasource::create()
-				->filterByDate($date_range)
-				->withColumn('MONTH(date)','Month')
-				->groupBy('Month')
-				->withColumn('COUNT(date)','Count')
-				->find();
-			foreach ( $results as $result)
-			{
-				if (isset($data[$result->getMonth()]))
-				{
-					$data[$result->getMonth()] =+ $result->getCount();
-				}
-				else
-				{
-					$data[$result->getMonth()] = $result->getCount();
-				}
-				
-			}
-		}
-		$datasource = new FlickrQuery;
-		$results = $datasource::create()
-				->filterByDatetaken($date_range)
-				->withColumn('MONTH(dateTaken)','Month')
-				->groupBy('Month')
-				->withColumn('COUNT(dateTaken)','Count')
-				->find();
-		foreach ( $results as $result)
-		{
-				$data[$result->getMonth()] = $data[$result->getMonth()] + $result->getCount();
-		}		
-		return join(",",$data);
+		return $this->getCountForGraph()['counts'];	
 	}
 	
 	function getSpecificPlaceCountForGraph($place)
 	{
-		$data = [];
-		$placeString = 'filterBy'.$place;
-		foreach (['Yelp','TripAdvisor','Twitter'] as $service)
-		{
-			$name = $service.'Query';
-			$datasource = new $name;
-			$date_range = $this->getDateRange($this->year,$this->quarter);	
-			$results = $datasource::create()
-				->filterByDate($date_range)
-				->$placeString(1)
-				->withColumn('MONTH(date)','Month')
-				->groupBy('Month')
-				->withColumn('COUNT(date)','Count')
-				
-				->find();
-			foreach ( $results as $result)
-			{
-				if (isset($data[$result->getMonth()]))
-				{
-					$data[$result->getMonth()] =+ $result->getCount();
-				}
-				else
-				{
-					$data[$result->getMonth()] = $result->getCount();
-				}
-				
-			}
-		}
-		$datasource = new FlickrQuery;
-		$results = $datasource::create()
-				->filterByDatetaken($date_range)
-				->$placeString(1)
-				->withColumn('MONTH(dateTaken)','Month')
-				->groupBy('Month')
-				->withColumn('COUNT(dateTaken)','Count')
-				->find();
-		foreach ( $results as $result)
-		{
-				$data[$result->getMonth()] = $data[$result->getMonth()] + $result->getCount();
-		}		
-		return join(",",$data);
+		return $this->getCountForGraph(false,$place)['counts'];
 	}
 	
 	function getMonthsForGraph($service)
 	{
-		$array = array();
-		$name = $service.'Query';
-		$datasource = new $name;
-		$date_range = $this->getDateRange($this->year,$this->quarter);	
-		$results = $datasource::create()
-			->filterByDate($date_range)
-			->withColumn('MONTH(date)','Month')
-			->withColumn('YEAR(date)','Year')
-			->groupBy('Month')
-			->find();
-		foreach ( $results as $result)
-		{
-			$month = date("M", mktime(0, 0, 0,intval($result->getMonth()), 10));
-			$year = $result->getYear();
-			array_push($array,"'".$month." ".$year."'");
-		};
-		return join($array,",");		
+		return $this->getCountForGraph($service)['months'];
 	}
 	
 	function getAggregateCount($services_array)
 	{
-		$this_year_total = 0;
-		foreach ( $services_array as $service )
-		{
-			$name = $service.'Query';
-			$datasource = new $name;	
-			$date_range = $this->getDateRange($this->year,$this->quarter);
-			$this_year = $datasource::create()
-				->filterByDate($date_range)
-				->count();
-			$this_year_total = $this_year + $this_year_total;	
-		}
-		return $this_year_total;
+		return $this->getCount($services_array);
 	}
-	
-	function getTop3Places()
+
+	function getPlaceRanked($rank=0)
 	{
-		$array = [];
-		foreach( $this->places as $short_name => $full_name )
+		if (!isset($this->rankedplaces))
 		{
-			$array[$short_name] = $this->getAggregateCountForPlace(['Yelp','Twitter','TripAdvisor'],$short_name);
+			$results_array = array();
+			$results = FactSnsdataQuery::create()
+                	          ->useTrackSitesQuery()
+				   ->groupBy('Place')
+				  ->endUse()
+				 ->useDimPeriodQuery()
+				  ->filterByYear($this->getYear())
+				  ->filterByQuarter($this->getQuarter())
+				 ->endUse()
+				 ->withColumn('COUNT(id)','Count')
+				 ->withColumn('TRACK_SITES.Place','Place')
+				 ->orderByCount('desc')
+				 ->find();
+			foreach ( $results as $result)
+			{
+				if ($result->getPlace())
+				{
+					array_push($results_array,
+						  [ 
+						    'place' => $result->getPlace(),
+						    'count' => $result->getCount()
+						  ]
+				 		 );
+				}
+			};
+			$this->rankedplaces =  $results_array;	
 		}
-		arsort($array);
-		$array = array_slice($array,0,3);
-		return $array;
+		if ( $rank == 0 )
+		{
+			return array_slice($this->rankedplaces,0,2);
+		}
+		else
+		{
+			return $this->rankedplaces[$rank-1];
+		} 
 	}
 	
 	function getFirstPlaceCountsForGraph()
 	{
-		$place = key(array_slice($this->getTop3Places(),0,1));
-		return $this->getSpecificPlaceCountForGraph($place);
+		$place = $this->getPlaceRanked(1)['place'];
+		return $this->getCountForGraph(false,$place)['counts'];
 	}
 	
 	function getSecondPlaceCountsForGraph()
 	{
-		$place = key(array_slice($this->getTop3Places(),1,1));
-		return $this->getSpecificPlaceCountForGraph($place);
+		$place = $this->getPlaceRanked(2)['place'];
+		return $this->getCountForGraph(false,$place)['counts'];
 	}
-	
+
 	function getThirdPlaceCountsForGraph()
 	{
-		$place = key(array_slice($this->getTop3Places(),2,1));
-		return $this->getSpecificPlaceCountForGraph($place);
+		return $this->getPlaceRanked(3)['count'];
 	}
 	
 	function getAggregateCountForPlace($services_array,$place)
 	{
-		$this_year_total = 0;
-		$placeString = 'filterBy'.$place;
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		foreach ( $services_array as $service )
-		{
-			$name = $service.'Query';
-			$datasource = new $name;	
-			$this_year = $datasource::create()
-				->filterByDate($date_range)
-				->$placeString(1)
-				->count();
-			$this_year_total = $this_year + $this_year_total;	
-		}
-		
-		$datasource = new FlickrQuery;	
-		$flickr = $datasource::create()
-			->filterByDatetaken($date_range)
-			->$placeString(1)
-			->count();
-		
-		return $this_year_total + $flickr;
+		return $this->getCount($services_array,$place);
 	}
 	
-	function getCountPercentChange($service)
+	function getCountPercentChange($service='all')
 	{
-		$name = $service.'Query';
-		$datasource = new $name;	
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		$this_year = $datasource::create()
-			->filterByDate($date_range)
-			->count();
-		$date_range = $this->getDateRange($this->year-1,$this->quarter);
-		$last_year = $datasource::create()
-			->filterByDate($date_range)
-			->count();
-		$change = round( ( ( $this_year - $last_year ) / $this_year ) * 100 );
-		if ( $change < 0 )
-		{
+		$this_year = $this->getCount($service);
+		$this->year = $this->year - 1;
+		$last_year = $this->getCount($service);
+		if ( $last_year == 0 ) return 'N/A';
+		$this->year = $this->year + 1;
+		$change = round( ( ( $this_year - $last_year ) / $last_year ) * 100 );
+		if ( $change < 0 ) {
 			return '<span class="glyphicon glyphicon-arrow-down"></span>'.abs($change)."%";
 		}
 		else
@@ -297,33 +240,7 @@ class ParkDBQuery
 	
 	function getAggregateCountChange($services_array )
 	{
-		$this_year_total = 0;
-		$last_year_total = 0;
-		foreach ( $services_array as $service )
-		{
-			$name = $service.'Query';
-			$datasource = new $name;	
-			$date_range = $this->getDateRange($this->year,$this->quarter);
-			$this_year = $datasource::create()
-				->filterByDate($date_range)
-				->count();
-			$this_year_total = $this_year + $this_year_total;	
-			$date_range = $this->getDateRange($this->year-1,$this->quarter);
-			$last_year = $datasource::create()
-				->filterByDate($date_range)
-				->count();
-			$last_year_total = $last_year_total + $last_year;	
-		}	
-		$change = round( ( ( $this_year_total - $last_year_total ) / $this_year_total ) * 100 );
-		if ( $change < 0 )
-		{
-			return '<span class="glyphicon glyphicon-arrow-down"></span>'.abs($change)."%";
-		}
-		else
-		{
-			return '<span class="glyphicon glyphicon-arrow-up"></span>'.abs($change)."%";
-		}
-		
+		return $this->getCountPercentChange($services_array);
 	}
 	
 	function getAggregateCountsForGraph($services_array)
@@ -337,71 +254,125 @@ class ParkDBQuery
 		return join($array,',');	
 	}
 	
-	function getAverageRating($service)
+	function getContributors($services=['all'],$place=false)
 	{
-		$datasource = new FtReviewsQuery;	
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		$avg_rating = $datasource::create()
-				->filterBySocial($service)
-				->filterByDate($date_range)
-				->withColumn('AVG(ft_Reviews.rating)','average')
-				->groupBy('social')
-				->find();
+		if ( is_string($services) )
+		{
+			$services = [$services];
+		};
+		$total = 0;
+		foreach ( $services as $service )
+		{
+			$count = FactSnsdataQuery::create()
+			  	->_if($service!="all"||$place)
+                          	  ->useTrackSitesQuery()
+		 	           ->_if($service!="all")
+			            ->useSocialnetsQuery()
+			             ->filterBySns($service)
+			            ->endUse()
+                                   ->_endif()
+			          ->_if($place)
+			           ->filterByPlace($place)
+			          ->_endif()
+		      	         ->endUse()
+			        ->_endif()
+				->useDimPeriodQuery()
+				 ->filterByYear($this->getYear())
+				 ->filterByQuarter($this->getQuarter())
+				->endUse()
+				->useDimUserQuery()
+				 ->useAllsnsdataQuery()
+				  ->groupBy('user')
+				 ->endUse()
+				->endUse()
+				->count();
+			$total =+ $count;
+		}
+		return $total;
+	}
+
+	
+	function getAggregateContributorsForGraph($services_array)
+	{
+		$array = array();
+		foreach ( $services_array as $service )
+		{
+			$count = $this->getContributors($service);
+			array_push($array,$count);
+		}
+		return join($array,',');	
+	}
 		
-		return round(current($avg_rating)->getAverage(),1);
+	function getContributorsPercentChange($service='all')
+	{
+		$this_year = $this->getContributors($service);
+		$this->year = $this->year - 1;
+		$last_year = $this->getContributors($service);
+		if ( $last_year == 0 ) return 'N/A';
+		$this->year = $this->year + 1;
+		$change = round( ( ( $this_year - $last_year ) / $this_year ) * 100 );
+		if ( $change < 0 ) {
+			return '<span class="glyphicon glyphicon-arrow-down"></span>'.abs($change)."%";
+		}
+		else
+		{
+			return '<span class="glyphicon glyphicon-arrow-up"></span>'.abs($change)."%";
+		}
+	}
+
+
+	function getAverageRating($services=['all'],$place=false)
+	{	
+		if ( is_string($services) )
+		{
+			$services = [$services];
+		};
+		$count = 0;
+		$sum = 0;
+		foreach ( $services as $service )
+		{
+			$result = FactSnsdataQuery::create()
+			  	->_if($service!="all"||$place)
+                          	  ->useTrackSitesQuery()
+		 	           ->_if($service!="all")
+			            ->useSocialnetsQuery()
+			             ->filterBySns($service)
+			            ->endUse()
+                                   ->_endif()
+			          ->_if($place)
+			           ->filterByPlace($place)
+			          ->_endif()
+		      	         ->endUse()
+			        ->_endif()
+				->useDimPeriodQuery()
+				 ->filterByYear($this->getYear())
+				 ->filterByQuarter($this->getQuarter())
+				 ->groupBy('Year')
+				->endUse()
+				->filterByRating(array('min'=>1))
+				->withColumn('SUM(FACT_SNSDATA.rating)','Sum')
+				->withColumn('COUNT(id)','Count')
+				->find();
+			if ( count($result) < 1 ) return false;
+			$sum =+ current($result)->getSum();
+			$count =+ current($result)->getCount();
+		}
+		return round($sum/$count,1);
 	}
 	
 	function getAverageRatingForPlace($place)
 	{
-		$con = Propel::getConnection();
-		$sql = "SELECT AVG(`rating`) FROM
-(
-	SELECT ft_Reviews.rating
-	FROM ft_Reviews
-	JOIN YELP on ft_Reviews.recordID = YELP.id
-	WHERE ft_Reviews.social = 'yelp' 
-		AND YELP.".$place." > 0
-		AND YEAR(ft_Reviews.date) = ".$this->year."
-		AND QUARTER(ft_Reviews.date) = ".$this->quarter."
-
-	UNION ALL
-
-	SELECT ft_Reviews.rating
-	FROM ft_Reviews
-	JOIN TRIP_ADVISOR on ft_Reviews.recordID = TRIP_ADVISOR.id
-	WHERE ft_Reviews.social = 'trip_advisor' 
-		AND QUARTER(ft_Reviews.date) = ".$this->quarter."
-		AND YEAR(TRIP_ADVISOR.date) = ".$this->year."
-		AND TRIP_ADVISOR.".$place." > 0
-
-) AS child";
-		$stmt = $con->prepare($sql);
-		$stmt->execute();
-		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		return round(current($results)['AVG(`rating`)'],1);
+		return $this->getAverageRating('all',$place);
 	}
-		
-	function getAverageRatingChange($service)
+	
+	function getAverageRatingChange($services='all',$place=false)
 	{
-		$datasource = new FtReviewsQuery;	
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		$avg_rating_this_year = $datasource::create()
-				->filterBySocial($service)
-				->filterByDate($date_range)
-				->withColumn('AVG(ft_Reviews.rating)','average')
-				->groupBy('social')
-				->find();
-		$avg_rating_this_year = current($avg_rating_this_year)->getAverage();
-		$date_range = $this->getDateRange($this->year-1,$this->quarter);		
-		$avg_rating_last_year = $datasource::create()
-				->filterBySocial($service)
-				->filterByDate($date_range)
-				->withColumn('AVG(ft_Reviews.rating)','average')
-				->groupBy('social')
-				->find();
-		$avg_rating_last_year = current($avg_rating_last_year)->getAverage();
-		$change = round( ( ( $avg_rating_this_year - $avg_rating_last_year ) / $avg_rating_last_year ) * 100 );
-		if ( $change < 0 )
+		$this_year = $this->getAverageRating($services,$place);
+		$this->year = $this->year - 1;
+		$last_year = $this->getAverageRating($services,$place);
+		$this->year = $this->year + 1;
+		$change = round( ($this_year-$last_year)/$last_year, 1);
+		if ($change < 0)
 		{
 			return '<span class="glyphicon glyphicon-arrow-down"></span>'.abs($change)."%";
 		}
@@ -413,218 +384,57 @@ class ParkDBQuery
 	
 	function getLastComment($service)
 	{
-		$name = $service.'Query';
-		$datasource = new $name;
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		$last_comment = $datasource::create()
-				->filterByDate($date_range)
-				->orderByDate('desc')
-				->limit(1)
-				->find();
-		switch ($service)
-		{
-			case 'Twitter':
-				$message = current($last_comment)->getTweet();
-				break;
-			case 'Yelp':
-				print('!');
-				$message = current($last_comment)->getComment();
-				break;
-			case 'Flickr':
-				$message = current($last_comment)->getPhotourl();
-				break;
-			case 'TripAdvisor':
-				$message = current($last_comment)->getComment();
-				break;
-		}	
-		return substr($message, 0, 50)."...";
+		$results = DimCommentsQuery::create()
+			->useFactSnsdataQuery()
+		 	 ->useTracksitesQuery()
+		          ->useSocialnetsQuery()
+			   ->filterBySns($service)
+			  ->enduse() 
+			 ->enduse()
+			 ->useDimPeriodQuery()
+			  ->filterByYear($this->getYear())
+			  ->filterByQuarter($this->getQuarter())
+			 ->enduse()	
+			->enduse()			 		 
+			->withColumn('DIM_PERIOD.creation_date','Date')
+			->orderBy('Date')
+			->limit(1)
+			->find();
+		if (count($results) < 1) return false; 
+		return substr(current($results)->getComment(),0,75)."...";
 	}
 
 
 	function FLgetCount($service)
 	{
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		$name = $service.'Query';
-		$datasource = new $name;	
-		$results = $datasource::create()
-			->filterByDatetaken($date_range)
-			->count();
-		return $results;
+		return $this->getCount('Flickr');
 	}
 	
 	function FLgetCountsForGraph($service)
 	{
-		$array = array();
-		$name = $service.'Query';
-		$datasource = new $name;
-		$date_range = $this->getDateRange($this->year,$this->quarter);	
-		$results = $datasource::create()
-			->filterByDatetaken($date_range)
-			->withColumn('MONTH(dateTaken)','Month')
-			->groupBy('Month')
-			->withColumn('COUNT(dateTaken)','Count')
-			->find();
-		foreach ( $results as $result)
-		{
-			array_push($array,$result->getCount());
-		};
-		return join($array,",");		
+		return $this->getCountForGraph('Flickr')['counts'];
 	}
 	
 	function FLgetMonthsForGraph($service)
 	{
-		$array = array();
-		$name = $service.'Query';
-		$datasource = new $name;
-		$date_range = $this->getDateRange($this->year,$this->quarter);	
-		$results = $datasource::create()
-			->filterByDatetaken($date_range)
-			->withColumn('MONTH(dateTaken)','Month')
-			->withColumn('YEAR(dateTaken)','Year')
-			->groupBy('Month')
-			->find();
-		foreach ( $results as $result)
-		{
-			$month = date("M", mktime(0, 0, 0,intval($result->getMonth()), 10));
-			$year = $result->getYear();
-			array_push($array,"'".$month." ".$year."'");
-		};
-		return join($array,",");		
-	}
-	
-	function FLgetAggregateCount($services_array)
-	{
-		$this_year_total = 0;
-		foreach ( $services_array as $service )
-		{
-			$name = $service.'Query';
-			$datasource = new $name;	
-			$date_range = $this->getDateRange($this->year,$this->quarter);
-			$this_year = $datasource::create()
-				->filterByDatetaken($date_range)
-				->count();
-			$this_year_total = $this_year + $this_year_total;	
-		}
-		return $this_year_total;
-	}
-	
-	function FLgetCountPercentChange($service)
-	{
-		$name = $service.'Query';
-		$datasource = new $name;	
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		$this_year = $datasource::create()
-			->filterByDatetaken($date_range)
-			->count();
-		$date_range = $this->getDateRange($this->year-1,$this->quarter);
-		$last_year = $datasource::create()
-			->filterByDatetaken($date_range)
-			->count();
-		if ( $this_year == 0 OR $last_year == 0 )
-		{
-			return false;
-		}
-		$change = round( ( ( $this_year - $last_year ) / $this_year ) * 100 );
-		if ( $change < 0 )
-		{
-			return '<span class="glyphicon glyphicon-arrow-down"></span>'.abs($change)."%";
-		}
-		else
-		{
-			return '<span class="glyphicon glyphicon-arrow-up"></span>'.abs($change)."%";
-		}
-	}
-	
-	function FLgetAggregateCountChange($services_array )
-	{
-		$this_year_total = 0;
-		$last_year_total = 0;
-		foreach ( $services_array as $service )
-		{
-			$name = $service.'Query';
-			$datasource = new $name;	
-			$date_range = $this->getDateRange($this->year,$this->quarter);
-			$this_year = $datasource::create()
-				->filterByDatetaken($date_range)
-				->count();
-			$this_year_total = $this_year + $this_year_total;	
-			$date_range = $this->getDateRange($this->year-1,$this->quarter);
-			$last_year = $datasource::create()
-				->filterByDatetaken($date_range)
-				->count();
-			$last_year_total = $last_year_total + $last_year;	
-		}
-		if ( $this_year_total == 0 OR $last_year_total == 0 )
-		{
-			return false;
-		}
-		$change = round( ( ( $this_year_total - $last_year_total ) / $this_year_total ) * 100 );
-		if ( $change < 0 )
-		{
-			return '<span class="glyphicon glyphicon-arrow-down"></span>'.abs($change)."%";
-		}
-		else
-		{
-			return '<span class="glyphicon glyphicon-arrow-up"></span>'.abs($change)."%";
-		}
-		
-	}
-	
-	function FLgetAggregateCountsForGraph($services_array)
-	{
-		$array = array();
-		foreach ( $services_array as $service )
-		{
-			$count = $this->FLgetCount($service);
-			array_push($array,$count);
-		}
-		return join($array,',');	
+		return $this->getCountForGraph('Flickr')['months'];
 	}
 
+	function FLgetCountPercentChange($service)
+	{
+		return $this->getCountPercentChange('Flickr');
+	}
 	
 	function FLgetLastComment($service)
 	{
-		$name = $service.'Query';
-		$datasource = new $name;
-		$date_range = $this->getDateRange($this->year,$this->quarter);
-		$last_comment = $datasource::create()
-				->filterByDatetaken($date_range)
-				->orderByDatetaken('desc')
-				->limit(1)
-				->find();
-		if ( count($last_comment) > 0 )
-		{
-			switch ($service)
-			{
-				case 'Twitter':
-					$message = current($last_comment)->getTweet();
-					break;
-				case 'Yelp':
-					print('!');
-					$message = current($last_comment)->getComment();
-						break;
-				case 'Flickr':
-					$message = current($last_comment)->getPhotourl();
-					break;
-				case 'TripAdvisor':
-					$message = current($last_comment)->getComment();
-					break;
-			}	
-			return $message;
-		}
-		else
-		{
-			return false;
-		}
-		
+		return $this->getLastComment('Twitter');
 	}
 
 	
 }
 
 $db = new ParkDBQuery;
-$db->setYear(htmlspecialchars(2013));
-$db->setQuarter(htmlspecialchars(3));
-print $db->getThirdPlaceCountsForGraph();
-
-?>
+$db->setYear(htmlspecialchars(2014));
+$db->setQuarter(htmlspecialchars(2));
+print($db->getCount(["Facebook","Twitter"])." ");
+print($db->getAggregateCountsForGraph(["Facebook","Twitter"]));
