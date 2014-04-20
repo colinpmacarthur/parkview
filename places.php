@@ -53,8 +53,8 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
 	        <li class="active"><a href="#">Popular Places</a></li>
-	        <li><a href="#">Popular Platforms</a></li>
-	        <li><a href="#">Problems</a></li>
+	        <li><a href="places.php?year=2013&quarter=3">Popular Platforms</a></li>
+	        <li><a href="sentimentanalysis.html?year=2013&quarter=3">Negative Reviews</a></li>
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	        <li class="dropdown">
