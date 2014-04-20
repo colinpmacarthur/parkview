@@ -86,7 +86,73 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6">Graph goes here</div>
+				<div class="col-md-6" id="map-canvas" style="height: 700px;"></div>
+				<script>
+					var cityCircle;
+					var cityMarker;
+
+					function initialize() {
+
+					// Create the map.
+						var mapOptions = {
+							zoom: 12,
+							center: new google.maps.LatLng(40.497852, -121.420814),
+							mapTypeId: google.maps.MapTypeId.ROADMAP
+						}; //var mapOptions closed
+
+						var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+					//ordering php to get data
+						$.ajax({
+							type: 'POST',
+							url: 'getSnsRatingsByLocation.php',
+							data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
+							dataType: "json",
+
+							success: function(hoge) {
+								console.log(JSON.stringify(hoge));
+								//iterate making circles, markers, and infowindows for each point
+								//alert(hoge[0].ratingThree);
+								var i;
+								for (i =0; i<hoge.length; i++) {
+								// make a circle for i visiting site
+									var populationOptions = {
+										strokeColor: '#FF0000',
+										strokeOpacity: 0.8,
+										strokeWeight: 2,
+										fillColor: '#FF0000',
+										fillOpacity: 0.35,
+										map: map,
+										center: new google.maps.LatLng(hoge[i].latitude, hoge[i].longitude),
+										radius: hoge[i].totalMentions * (100),
+										clickable: true
+									}; //population option closed
+		 
+					 				// add the circle to the map.
+									cityCircle = new google.maps.Circle(populationOptions);
+
+									// create label
+									var mapLabel = new MapLabel({
+										text: hoge[i].siteName + ' : ' + hoge[i].totalMentions,
+										map: map,
+										fontSize: 12,
+										align: 'center'
+									});
+
+									// add the label to the map
+									mapLabel.set('position', new google.maps.LatLng(hoge[i].latitude, hoge[i].longitude));
+
+								} //for roop closed
+							}, //success closed
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert('Error : ' + errorThrown);
+							} // error closed
+						}); //ajax closed
+					}; // function closed
+
+					google.maps.event.addDomListener(window, 'load', initialize);
+				</script>
+		</div>
 				<div class="col-md-6">
 					<b>Number of Mentions Over Time</b>
 					<div id="TotalActivityOverMonths" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
@@ -146,7 +212,11 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
     <script src="js/jquery.tagsinput.js"></script>
     <script src="js/jquery.placeholder.js"></script>
   	<script src="http://code.highcharts.com/highcharts.js"></script>
+  	 <script src="js/application.js"></script>
 	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+			<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+		<script type="text/javascript" src="js/maplabel.js"></script>
+		<script src="http://people.ischool.berkeley.edu/~sasaki/fp/d3-master/d3.js"></script>
 	<?php include 'chart_javascript_places.php'; ?>
 
   </body>
