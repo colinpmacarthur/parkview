@@ -436,5 +436,3 @@ class ParkDBQuery
 $db = new ParkDBQuery;
 $db->setYear(htmlspecialchars(2014));
 $db->setQuarter(htmlspecialchars(2));
-print($db->getCount(["Facebook","Twitter"])." ");
-print($db->getAggregateCountsForGraph(["Facebook","Twitter"]));
