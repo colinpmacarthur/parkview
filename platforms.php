@@ -55,7 +55,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 	      <ul class="nav navbar-nav">
 	        <li><a href="places.php?year=2013&quarter=3">Popular Places</a></li>
 	        <li class="active"><a href="#">Popular Platforms</a></li>
-	        <li><a href="sentimentanalysis.html">Negative Reviews</a></li>
+	        <li><a href="sentiment?year=2013&quarter=3">Negative Reviews</a></li>
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	        <li class="dropdown">
