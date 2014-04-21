@@ -87,71 +87,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			</div>
 			<div class="row">
 				<div class="col-md-6" id="map-canvas" style="height: 700px;"></div>
-				<script>
-					var cityCircle;
-					var cityMarker;
-
-					function initialize() {
-
-					// Create the map.
-						var mapOptions = {
-							zoom: 12,
-							center: new google.maps.LatLng(40.497852, -121.420814),
-							mapTypeId: google.maps.MapTypeId.ROADMAP
-						}; //var mapOptions closed
-
-						var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-					//ordering php to get data
-						$.ajax({
-							type: 'POST',
-							url: 'getSnsRatingsByLocation.php',
-							data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
-							dataType: "json",
-
-							success: function(hoge) {
-								console.log(JSON.stringify(hoge));
-								//iterate making circles, markers, and infowindows for each point
-								//alert(hoge[0].ratingThree);
-								var i;
-								for (i =0; i<hoge.length; i++) {
-								// make a circle for i visiting site
-									var populationOptions = {
-										strokeColor: '#FF0000',
-										strokeOpacity: 0.8,
-										strokeWeight: 2,
-										fillColor: '#FF0000',
-										fillOpacity: 0.35,
-										map: map,
-										center: new google.maps.LatLng(hoge[i].latitude, hoge[i].longitude),
-										radius: hoge[i].totalMentions * (100),
-										clickable: true
-									}; //population option closed
-		 
-					 				// add the circle to the map.
-									cityCircle = new google.maps.Circle(populationOptions);
-
-									// create label
-									var mapLabel = new MapLabel({
-										text: hoge[i].siteName + ' : ' + hoge[i].totalMentions,
-										map: map,
-										fontSize: 12,
-										align: 'center'
-									});
-
-									// add the label to the map
-									mapLabel.set('position', new google.maps.LatLng(hoge[i].latitude, hoge[i].longitude));
-
-								} //for roop closed
-							}, //success closed
-							error: function(XMLHttpRequest, textStatus, errorThrown) {
-								alert('Error : ' + errorThrown);
-							} // error closed
-						}); //ajax closed
-					}; // function closed
-
-					google.maps.event.addDomListener(window, 'load', initialize);
-				</script>
+				
 		</div>
 				<div class="col-md-6">
 					<b>Number of Mentions Over Time</b>
