@@ -86,7 +86,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6" id="map-canvas" style="height: 700px;"></div>
+				<div class="col-md-6">Test</div>
 				
 		</div>
 				<div class="col-md-6">
