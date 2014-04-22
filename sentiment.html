@@ -123,7 +123,7 @@
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	        <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Current Park: Lassen Volcanic NP <b class="caret"></b></a>
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-weight: 900;">Lassen Volcanic NP <b class="caret"></b></a>
 	          <ul class="dropdown-menu">
 	            <li>No other parks available.</li>
 	          </ul>
@@ -136,36 +136,36 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8">
-				<h3>Negative Reviews - <?php echo $year . " - Quarter " . $quarter; ?></h3>
+				<h3>Negative Reviews: <?php echo "Q" . $quarter . "-" . $year; ?></h3>
 			</div>
-			<div class="col-md-2 time-selectors col-md-offset-2" >
+			<div class="col-md-2 time-selectors col-md-offset-2" style="font-weight: 900;">
 				<form>
 	        <select id="seasonList" name="herolist" value="Season" class="select-block" onChange="top.location.href=value">
 						<option value="#">Select Qtr</option>
-	          <option value="?quarter=1&year=2014">2014 - Q1</option>
-	          <option value="?quarter=4&year=2013">2013 - Q4</option>
-	          <option value="?quarter=3&year=2013">2013 - Q3</option>
-	          <option value="?quarter=2&year=2013">2013 - Q2</option>
-	          <option value="?quarter=1&year=2013">2013 - Q1</option>
-	          <option value="?quarter=4&year=2012">2012 - Q4</option>
-	          <option value="?quarter=3&year=2012">2012 - Q3</option>
-	          <option value="?quarter=2&year=2012">2012 - Q2</option>
-	          <option value="?quarter=1&year=2012">2012 - Q1</option>
-	          <option value="?quarter=4&year=2011">2011 - Q4</option>
-	          <option value="?quarter=3&year=2011">2011 - Q3</option>
-	          <option value="?quarter=2&year=2011">2011 - Q2</option>
-	          <option value="?quarter=1&year=2011">2011 - Q1</option>
-	          <option value="?quarter=4&year=2010">2010 - Q4</option>
-	          <option value="?quarter=3&year=2010">2010 - Q3</option>
-	          <option value="?quarter=2&year=2010">2010 - Q2</option>
-	          <option value="?quarter=1&year=2010">2010 - Q1</option>
+	          <option value="?quarter=1&year=2014">Q1 - 2014</option>
+	          <option value="?quarter=4&year=2013">Q4 - 2013</option>
+	          <option value="?quarter=3&year=2013">Q3 - 2013</option>
+	          <option value="?quarter=2&year=2013">Q2 - 2013</option>
+	          <option value="?quarter=1&year=2013">Q1 - 2013</option>
+	          <option value="?quarter=4&year=2012">Q4 - 2012</option>
+	          <option value="?quarter=3&year=2012">Q3 - 2012</option>
+	          <option value="?quarter=2&year=2012">Q2 - 2012</option>
+	          <option value="?quarter=1&year=2012">Q1 - 2012</option>
+	          <option value="?quarter=4&year=2011">Q4 - 2011</option>
+	          <option value="?quarter=3&year=2011">Q3 - 2011</option>
+	          <option value="?quarter=2&year=2011">Q2 - 2011</option>
+	          <option value="?quarter=1&year=2011">Q1 - 2011</option>
+	          <option value="?quarter=4&year=2010">Q4 - 2010</option>
+	          <option value="?quarter=3&year=2010">Q3 - 2010</option>
+	          <option value="?quarter=2&year=2010">Q2 - 2010</option>
+	          <option value="?quarter=1&year=2010">Q1 - 2010</option>
         	</select>
 				</form>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Average sentiment-scores v.s. Total mentions (each site)</div>
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Quartery sentiment-history</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Avg. Sentiment Score vs. Total mentions</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Quartery Number of Reviews</div>
 		</div>
 		<div class="row" id="upper">
 			<div class="col-md-6" id="scatter-plot" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
@@ -196,6 +196,8 @@
 									$('#scatter-plot').highcharts({
 										chart: {
 											type: 'scatter',
+											marginTop: 20,
+											marginLeft: 85,
 											zoomType: 'xy',
 											backgroundColor: '#F8FFF8'
 										},
@@ -219,18 +221,58 @@
 											min: -1,
 											max: 1,
 											title: {
-												text: 'Sentiment score'
+												margin: 50,
+												text: 'Avg. Sentiment Score'
 											},
+											
 											labels: {
-												format: '{value}'
-											}
+												format: '{value}',
+												overflow: 'none'
+											},
+											plotLines: [{
+													width: 2,
+													value: 1,
+													label: {
+															text: 'Positive',
+															style: {
+																color: '#666'
+																},
+															align: 'left',
+															x: -60,
+															y: 4
+													}
+											},{
+													width: 2,
+													value: 0,
+													label: {
+															text: 'Neutral',
+															style: {
+																color: '#666'
+																},
+															align: 'left',
+															x: -60,
+															y: 4
+													}
+											},{
+													width: 2,
+													value: -1,
+													label: {
+															text: 'Negative',
+															style: {
+																color: '#666'
+																},
+															align: 'left',
+															x: -74,
+															y: 4
+													}
+											}]
 										},
 										legend: {
 											enabled: false,
 											layout: 'vertical',
 											align: 'left',
 											verticalAlign: 'top',
-											x: 100,
+											x: 10,
 											y: 70,
 											floating: true,
 											backgroundColor: '#FFFFFF',
@@ -252,10 +294,8 @@
 													}
 												},
 												dataLabels: {
-													enabled: false,
+													enabled: true,
 													format: '{series.name}',
-													x: 15,
-													y: -10
 												},
 												states: {
 													hover: {
@@ -316,6 +356,7 @@
 										$("#nega-posi-history").highcharts({
 											chart: {
 												type: 'column',
+												marginTop: 50,
 												backgroundColor: '#F8FFF8'
 											},
 											title: {
@@ -327,21 +368,24 @@
 											yAxis: {
 												min: 0,
 												title: {
-														text: "Users' sentiment"
+														text: "Number of reviews"
 												},
 												stackLabels: {
 														enabled: true,
 														style: {
 															fontWeight: 'bold',
-															color: (Highcharts.theme && Highcharts.theme.textColor) || 'grey'
+															color: (Highcharts.theme && Highcharts.theme.textColor) || '#000000'
 														}
 												}
 											},
 											legend: {
+												title: {
+													text: 'Review Sentiment'
+												},
 												align: 'right',
 												x: -30,
 												verticalAlign: 'top',
-												y: -3,
+												y: -8,
 												floating: true,
 												backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || '#F8FFF8',
 												borderColor: '#CCC',
@@ -360,21 +404,28 @@
 													stacking: 'normal',
 													dataLabels: {
 														enabled: true,
-														color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || '#D8D8D8',
+														color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || '#000000',
 														style: {
-															textShadow: '0 0 3px black, 0 0 3px black'
-														}
+															textShadow: '1px 0px 2px #FFFFFF, -1px 0px 2px #FFFFFF, 0px 1px 2px #FFFFFF, 0px -1px 2px #FFFFFF'
+														},
+		                        formatter: function() {
+		                            if (this.y != 0) {
+		                              return this.y;
+		                            } else {
+		                              return null;
+		                            }
+		                        }
 													}
 												}
 											},
 											series: [
 											{name: 'Negative',
 												data: [nega4, nega3, nega2, nega1, nega0],
-												color: '#FFCC99'
+												color: '#b1ff9e'
 											}, {
 												name: 'Neutral',
 												data: [neut4, neut3, neut2, neut1, neut0],
-												color: '#B0C184'
+												color: '#6cd67f'
 											}, {
 												name: 'Positive',
 												data: [posi4, posi3, posi2, posi1, posi0],
@@ -394,8 +445,8 @@
 			</div><!-- id="nega-posi-history" -->
 		</div><!-- id="upper" -->
 		<div class="row" id="rower">
-			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">Sentiment-score map</div>
-			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">3 negative reviews around <?php echo $year . " - Quarter " . $quarter; ?></div>
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">Sentiment Score Map</div>
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">3 Recent Negative Sentiment Reviews</div>
 		</div>
 		<div class="row">
 			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -516,10 +567,11 @@
 							fontSize: 'automatic',
 							//title: piyo[i].siteName, //don't need because of labeling by mapLabel function
 							pieHole: 0.35,
-							pieSliceText: 'value',
+							//pieSliceText: 'value', //
 							backgroundColor: 'transparent',
-							slices: {0: {color: '#27ae60'}, 1: {color: '#B0C184'}, 2: {color: '#FFCC99'}},
-							pieSliceTextStyle: {color: '#333333'},
+							slices: {0: {color: '#27ae60'}, 1: {color: '#6cd67f'}, 2: {color: '#b1ff9e'}}, //positive, neutral, negative
+							pieSliceText: 'none',
+							//pieSliceTextStyle: {color: '#333333'},
 							legend: 'none'
 						};
 
@@ -561,7 +613,7 @@
 			$dbh = new PDO($db['dsn'], $db['user'], $db['password']);
 
 			$sql_user_review = '
-				SELECT DIM_USER.user_id as user_id, SOCIALNETS.sns as SNS, ALLSNSDATA.user as userName, DIM_USER.address as address, DIM_PERIOD.creation_date as date, FACT_SNSDATA.rating, FACT_SNSDATA.sentiment as sentiment, DIM_COMMENTS.comment, DIM_COMMENTS.link as pageURL
+				SELECT DIM_USER.user_id as user_id, SOCIALNETS.sns as SNS, ALLSNSDATA.user as userName, DIM_USER.address as address, DIM_PERIOD.creation_date as date, FACT_SNSDATA.rating, ROUND(FACT_SNSDATA.sentiment, 1) as sentiment, DIM_COMMENTS.comment, DIM_COMMENTS.link as pageURL
 				FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES, DIM_COMMENTS, SOCIALNETS, DIM_USER, ALLSNSDATA
 				WHERE FACT_SNSDATA.sentiment < -0.1
 				AND FACT_SNSDATA.date_id = DIM_PERIOD.date_id
@@ -595,7 +647,7 @@
 								<img class="stat-image" src="images/icons/SNS/' . $reviews[0]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[0]["SNS"]. '"/></a><br>' . $reviews[0]["username"] . '</b> from ' . $reviews[0]["address"] . '
 								</div>
 								<div class="col-md-9">
-									<b>Sentiment Score: ' . $reviews[0]["sentiment"] . '</b>, ' . $reviews[0]["rating"] . ' star(s) at  ' . $reviews[0]["date"] . ' <br>' . substr($reviews[0]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[0]["URL"] . '" title="Read more..." target="_blank" >Read more at the original SNS.</a>
+									<b>Sentiment score: ' . $reviews[0]["sentiment"] . '</b>, ' . $reviews[0]["rating"] . ' star(s) on  ' . $reviews[0]["date"] . ' <br>' . substr($reviews[0]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[0]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
 								</div>
 							</div>
 							<hr>
@@ -605,7 +657,7 @@
 								<img class="stat-image" src="images/icons/SNS/' . $reviews[1]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[1]["SNS"]. '"/></a><br>' . $reviews[1]["username"] . '</b> from ' . $reviews[1]["address"] . '
 								</div>
 								<div class="col-md-9">
-									<b>Sentiment Score: ' . $reviews[1]["sentiment"] . '</b>, ' . $reviews[1]["rating"] . ' star(s) at  ' . $reviews[1]["date"] . ' <br>' . substr($reviews[1]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[1]["URL"] . '" title="Read more..." target="_blank" >Read more at the original SNS.</a>
+									<b>Sentiment score: ' . $reviews[1]["sentiment"] . '</b>, ' . $reviews[1]["rating"] . ' star(s) on  ' . $reviews[1]["date"] . ' <br>' . substr($reviews[1]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[1]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
 								</div>
 
 							</div>
@@ -616,7 +668,7 @@
 								<img class="stat-image" src="images/icons/SNS/' . $reviews[2]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[2]["SNS"]. '"/></a><br>' . $reviews[2]["username"] . '</b> from ' . $reviews[2]["address"] . '
 								</div>
 								<div class="col-md-9">
-									<b>Sentiment Score: ' . $reviews[2]["sentiment"] . '</b>, ' . $reviews[2]["rating"] . ' star(s) at  ' . $reviews[2]["date"] . ' <br>' . substr($reviews[2]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[2]["URL"] . '" title="Read more..." target="_blank" >Read more at the original SNS.</a>
+									<b>Sentiment score: ' . $reviews[2]["sentiment"] . '</b>, ' . $reviews[2]["rating"] . ' star(s) on  ' . $reviews[2]["date"] . ' <br>' . substr($reviews[2]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[2]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
 								</div>
 
 							</div>
@@ -636,7 +688,7 @@
 			</div><!-- recent-nega-comments -->
 		</div>
 		<div class="row">
-			<div class="col-md-6 small">Copyright 2014 ParkView. All rights reserved.</div>
+			<div class="col-md-12 small" style="color:#C5C5C5, font-size: small;">Copyright 2014 ParkView. All rights reserved.</div>
 		</div>
 	</div><!-- /.container -->
   </body>
