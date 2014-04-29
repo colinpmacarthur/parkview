@@ -39,10 +39,10 @@ class FactSnsdataTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('user_id', 'UserId', 'INTEGER', 'DIM_USER', 'row_id', true, null, null);
+        $this->addForeignKey('row_id', 'UserId', 'INTEGER', 'DIM_USER', 'row_id', true, null, null);
         $this->addForeignKey('comment_id', 'CommentId', 'INTEGER', 'DIM_COMMENTS', 'comment_id', true, null, null);
         $this->addForeignKey('date_id', 'DateId', 'INTEGER', 'DIM_PERIOD', 'date_id', true, null, null);
-        $this->addForeignKey('site_id', 'SiteId', 'INTEGER', 'TRACK_SITES', 'site_id', true, null, null);
+        $this->addForeignKey('places_row_id', 'PlacesRowId', 'INTEGER', 'DIM_PLACES', 'row_id', true, null, null);
         $this->addColumn('sentiment', 'Sentiment', 'DOUBLE', false, null, null);
         $this->addColumn('rating', 'Rating', 'INTEGER', false, null, null);
         // validators
@@ -55,8 +55,8 @@ class FactSnsdataTableMap extends TableMap
     {
         $this->addRelation('DimComments', 'DimComments', RelationMap::MANY_TO_ONE, array('comment_id' => 'comment_id', ), null, null);
         $this->addRelation('DimPeriod', 'DimPeriod', RelationMap::MANY_TO_ONE, array('date_id' => 'date_id', ), null, null);
-        $this->addRelation('DimUser', 'DimUser', RelationMap::MANY_TO_ONE, array('user_id' => 'row_id', ), null, null);
-        $this->addRelation('TrackSites', 'TrackSites', RelationMap::MANY_TO_ONE, array('site_id' => 'site_id', ), null, null);
+        $this->addRelation('DimUser', 'DimUser', RelationMap::MANY_TO_ONE, array('row_id' => 'row_id', ), null, null);
+        $this->addRelation('DimPlaces', 'DimPlaces', RelationMap::MANY_TO_ONE, array('places_row_id' => 'row_id', ), null, null);
     } // buildRelations()
 
 } // FactSnsdataTableMap

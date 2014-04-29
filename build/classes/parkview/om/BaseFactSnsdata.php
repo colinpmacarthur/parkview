@@ -36,10 +36,10 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     protected $id;
 
     /**
-     * The value for the user_id field.
+     * The value for the row_id field.
      * @var        int
      */
-    protected $user_id;
+    protected $row_id;
 
     /**
      * The value for the comment_id field.
@@ -54,10 +54,10 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     protected $date_id;
 
     /**
-     * The value for the site_id field.
+     * The value for the places_row_id field.
      * @var        int
      */
-    protected $site_id;
+    protected $places_row_id;
 
     /**
      * The value for the sentiment field.
@@ -87,9 +87,9 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     protected $aDimUser;
 
     /**
-     * @var        TrackSites
+     * @var        DimPlaces
      */
-    protected $aTrackSites;
+    protected $aDimPlaces;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -123,14 +123,14 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [user_id] column value.
+     * Get the [row_id] column value.
      *
      * @return int
      */
     public function getUserId()
     {
 
-        return $this->user_id;
+        return $this->row_id;
     }
 
     /**
@@ -156,14 +156,14 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [site_id] column value.
+     * Get the [places_row_id] column value.
      *
      * @return int
      */
-    public function getSiteId()
+    public function getPlacesRowId()
     {
 
-        return $this->site_id;
+        return $this->places_row_id;
     }
 
     /**
@@ -210,7 +210,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     } // setId()
 
     /**
-     * Set the value of [user_id] column.
+     * Set the value of [row_id] column.
      *
      * @param  int $v new value
      * @return FactSnsdata The current object (for fluent API support)
@@ -221,9 +221,9 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
             $v = (int) $v;
         }
 
-        if ($this->user_id !== $v) {
-            $this->user_id = $v;
-            $this->modifiedColumns[] = FactSnsdataPeer::USER_ID;
+        if ($this->row_id !== $v) {
+            $this->row_id = $v;
+            $this->modifiedColumns[] = FactSnsdataPeer::ROW_ID;
         }
 
         if ($this->aDimUser !== null && $this->aDimUser->getRowId() !== $v) {
@@ -285,29 +285,29 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     } // setDateId()
 
     /**
-     * Set the value of [site_id] column.
+     * Set the value of [places_row_id] column.
      *
      * @param  int $v new value
      * @return FactSnsdata The current object (for fluent API support)
      */
-    public function setSiteId($v)
+    public function setPlacesRowId($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->site_id !== $v) {
-            $this->site_id = $v;
-            $this->modifiedColumns[] = FactSnsdataPeer::SITE_ID;
+        if ($this->places_row_id !== $v) {
+            $this->places_row_id = $v;
+            $this->modifiedColumns[] = FactSnsdataPeer::PLACES_ROW_ID;
         }
 
-        if ($this->aTrackSites !== null && $this->aTrackSites->getSiteId() !== $v) {
-            $this->aTrackSites = null;
+        if ($this->aDimPlaces !== null && $this->aDimPlaces->getRowId() !== $v) {
+            $this->aDimPlaces = null;
         }
 
 
         return $this;
-    } // setSiteId()
+    } // setPlacesRowId()
 
     /**
      * Set the value of [sentiment] column.
@@ -384,10 +384,10 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
         try {
 
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->user_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+            $this->row_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->comment_id = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
             $this->date_id = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
-            $this->site_id = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+            $this->places_row_id = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
             $this->sentiment = ($row[$startcol + 5] !== null) ? (double) $row[$startcol + 5] : null;
             $this->rating = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
             $this->resetModified();
@@ -422,7 +422,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aDimUser !== null && $this->user_id !== $this->aDimUser->getRowId()) {
+        if ($this->aDimUser !== null && $this->row_id !== $this->aDimUser->getRowId()) {
             $this->aDimUser = null;
         }
         if ($this->aDimComments !== null && $this->comment_id !== $this->aDimComments->getCommentId()) {
@@ -431,8 +431,8 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
         if ($this->aDimPeriod !== null && $this->date_id !== $this->aDimPeriod->getDateId()) {
             $this->aDimPeriod = null;
         }
-        if ($this->aTrackSites !== null && $this->site_id !== $this->aTrackSites->getSiteId()) {
-            $this->aTrackSites = null;
+        if ($this->aDimPlaces !== null && $this->places_row_id !== $this->aDimPlaces->getRowId()) {
+            $this->aDimPlaces = null;
         }
     } // ensureConsistency
 
@@ -476,7 +476,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
             $this->aDimComments = null;
             $this->aDimPeriod = null;
             $this->aDimUser = null;
-            $this->aTrackSites = null;
+            $this->aDimPlaces = null;
         } // if (deep)
     }
 
@@ -616,11 +616,11 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
                 $this->setDimUser($this->aDimUser);
             }
 
-            if ($this->aTrackSites !== null) {
-                if ($this->aTrackSites->isModified() || $this->aTrackSites->isNew()) {
-                    $affectedRows += $this->aTrackSites->save($con);
+            if ($this->aDimPlaces !== null) {
+                if ($this->aDimPlaces->isModified() || $this->aDimPlaces->isNew()) {
+                    $affectedRows += $this->aDimPlaces->save($con);
                 }
-                $this->setTrackSites($this->aTrackSites);
+                $this->setDimPlaces($this->aDimPlaces);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -663,8 +663,8 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
         if ($this->isColumnModified(FactSnsdataPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(FactSnsdataPeer::USER_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`user_id`';
+        if ($this->isColumnModified(FactSnsdataPeer::ROW_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`row_id`';
         }
         if ($this->isColumnModified(FactSnsdataPeer::COMMENT_ID)) {
             $modifiedColumns[':p' . $index++]  = '`comment_id`';
@@ -672,8 +672,8 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
         if ($this->isColumnModified(FactSnsdataPeer::DATE_ID)) {
             $modifiedColumns[':p' . $index++]  = '`date_id`';
         }
-        if ($this->isColumnModified(FactSnsdataPeer::SITE_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`site_id`';
+        if ($this->isColumnModified(FactSnsdataPeer::PLACES_ROW_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`places_row_id`';
         }
         if ($this->isColumnModified(FactSnsdataPeer::SENTIMENT)) {
             $modifiedColumns[':p' . $index++]  = '`sentiment`';
@@ -695,8 +695,8 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
                     case '`id`':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case '`user_id`':
-                        $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
+                    case '`row_id`':
+                        $stmt->bindValue($identifier, $this->row_id, PDO::PARAM_INT);
                         break;
                     case '`comment_id`':
                         $stmt->bindValue($identifier, $this->comment_id, PDO::PARAM_INT);
@@ -704,8 +704,8 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
                     case '`date_id`':
                         $stmt->bindValue($identifier, $this->date_id, PDO::PARAM_INT);
                         break;
-                    case '`site_id`':
-                        $stmt->bindValue($identifier, $this->site_id, PDO::PARAM_INT);
+                    case '`places_row_id`':
+                        $stmt->bindValue($identifier, $this->places_row_id, PDO::PARAM_INT);
                         break;
                     case '`sentiment`':
                         $stmt->bindValue($identifier, $this->sentiment, PDO::PARAM_STR);
@@ -830,9 +830,9 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
                 }
             }
 
-            if ($this->aTrackSites !== null) {
-                if (!$this->aTrackSites->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aTrackSites->getValidationFailures());
+            if ($this->aDimPlaces !== null) {
+                if (!$this->aDimPlaces->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aDimPlaces->getValidationFailures());
                 }
             }
 
@@ -890,7 +890,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
                 return $this->getDateId();
                 break;
             case 4:
-                return $this->getSiteId();
+                return $this->getPlacesRowId();
                 break;
             case 5:
                 return $this->getSentiment();
@@ -931,7 +931,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
             $keys[1] => $this->getUserId(),
             $keys[2] => $this->getCommentId(),
             $keys[3] => $this->getDateId(),
-            $keys[4] => $this->getSiteId(),
+            $keys[4] => $this->getPlacesRowId(),
             $keys[5] => $this->getSentiment(),
             $keys[6] => $this->getRating(),
         );
@@ -950,8 +950,8 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
             if (null !== $this->aDimUser) {
                 $result['DimUser'] = $this->aDimUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->aTrackSites) {
-                $result['TrackSites'] = $this->aTrackSites->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aDimPlaces) {
+                $result['DimPlaces'] = $this->aDimPlaces->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1000,7 +1000,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
                 $this->setDateId($value);
                 break;
             case 4:
-                $this->setSiteId($value);
+                $this->setPlacesRowId($value);
                 break;
             case 5:
                 $this->setSentiment($value);
@@ -1036,7 +1036,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setUserId($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setCommentId($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setDateId($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setSiteId($arr[$keys[4]]);
+        if (array_key_exists($keys[4], $arr)) $this->setPlacesRowId($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setSentiment($arr[$keys[5]]);
         if (array_key_exists($keys[6], $arr)) $this->setRating($arr[$keys[6]]);
     }
@@ -1051,10 +1051,10 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
         $criteria = new Criteria(FactSnsdataPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(FactSnsdataPeer::ID)) $criteria->add(FactSnsdataPeer::ID, $this->id);
-        if ($this->isColumnModified(FactSnsdataPeer::USER_ID)) $criteria->add(FactSnsdataPeer::USER_ID, $this->user_id);
+        if ($this->isColumnModified(FactSnsdataPeer::ROW_ID)) $criteria->add(FactSnsdataPeer::ROW_ID, $this->row_id);
         if ($this->isColumnModified(FactSnsdataPeer::COMMENT_ID)) $criteria->add(FactSnsdataPeer::COMMENT_ID, $this->comment_id);
         if ($this->isColumnModified(FactSnsdataPeer::DATE_ID)) $criteria->add(FactSnsdataPeer::DATE_ID, $this->date_id);
-        if ($this->isColumnModified(FactSnsdataPeer::SITE_ID)) $criteria->add(FactSnsdataPeer::SITE_ID, $this->site_id);
+        if ($this->isColumnModified(FactSnsdataPeer::PLACES_ROW_ID)) $criteria->add(FactSnsdataPeer::PLACES_ROW_ID, $this->places_row_id);
         if ($this->isColumnModified(FactSnsdataPeer::SENTIMENT)) $criteria->add(FactSnsdataPeer::SENTIMENT, $this->sentiment);
         if ($this->isColumnModified(FactSnsdataPeer::RATING)) $criteria->add(FactSnsdataPeer::RATING, $this->rating);
 
@@ -1123,7 +1123,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
         $copyObj->setUserId($this->getUserId());
         $copyObj->setCommentId($this->getCommentId());
         $copyObj->setDateId($this->getDateId());
-        $copyObj->setSiteId($this->getSiteId());
+        $copyObj->setPlacesRowId($this->getPlacesRowId());
         $copyObj->setSentiment($this->getSentiment());
         $copyObj->setRating($this->getRating());
 
@@ -1326,7 +1326,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
      */
     public function getDimUser(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aDimUser === null && ($this->user_id !== null) && $doQuery) {
+        if ($this->aDimUser === null && ($this->row_id !== null) && $doQuery) {
             $this->aDimUser = DimUserQuery::create()
                 ->filterByFactSnsdata($this) // here
                 ->findOne($con);
@@ -1343,24 +1343,24 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     }
 
     /**
-     * Declares an association between this object and a TrackSites object.
+     * Declares an association between this object and a DimPlaces object.
      *
-     * @param                  TrackSites $v
+     * @param                  DimPlaces $v
      * @return FactSnsdata The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setTrackSites(TrackSites $v = null)
+    public function setDimPlaces(DimPlaces $v = null)
     {
         if ($v === null) {
-            $this->setSiteId(NULL);
+            $this->setPlacesRowId(NULL);
         } else {
-            $this->setSiteId($v->getSiteId());
+            $this->setPlacesRowId($v->getRowId());
         }
 
-        $this->aTrackSites = $v;
+        $this->aDimPlaces = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the TrackSites object, it will not be re-added.
+        // If this object has already been added to the DimPlaces object, it will not be re-added.
         if ($v !== null) {
             $v->addFactSnsdata($this);
         }
@@ -1371,27 +1371,29 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
 
 
     /**
-     * Get the associated TrackSites object
+     * Get the associated DimPlaces object
      *
      * @param PropelPDO $con Optional Connection object.
      * @param $doQuery Executes a query to get the object if required
-     * @return TrackSites The associated TrackSites object.
+     * @return DimPlaces The associated DimPlaces object.
      * @throws PropelException
      */
-    public function getTrackSites(PropelPDO $con = null, $doQuery = true)
+    public function getDimPlaces(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aTrackSites === null && ($this->site_id !== null) && $doQuery) {
-            $this->aTrackSites = TrackSitesQuery::create()->findPk($this->site_id, $con);
+        if ($this->aDimPlaces === null && ($this->places_row_id !== null) && $doQuery) {
+            $this->aDimPlaces = DimPlacesQuery::create()
+                ->filterByFactSnsdata($this) // here
+                ->findOne($con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aTrackSites->addFactSnsdatas($this);
+                $this->aDimPlaces->addFactSnsdatas($this);
              */
         }
 
-        return $this->aTrackSites;
+        return $this->aDimPlaces;
     }
 
     /**
@@ -1400,10 +1402,10 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
     public function clear()
     {
         $this->id = null;
-        $this->user_id = null;
+        $this->row_id = null;
         $this->comment_id = null;
         $this->date_id = null;
-        $this->site_id = null;
+        $this->places_row_id = null;
         $this->sentiment = null;
         $this->rating = null;
         $this->alreadyInSave = false;
@@ -1437,8 +1439,8 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
             if ($this->aDimUser instanceof Persistent) {
               $this->aDimUser->clearAllReferences($deep);
             }
-            if ($this->aTrackSites instanceof Persistent) {
-              $this->aTrackSites->clearAllReferences($deep);
+            if ($this->aDimPlaces instanceof Persistent) {
+              $this->aDimPlaces->clearAllReferences($deep);
             }
 
             $this->alreadyInClearAllReferencesDeep = false;
@@ -1447,7 +1449,7 @@ abstract class BaseFactSnsdata extends BaseObject implements Persistent
         $this->aDimComments = null;
         $this->aDimPeriod = null;
         $this->aDimUser = null;
-        $this->aTrackSites = null;
+        $this->aDimPlaces = null;
     }
 
     /**

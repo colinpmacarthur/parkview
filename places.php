@@ -15,10 +15,10 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
     <style>
 		.time-selectors {margin-top: 30px;}
 		.time-selector {float: right; margin-left: 10px; margin-bottom: 2em;}
-		.stat {font-size: 3em; line-height: 1em; margin-top: 0em;}
+		.stat {font-size: 2.3em; line-height: 1em; margin-top: 0em; color: #616161;}
 		.stat-type {line-height: 1.2em; margin-bottom: 0.5em;}
 		.stat-context {font-size: 0.75em; color: #27ae60; margin-bottom: 2em; line-height: 1em;}
-		.report-row {border-top: 1px solid #ecf0f1; padding-top: 1.5em; padding-bottom: 1em;}
+		.report-row {border-top: 1px solid #ecf0f1; padding-top: 2em; padding-bottom: 2em;}
 		.gray {color: #D8D8D8;}
 
 		body { padding-top: 70px; }
@@ -30,7 +30,6 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
     <link rel="shortcut icon" href="images/favicon.ico">
  	 <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="css/flat-ui.css" rel="stylesheet">
-		<link href="css/demo.css" rel="stylesheet">
     <link rel="shortcut icon" href="parkview-master/images/favicon.ico">
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		<script type="text/javascript" src="js/maplabel.js"></script>
@@ -83,7 +82,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	        <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Current Park: Lassen Volcanic NP <b class="caret"></b></a>
+	          <a href="#" class="dropdown-toggle" style="font-weight: 900;" data-toggle="dropdown">Lassen Volcanic NP <b class="caret"></b></a>
 	          <ul class="dropdown-menu">
 	            <li>No other parks available.</li>
 	          </ul>
@@ -95,12 +94,12 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8">
-				<h3>Popular Places - <?php echo htmlspecialchars($_GET["year"])." - Quarter ".htmlspecialchars($_GET["quarter"]); ?></h3>
+			<div class="col-md-8" style="padding-left: 0px;">
+				<h3>Popular Places: Q<?php echo htmlspecialchars($_GET["quarter"])."-".htmlspecialchars($_GET["year"]); ?></h3>
 			</div>
 			<div class="col-md-4 time-selectors" >
 				<div class="dropdown time-selector">
-				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $db->year." - Quarter ".$db->quarter; ?><span class="caret"></span></button>
+				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight: 600;">Select Quarter<span class="caret"></span></button>
 				<span class="dropdown-arrow"></span>
 					<ul class="dropdown-menu">
 					    <li><a href="?year=2013&quarter=1">2013 - Quarter 1</a></li>
@@ -110,8 +109,9 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 					</u>
 				</div>
 			</div>
-			<div class="row">
-						<div class="col-md-6" id="map-canvas" style="height: 700px;">
+		</div>
+		<div class="row">
+			<div class="col-md-6" id="map-canvas" style="height: 700px;">
 				<script>
 					var cityCircle;
 					var cityMarker;
@@ -179,33 +179,34 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 				</script>
 				</div>
 				<div class="col-md-6">
-					<b>Number of Mentions Over Time</b>
+					<span style="color: #616161; font-weight: 600;">Number of Mentions in Posts, Reviews, Comments</span>
 					<div id="TotalActivityOverMonths" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
 					
 					<?php
 						$i = 1;
 						foreach ($db->getPlaceRanked() as $place)
 						{
-							echo '<div class="row">
-						<div class="col-md-6">'.$place['place'].'</div>
+						$rating = $db->getAverageRating('all',$place['place']);
+						$rating = $rating ? $rating.'<span class=gray>/5</span>' : '<span class="gray">N/A'; 
+							echo '
+					<div class="row">
+						<div class="col-md-6" style="color: #616161">'.$place['place'].'</div>
 					</div>
-					<div class="row report-row">
-						<div class="col-md-2 stats">
-							<div class="stat gray text-center">15</div>
-							<div class="stat-type gray text-center">Traffic Count</div>
+					<div style="margin-left: 0px;" class="row report-row">
+						
+						<div class="col-md-3 stats">
+							<div class="stat text-center">'.$place['count'].'</div>
+							<div class="stat-type text-center">Popularity Index</div>
 						</div>
 						<div class="col-md-6">
 							<div id="'.$i.'" style="min-width: 200px; height: 100px; margin: 0 auto"></div>
 						</div>
-						<div class="col-md-2 stats">
-							<div class="stat text-center">'.$db->getAverageRating('all',$place['place']).'</div>
+						<div class="col-md-3 stats">
+							<div class="stat text-center">'.$rating.'</div>
 							<div class="stat-type text-center">Avg. Rating</div>
-						</div>
-						<div class="col-md-2 stats">
-							<div class="stat text-center">'.$place['count'].'</div>
-							<div class="stat-type text-center">Popularity Index</div>
-						</div>
-					</div>';
+						</div>		
+				</div>	
+						';
 						$i++;
 						}
 					?>

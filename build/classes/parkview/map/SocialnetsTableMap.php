@@ -48,7 +48,6 @@ class SocialnetsTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('TrackSites', 'TrackSites', RelationMap::ONE_TO_MANY, array('sns_id' => 'sns_id', ), null, null, 'TrackSitess');
     } // buildRelations()
 
 } // SocialnetsTableMap

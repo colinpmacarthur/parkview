@@ -16,10 +16,6 @@
  * @method SocialnetsQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method SocialnetsQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method SocialnetsQuery leftJoinTrackSites($relationAlias = null) Adds a LEFT JOIN clause to the query using the TrackSites relation
- * @method SocialnetsQuery rightJoinTrackSites($relationAlias = null) Adds a RIGHT JOIN clause to the query using the TrackSites relation
- * @method SocialnetsQuery innerJoinTrackSites($relationAlias = null) Adds a INNER JOIN clause to the query using the TrackSites relation
- *
  * @method Socialnets findOne(PropelPDO $con = null) Return the first Socialnets matching the query
  * @method Socialnets findOneOrCreate(PropelPDO $con = null) Return the first Socialnets matching the query, or a new Socialnets object populated from the query conditions when no match is found
  *
@@ -292,80 +288,6 @@ abstract class BaseSocialnetsQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SocialnetsPeer::SNS, $sns, $comparison);
-    }
-
-    /**
-     * Filter the query by a related TrackSites object
-     *
-     * @param   TrackSites|PropelObjectCollection $trackSites  the related object to use as filter
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return                 SocialnetsQuery The current query, for fluid interface
-     * @throws PropelException - if the provided filter is invalid.
-     */
-    public function filterByTrackSites($trackSites, $comparison = null)
-    {
-        if ($trackSites instanceof TrackSites) {
-            return $this
-                ->addUsingAlias(SocialnetsPeer::SNS_ID, $trackSites->getSnsId(), $comparison);
-        } elseif ($trackSites instanceof PropelObjectCollection) {
-            return $this
-                ->useTrackSitesQuery()
-                ->filterByPrimaryKeys($trackSites->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByTrackSites() only accepts arguments of type TrackSites or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the TrackSites relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return SocialnetsQuery The current query, for fluid interface
-     */
-    public function joinTrackSites($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('TrackSites');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'TrackSites');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the TrackSites relation TrackSites object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   TrackSitesQuery A secondary query class using the current class as primary query
-     */
-    public function useTrackSitesQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinTrackSites($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'TrackSites', 'TrackSitesQuery');
     }
 
     /**

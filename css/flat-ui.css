@@ -202,19 +202,18 @@ body {
   font-family: "Lato", Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 1.72222;
-  color: #34495e;
+  color: #9C9999;
   background-color: #ffffff;
 }
 a {
-  color: #2ecc71;
+  color: #819BBD;
   text-decoration: none;
   -webkit-transition: 0.25s;
   transition: 0.25s;
 }
 a:hover,
 a:focus {
-  color: #2ecc71;
-  text-decoration: none;
+  color: #819BBD;
 }
 a:focus {
   outline: none;
@@ -297,6 +296,7 @@ h2,
 h3,
 .h3 {
   font-size: 40px;
+  color: #175936;
 }
 h4,
 .h4 {
@@ -606,7 +606,7 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-primary {
   color: #ffffff;
-  background-color: #27ae60;
+  background-color: #6FA661;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -614,7 +614,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #27ae60;
+  background-color: #6FA661;
   border-color: #27ae60;
 }
 .btn-primary:active,
@@ -2242,7 +2242,7 @@ select[multiple].navbar-form .btn {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 .navbar-default {
-  background-color: #27ae60;
+  background-color: #175936;
 }
 .navbar-default .navbar-brand {
   color: #ffffff;

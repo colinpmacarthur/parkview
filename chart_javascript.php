@@ -58,7 +58,7 @@ $(function () {
 				exporting: {
 					enabled: false
 				},
-				colors: ['#27ae60']
+				colors: ['#89AC6A']
 	        });
 	    });
 	    $("[data-toggle=CommentsPopover]").popover({trigger:"hover", html:"true", placement:"bottom"});
@@ -117,7 +117,7 @@ $(function () {
 				exporting: {
 					enabled: false
 				},
-				colors: ['#27ae60']
+				colors: ['#89AC6A']
 	        });
 	    });
 		$("[data-toggle=ContributorsPopover]").popover({trigger:"hover", html:"true", placement:"bottom"});
@@ -179,7 +179,7 @@ $(function () {
 				exporting: {
 					enabled: false
 				},
-				colors: ['#27ae60']
+				colors: ['#89AC6A']
 	        });
 	    });
 		    $("[data-toggle=TotalReachPopover]").popover({trigger:"hover", html:"true", placement:"bottom"});
@@ -240,7 +240,7 @@ $(function () {
 				exporting: {
 					enabled: false
 				},
-				colors: ['#27ae60']
+				colors: ['#89AC6A']
 	        });
 	    });
 	    
@@ -302,7 +302,7 @@ $(function () {
 			exporting: {
 				enabled: false
 			},
-			colors: ['#27ae60']
+			colors: ['#89AC6A']
         });
         $('#TripAdvisor').highcharts({
             chart: {
@@ -361,7 +361,7 @@ $(function () {
 			exporting: {
 				enabled: false
 			},
-			colors: ['#27ae60']
+			colors: ['#89AC6A']
         });
         $('#Yelp').highcharts({
             chart: {
@@ -420,7 +420,7 @@ $(function () {
 			exporting: {
 				enabled: false
 			},
-			colors: ['#27ae60']
+			colors: ['#86AC6A']
         });
 
         $('#Facebook').highcharts({
@@ -480,7 +480,7 @@ $(function () {
 			exporting: {
 				enabled: false
 			},
-			colors: ['#27ae60']
+			colors: ['#89AC6A']
         });
         $('#Flickr').highcharts({
             chart: {
@@ -539,7 +539,7 @@ $(function () {
 			exporting: {
 				enabled: false
 			},
-			colors: ['#27ae60']
+			colors: ['#89AC6A']
         });
         $('#TotalActivityOverMonths').highcharts({
             chart: {
@@ -599,7 +599,7 @@ $(function () {
 			exporting: {
 				enabled: false
 			},
-			colors: ['#27ae60']
+			colors: ['#89AC6A']
         });
      });
 </script>

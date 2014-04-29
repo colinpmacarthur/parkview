@@ -2,62 +2,53 @@
 
 
 /**
- * Base static class for performing query and update operations on the 'DIM_COMMENTS' table.
+ * Base static class for performing query and update operations on the 'DIM_PLACES' table.
  *
  *
  *
  * @package propel.generator.parkview.om
  */
-abstract class BaseDimCommentsPeer
+abstract class BaseDimPlacesPeer
 {
 
     /** the default database name for this class */
     const DATABASE_NAME = 'parkview';
 
     /** the table name for this class */
-    const TABLE_NAME = 'DIM_COMMENTS';
+    const TABLE_NAME = 'DIM_PLACES';
 
     /** the related Propel class for this table */
-    const OM_CLASS = 'DimComments';
+    const OM_CLASS = 'DimPlaces';
 
     /** the related TableMap class for this table */
-    const TM_CLASS = 'DimCommentsTableMap';
+    const TM_CLASS = 'DimPlacesTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 3;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 3;
 
-    /** the column name for the comment_id field */
-    const COMMENT_ID = 'DIM_COMMENTS.comment_id';
+    /** the column name for the id field */
+    const ID = 'DIM_PLACES.id';
 
-    /** the column name for the comment field */
-    const COMMENT = 'DIM_COMMENTS.comment';
+    /** the column name for the row_id field */
+    const ROW_ID = 'DIM_PLACES.row_id';
 
-    /** the column name for the title field */
-    const TITLE = 'DIM_COMMENTS.title';
-
-    /** the column name for the link field */
-    const LINK = 'DIM_COMMENTS.link';
-
-    /** the column name for the spread field */
-    const SPREAD = 'DIM_COMMENTS.spread';
-
-    /** the column name for the sns field */
-    const SNS = 'DIM_COMMENTS.sns';
+    /** the column name for the place field */
+    const PLACE = 'DIM_PLACES.place';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
     /**
-     * An identity map to hold any loaded instances of DimComments objects.
+     * An identity map to hold any loaded instances of DimPlaces objects.
      * This must be public so that other peer classes can access this when hydrating from JOIN
      * queries.
-     * @var        array DimComments[]
+     * @var        array DimPlaces[]
      */
     public static $instances = array();
 
@@ -66,30 +57,30 @@ abstract class BaseDimCommentsPeer
      * holds an array of fieldnames
      *
      * first dimension keys are the type constants
-     * e.g. DimCommentsPeer::$fieldNames[DimCommentsPeer::TYPE_PHPNAME][0] = 'Id'
+     * e.g. DimPlacesPeer::$fieldNames[DimPlacesPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('CommentId', 'Comment', 'Title', 'Link', 'Spread', 'Sns', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('commentId', 'comment', 'title', 'link', 'spread', 'sns', ),
-        BasePeer::TYPE_COLNAME => array (DimCommentsPeer::COMMENT_ID, DimCommentsPeer::COMMENT, DimCommentsPeer::TITLE, DimCommentsPeer::LINK, DimCommentsPeer::SPREAD, DimCommentsPeer::SNS, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('COMMENT_ID', 'COMMENT', 'TITLE', 'LINK', 'SPREAD', 'SNS', ),
-        BasePeer::TYPE_FIELDNAME => array ('comment_id', 'comment', 'title', 'link', 'spread', 'sns', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'RowId', 'Place', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'rowId', 'place', ),
+        BasePeer::TYPE_COLNAME => array (DimPlacesPeer::ID, DimPlacesPeer::ROW_ID, DimPlacesPeer::PLACE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'ROW_ID', 'PLACE', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'row_id', 'place', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, )
     );
 
     /**
      * holds an array of keys for quick access to the fieldnames array
      *
      * first dimension keys are the type constants
-     * e.g. DimCommentsPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
+     * e.g. DimPlacesPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('CommentId' => 0, 'Comment' => 1, 'Title' => 2, 'Link' => 3, 'Spread' => 4, 'Sns' => 5, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('commentId' => 0, 'comment' => 1, 'title' => 2, 'link' => 3, 'spread' => 4, 'sns' => 5, ),
-        BasePeer::TYPE_COLNAME => array (DimCommentsPeer::COMMENT_ID => 0, DimCommentsPeer::COMMENT => 1, DimCommentsPeer::TITLE => 2, DimCommentsPeer::LINK => 3, DimCommentsPeer::SPREAD => 4, DimCommentsPeer::SNS => 5, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('COMMENT_ID' => 0, 'COMMENT' => 1, 'TITLE' => 2, 'LINK' => 3, 'SPREAD' => 4, 'SNS' => 5, ),
-        BasePeer::TYPE_FIELDNAME => array ('comment_id' => 0, 'comment' => 1, 'title' => 2, 'link' => 3, 'spread' => 4, 'sns' => 5, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'RowId' => 1, 'Place' => 2, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'rowId' => 1, 'place' => 2, ),
+        BasePeer::TYPE_COLNAME => array (DimPlacesPeer::ID => 0, DimPlacesPeer::ROW_ID => 1, DimPlacesPeer::PLACE => 2, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'ROW_ID' => 1, 'PLACE' => 2, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'row_id' => 1, 'place' => 2, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, )
     );
 
     /**
@@ -104,10 +95,10 @@ abstract class BaseDimCommentsPeer
      */
     public static function translateFieldName($name, $fromType, $toType)
     {
-        $toNames = DimCommentsPeer::getFieldNames($toType);
-        $key = isset(DimCommentsPeer::$fieldKeys[$fromType][$name]) ? DimCommentsPeer::$fieldKeys[$fromType][$name] : null;
+        $toNames = DimPlacesPeer::getFieldNames($toType);
+        $key = isset(DimPlacesPeer::$fieldKeys[$fromType][$name]) ? DimPlacesPeer::$fieldKeys[$fromType][$name] : null;
         if ($key === null) {
-            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(DimCommentsPeer::$fieldKeys[$fromType], true));
+            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(DimPlacesPeer::$fieldKeys[$fromType], true));
         }
 
         return $toNames[$key];
@@ -124,11 +115,11 @@ abstract class BaseDimCommentsPeer
      */
     public static function getFieldNames($type = BasePeer::TYPE_PHPNAME)
     {
-        if (!array_key_exists($type, DimCommentsPeer::$fieldNames)) {
+        if (!array_key_exists($type, DimPlacesPeer::$fieldNames)) {
             throw new PropelException('Method getFieldNames() expects the parameter $type to be one of the class constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME, BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM. ' . $type . ' was given.');
         }
 
-        return DimCommentsPeer::$fieldNames[$type];
+        return DimPlacesPeer::$fieldNames[$type];
     }
 
     /**
@@ -140,12 +131,12 @@ abstract class BaseDimCommentsPeer
      *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
      * </code>
      * @param      string $alias The alias for the current table.
-     * @param      string $column The column name for current table. (i.e. DimCommentsPeer::COLUMN_NAME).
+     * @param      string $column The column name for current table. (i.e. DimPlacesPeer::COLUMN_NAME).
      * @return string
      */
     public static function alias($alias, $column)
     {
-        return str_replace(DimCommentsPeer::TABLE_NAME.'.', $alias.'.', $column);
+        return str_replace(DimPlacesPeer::TABLE_NAME.'.', $alias.'.', $column);
     }
 
     /**
@@ -163,19 +154,13 @@ abstract class BaseDimCommentsPeer
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(DimCommentsPeer::COMMENT_ID);
-            $criteria->addSelectColumn(DimCommentsPeer::COMMENT);
-            $criteria->addSelectColumn(DimCommentsPeer::TITLE);
-            $criteria->addSelectColumn(DimCommentsPeer::LINK);
-            $criteria->addSelectColumn(DimCommentsPeer::SPREAD);
-            $criteria->addSelectColumn(DimCommentsPeer::SNS);
+            $criteria->addSelectColumn(DimPlacesPeer::ID);
+            $criteria->addSelectColumn(DimPlacesPeer::ROW_ID);
+            $criteria->addSelectColumn(DimPlacesPeer::PLACE);
         } else {
-            $criteria->addSelectColumn($alias . '.comment_id');
-            $criteria->addSelectColumn($alias . '.comment');
-            $criteria->addSelectColumn($alias . '.title');
-            $criteria->addSelectColumn($alias . '.link');
-            $criteria->addSelectColumn($alias . '.spread');
-            $criteria->addSelectColumn($alias . '.sns');
+            $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.row_id');
+            $criteria->addSelectColumn($alias . '.place');
         }
     }
 
@@ -195,21 +180,21 @@ abstract class BaseDimCommentsPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(DimCommentsPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(DimPlacesPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            DimCommentsPeer::addSelectColumns($criteria);
+            DimPlacesPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-        $criteria->setDbName(DimCommentsPeer::DATABASE_NAME); // Set the correct dbName
+        $criteria->setDbName(DimPlacesPeer::DATABASE_NAME); // Set the correct dbName
 
         if ($con === null) {
-            $con = Propel::getConnection(DimCommentsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
         // BasePeer returns a PDOStatement
         $stmt = BasePeer::doCount($criteria, $con);
@@ -228,7 +213,7 @@ abstract class BaseDimCommentsPeer
      *
      * @param      Criteria $criteria object used to create the SELECT statement.
      * @param      PropelPDO $con
-     * @return DimComments
+     * @return DimPlaces
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
@@ -236,7 +221,7 @@ abstract class BaseDimCommentsPeer
     {
         $critcopy = clone $criteria;
         $critcopy->setLimit(1);
-        $objects = DimCommentsPeer::doSelect($critcopy, $con);
+        $objects = DimPlacesPeer::doSelect($critcopy, $con);
         if ($objects) {
             return $objects[0];
         }
@@ -254,7 +239,7 @@ abstract class BaseDimCommentsPeer
      */
     public static function doSelect(Criteria $criteria, PropelPDO $con = null)
     {
-        return DimCommentsPeer::populateObjects(DimCommentsPeer::doSelectStmt($criteria, $con));
+        return DimPlacesPeer::populateObjects(DimPlacesPeer::doSelectStmt($criteria, $con));
     }
     /**
      * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -272,16 +257,16 @@ abstract class BaseDimCommentsPeer
     public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(DimCommentsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         if (!$criteria->hasSelectClause()) {
             $criteria = clone $criteria;
-            DimCommentsPeer::addSelectColumns($criteria);
+            DimPlacesPeer::addSelectColumns($criteria);
         }
 
         // Set the correct dbName
-        $criteria->setDbName(DimCommentsPeer::DATABASE_NAME);
+        $criteria->setDbName(DimPlacesPeer::DATABASE_NAME);
 
         // BasePeer returns a PDOStatement
         return BasePeer::doSelect($criteria, $con);
@@ -295,16 +280,16 @@ abstract class BaseDimCommentsPeer
      * to the cache in order to ensure that the same objects are always returned by doSelect*()
      * and retrieveByPK*() calls.
      *
-     * @param DimComments $obj A DimComments object.
+     * @param DimPlaces $obj A DimPlaces object.
      * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
      */
     public static function addInstanceToPool($obj, $key = null)
     {
         if (Propel::isInstancePoolingEnabled()) {
             if ($key === null) {
-                $key = (string) $obj->getCommentId();
+                $key = (string) $obj->getId();
             } // if key === null
-            DimCommentsPeer::$instances[$key] = $obj;
+            DimPlacesPeer::$instances[$key] = $obj;
         }
     }
 
@@ -316,7 +301,7 @@ abstract class BaseDimCommentsPeer
      * methods in your stub classes -- you may need to explicitly remove objects
      * from the cache in order to prevent returning objects that no longer exist.
      *
-     * @param      mixed $value A DimComments object or a primary key value.
+     * @param      mixed $value A DimPlaces object or a primary key value.
      *
      * @return void
      * @throws PropelException - if the value is invalid.
@@ -324,17 +309,17 @@ abstract class BaseDimCommentsPeer
     public static function removeInstanceFromPool($value)
     {
         if (Propel::isInstancePoolingEnabled() && $value !== null) {
-            if (is_object($value) && $value instanceof DimComments) {
-                $key = (string) $value->getCommentId();
+            if (is_object($value) && $value instanceof DimPlaces) {
+                $key = (string) $value->getId();
             } elseif (is_scalar($value)) {
                 // assume we've been passed a primary key
                 $key = (string) $value;
             } else {
-                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or DimComments object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or DimPlaces object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
                 throw $e;
             }
 
-            unset(DimCommentsPeer::$instances[$key]);
+            unset(DimPlacesPeer::$instances[$key]);
         }
     } // removeInstanceFromPool()
 
@@ -345,14 +330,14 @@ abstract class BaseDimCommentsPeer
      * a multi-column primary key, a serialize()d version of the primary key will be returned.
      *
      * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-     * @return DimComments Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+     * @return DimPlaces Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
      * @see        getPrimaryKeyHash()
      */
     public static function getInstanceFromPool($key)
     {
         if (Propel::isInstancePoolingEnabled()) {
-            if (isset(DimCommentsPeer::$instances[$key])) {
-                return DimCommentsPeer::$instances[$key];
+            if (isset(DimPlacesPeer::$instances[$key])) {
+                return DimPlacesPeer::$instances[$key];
             }
         }
 
@@ -367,15 +352,15 @@ abstract class BaseDimCommentsPeer
     public static function clearInstancePool($and_clear_all_references = false)
     {
       if ($and_clear_all_references) {
-        foreach (DimCommentsPeer::$instances as $instance) {
+        foreach (DimPlacesPeer::$instances as $instance) {
           $instance->clearAllReferences(true);
         }
       }
-        DimCommentsPeer::$instances = array();
+        DimPlacesPeer::$instances = array();
     }
 
     /**
-     * Method to invalidate the instance pool of all tables related to DIM_COMMENTS
+     * Method to invalidate the instance pool of all tables related to DIM_PLACES
      * by a foreign key with ON DELETE CASCADE
      */
     public static function clearRelatedInstancePool()
@@ -429,11 +414,11 @@ abstract class BaseDimCommentsPeer
         $results = array();
 
         // set the class once to avoid overhead in the loop
-        $cls = DimCommentsPeer::getOMClass();
+        $cls = DimPlacesPeer::getOMClass();
         // populate the object(s)
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key = DimCommentsPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj = DimCommentsPeer::getInstanceFromPool($key))) {
+            $key = DimPlacesPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj = DimPlacesPeer::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -442,7 +427,7 @@ abstract class BaseDimCommentsPeer
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                DimCommentsPeer::addInstanceToPool($obj, $key);
+                DimPlacesPeer::addInstanceToPool($obj, $key);
             } // if key exists
         }
         $stmt->closeCursor();
@@ -456,21 +441,21 @@ abstract class BaseDimCommentsPeer
      * @param      int $startcol The 0-based offset for reading from the resultset row.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
-     * @return array (DimComments object, last column rank)
+     * @return array (DimPlaces object, last column rank)
      */
     public static function populateObject($row, $startcol = 0)
     {
-        $key = DimCommentsPeer::getPrimaryKeyHashFromRow($row, $startcol);
-        if (null !== ($obj = DimCommentsPeer::getInstanceFromPool($key))) {
+        $key = DimPlacesPeer::getPrimaryKeyHashFromRow($row, $startcol);
+        if (null !== ($obj = DimPlacesPeer::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $startcol, true); // rehydrate
-            $col = $startcol + DimCommentsPeer::NUM_HYDRATE_COLUMNS;
+            $col = $startcol + DimPlacesPeer::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = DimCommentsPeer::OM_CLASS;
+            $cls = DimPlacesPeer::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $startcol);
-            DimCommentsPeer::addInstanceToPool($obj, $key);
+            DimPlacesPeer::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -485,7 +470,7 @@ abstract class BaseDimCommentsPeer
      */
     public static function getTableMap()
     {
-        return Propel::getDatabaseMap(DimCommentsPeer::DATABASE_NAME)->getTable(DimCommentsPeer::TABLE_NAME);
+        return Propel::getDatabaseMap(DimPlacesPeer::DATABASE_NAME)->getTable(DimPlacesPeer::TABLE_NAME);
     }
 
     /**
@@ -493,9 +478,9 @@ abstract class BaseDimCommentsPeer
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getDatabaseMap(BaseDimCommentsPeer::DATABASE_NAME);
-      if (!$dbMap->hasTable(BaseDimCommentsPeer::TABLE_NAME)) {
-        $dbMap->addTableObject(new \DimCommentsTableMap());
+      $dbMap = Propel::getDatabaseMap(BaseDimPlacesPeer::DATABASE_NAME);
+      if (!$dbMap->hasTable(BaseDimPlacesPeer::TABLE_NAME)) {
+        $dbMap->addTableObject(new \DimPlacesTableMap());
       }
     }
 
@@ -507,13 +492,13 @@ abstract class BaseDimCommentsPeer
      */
     public static function getOMClass($row = 0, $colnum = 0)
     {
-        return DimCommentsPeer::OM_CLASS;
+        return DimPlacesPeer::OM_CLASS;
     }
 
     /**
-     * Performs an INSERT on the database, given a DimComments or Criteria object.
+     * Performs an INSERT on the database, given a DimPlaces or Criteria object.
      *
-     * @param      mixed $values Criteria or DimComments object containing data that is used to create the INSERT statement.
+     * @param      mixed $values Criteria or DimPlaces object containing data that is used to create the INSERT statement.
      * @param      PropelPDO $con the PropelPDO connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -522,22 +507,22 @@ abstract class BaseDimCommentsPeer
     public static function doInsert($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(DimCommentsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
         } else {
-            $criteria = $values->buildCriteria(); // build Criteria from DimComments object
+            $criteria = $values->buildCriteria(); // build Criteria from DimPlaces object
         }
 
-        if ($criteria->containsKey(DimCommentsPeer::COMMENT_ID) && $criteria->keyContainsValue(DimCommentsPeer::COMMENT_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.DimCommentsPeer::COMMENT_ID.')');
+        if ($criteria->containsKey(DimPlacesPeer::ID) && $criteria->keyContainsValue(DimPlacesPeer::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.DimPlacesPeer::ID.')');
         }
 
 
         // Set the correct dbName
-        $criteria->setDbName(DimCommentsPeer::DATABASE_NAME);
+        $criteria->setDbName(DimPlacesPeer::DATABASE_NAME);
 
         try {
             // use transaction because $criteria could contain info
@@ -554,9 +539,9 @@ abstract class BaseDimCommentsPeer
     }
 
     /**
-     * Performs an UPDATE on the database, given a DimComments or Criteria object.
+     * Performs an UPDATE on the database, given a DimPlaces or Criteria object.
      *
-     * @param      mixed $values Criteria or DimComments object containing data that is used to create the UPDATE statement.
+     * @param      mixed $values Criteria or DimPlaces object containing data that is used to create the UPDATE statement.
      * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
      * @return int             The number of affected rows (if supported by underlying database driver).
      * @throws PropelException Any exceptions caught during processing will be
@@ -565,35 +550,35 @@ abstract class BaseDimCommentsPeer
     public static function doUpdate($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(DimCommentsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
-        $selectCriteria = new Criteria(DimCommentsPeer::DATABASE_NAME);
+        $selectCriteria = new Criteria(DimPlacesPeer::DATABASE_NAME);
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
 
-            $comparison = $criteria->getComparison(DimCommentsPeer::COMMENT_ID);
-            $value = $criteria->remove(DimCommentsPeer::COMMENT_ID);
+            $comparison = $criteria->getComparison(DimPlacesPeer::ID);
+            $value = $criteria->remove(DimPlacesPeer::ID);
             if ($value) {
-                $selectCriteria->add(DimCommentsPeer::COMMENT_ID, $value, $comparison);
+                $selectCriteria->add(DimPlacesPeer::ID, $value, $comparison);
             } else {
-                $selectCriteria->setPrimaryTableName(DimCommentsPeer::TABLE_NAME);
+                $selectCriteria->setPrimaryTableName(DimPlacesPeer::TABLE_NAME);
             }
 
-        } else { // $values is DimComments object
+        } else { // $values is DimPlaces object
             $criteria = $values->buildCriteria(); // gets full criteria
             $selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
         }
 
         // set the correct dbName
-        $criteria->setDbName(DimCommentsPeer::DATABASE_NAME);
+        $criteria->setDbName(DimPlacesPeer::DATABASE_NAME);
 
         return BasePeer::doUpdate($selectCriteria, $criteria, $con);
     }
 
     /**
-     * Deletes all rows from the DIM_COMMENTS table.
+     * Deletes all rows from the DIM_PLACES table.
      *
      * @param      PropelPDO $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).
@@ -602,19 +587,19 @@ abstract class BaseDimCommentsPeer
     public static function doDeleteAll(PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(DimCommentsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            $affectedRows += BasePeer::doDeleteAll(DimCommentsPeer::TABLE_NAME, $con, DimCommentsPeer::DATABASE_NAME);
+            $affectedRows += BasePeer::doDeleteAll(DimPlacesPeer::TABLE_NAME, $con, DimPlacesPeer::DATABASE_NAME);
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            DimCommentsPeer::clearInstancePool();
-            DimCommentsPeer::clearRelatedInstancePool();
+            DimPlacesPeer::clearInstancePool();
+            DimPlacesPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -625,9 +610,9 @@ abstract class BaseDimCommentsPeer
     }
 
     /**
-     * Performs a DELETE on the database, given a DimComments or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a DimPlaces or Criteria object OR a primary key value.
      *
-     * @param      mixed $values Criteria or DimComments object or primary key or array of primary keys
+     * @param      mixed $values Criteria or DimPlaces object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param      PropelPDO $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -638,32 +623,32 @@ abstract class BaseDimCommentsPeer
      public static function doDelete($values, PropelPDO $con = null)
      {
         if ($con === null) {
-            $con = Propel::getConnection(DimCommentsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             // invalidate the cache for all objects of this type, since we have no
             // way of knowing (without running a query) what objects should be invalidated
             // from the cache based on this Criteria.
-            DimCommentsPeer::clearInstancePool();
+            DimPlacesPeer::clearInstancePool();
             // rename for clarity
             $criteria = clone $values;
-        } elseif ($values instanceof DimComments) { // it's a model object
+        } elseif ($values instanceof DimPlaces) { // it's a model object
             // invalidate the cache for this single object
-            DimCommentsPeer::removeInstanceFromPool($values);
+            DimPlacesPeer::removeInstanceFromPool($values);
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(DimCommentsPeer::DATABASE_NAME);
-            $criteria->add(DimCommentsPeer::COMMENT_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(DimPlacesPeer::DATABASE_NAME);
+            $criteria->add(DimPlacesPeer::ID, (array) $values, Criteria::IN);
             // invalidate the cache for this object(s)
             foreach ((array) $values as $singleval) {
-                DimCommentsPeer::removeInstanceFromPool($singleval);
+                DimPlacesPeer::removeInstanceFromPool($singleval);
             }
         }
 
         // Set the correct dbName
-        $criteria->setDbName(DimCommentsPeer::DATABASE_NAME);
+        $criteria->setDbName(DimPlacesPeer::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -673,7 +658,7 @@ abstract class BaseDimCommentsPeer
             $con->beginTransaction();
 
             $affectedRows += BasePeer::doDelete($criteria, $con);
-            DimCommentsPeer::clearRelatedInstancePool();
+            DimPlacesPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -684,13 +669,13 @@ abstract class BaseDimCommentsPeer
     }
 
     /**
-     * Validates all modified columns of given DimComments object.
+     * Validates all modified columns of given DimPlaces object.
      * If parameter $columns is either a single column name or an array of column names
      * than only those columns are validated.
      *
      * NOTICE: This does not apply to primary or foreign keys for now.
      *
-     * @param DimComments $obj The object to validate.
+     * @param DimPlaces $obj The object to validate.
      * @param      mixed $cols Column name or array of column names.
      *
      * @return mixed TRUE if all columns are valid or the error message of the first invalid column.
@@ -700,8 +685,8 @@ abstract class BaseDimCommentsPeer
         $columns = array();
 
         if ($cols) {
-            $dbMap = Propel::getDatabaseMap(DimCommentsPeer::DATABASE_NAME);
-            $tableMap = $dbMap->getTable(DimCommentsPeer::TABLE_NAME);
+            $dbMap = Propel::getDatabaseMap(DimPlacesPeer::DATABASE_NAME);
+            $tableMap = $dbMap->getTable(DimPlacesPeer::TABLE_NAME);
 
             if (! is_array($cols)) {
                 $cols = array($cols);
@@ -717,7 +702,7 @@ abstract class BaseDimCommentsPeer
 
         }
 
-        return BasePeer::doValidate(DimCommentsPeer::DATABASE_NAME, DimCommentsPeer::TABLE_NAME, $columns);
+        return BasePeer::doValidate(DimPlacesPeer::DATABASE_NAME, DimPlacesPeer::TABLE_NAME, $columns);
     }
 
     /**
@@ -725,23 +710,23 @@ abstract class BaseDimCommentsPeer
      *
      * @param int $pk the primary key.
      * @param      PropelPDO $con the connection to use
-     * @return DimComments
+     * @return DimPlaces
      */
     public static function retrieveByPK($pk, PropelPDO $con = null)
     {
 
-        if (null !== ($obj = DimCommentsPeer::getInstanceFromPool((string) $pk))) {
+        if (null !== ($obj = DimPlacesPeer::getInstanceFromPool((string) $pk))) {
             return $obj;
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(DimCommentsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria = new Criteria(DimCommentsPeer::DATABASE_NAME);
-        $criteria->add(DimCommentsPeer::COMMENT_ID, $pk);
+        $criteria = new Criteria(DimPlacesPeer::DATABASE_NAME);
+        $criteria->add(DimPlacesPeer::ID, $pk);
 
-        $v = DimCommentsPeer::doSelect($criteria, $con);
+        $v = DimPlacesPeer::doSelect($criteria, $con);
 
         return !empty($v) > 0 ? $v[0] : null;
     }
@@ -751,31 +736,31 @@ abstract class BaseDimCommentsPeer
      *
      * @param      array $pks List of primary keys
      * @param      PropelPDO $con the connection to use
-     * @return DimComments[]
+     * @return DimPlaces[]
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
     public static function retrieveByPKs($pks, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(DimCommentsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         $objs = null;
         if (empty($pks)) {
             $objs = array();
         } else {
-            $criteria = new Criteria(DimCommentsPeer::DATABASE_NAME);
-            $criteria->add(DimCommentsPeer::COMMENT_ID, $pks, Criteria::IN);
-            $objs = DimCommentsPeer::doSelect($criteria, $con);
+            $criteria = new Criteria(DimPlacesPeer::DATABASE_NAME);
+            $criteria->add(DimPlacesPeer::ID, $pks, Criteria::IN);
+            $objs = DimPlacesPeer::doSelect($criteria, $con);
         }
 
         return $objs;
     }
 
-} // BaseDimCommentsPeer
+} // BaseDimPlacesPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseDimCommentsPeer::buildTableMap();
+BaseDimPlacesPeer::buildTableMap();
 

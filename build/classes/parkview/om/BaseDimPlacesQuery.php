@@ -6,38 +6,38 @@
  *
  *
  *
- * @method TrackSitesQuery orderById($order = Criteria::ASC) Order by the id column
- * @method TrackSitesQuery orderByRowId($order = Criteria::ASC) Order by the row_id column
- * @method TrackSitesQuery orderByPlace($order = Criteria::ASC) Order by the place column
+ * @method DimPlacesQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method DimPlacesQuery orderByRowId($order = Criteria::ASC) Order by the row_id column
+ * @method DimPlacesQuery orderByPlace($order = Criteria::ASC) Order by the place column
  *
- * @method TrackSitesQuery groupById() Group by the id column
- * @method TrackSitesQuery groupByRowId() Group by the row_id column
- * @method TrackSitesQuery groupByPlace() Group by the place column
+ * @method DimPlacesQuery groupById() Group by the id column
+ * @method DimPlacesQuery groupByRowId() Group by the row_id column
+ * @method DimPlacesQuery groupByPlace() Group by the place column
  *
- * @method TrackSitesQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method TrackSitesQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method TrackSitesQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method DimPlacesQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method DimPlacesQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method DimPlacesQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method TrackSitesQuery leftJoinFactSnsdata($relationAlias = null) Adds a LEFT JOIN clause to the query using the FactSnsdata relation
- * @method TrackSitesQuery rightJoinFactSnsdata($relationAlias = null) Adds a RIGHT JOIN clause to the query using the FactSnsdata relation
- * @method TrackSitesQuery innerJoinFactSnsdata($relationAlias = null) Adds a INNER JOIN clause to the query using the FactSnsdata relation
+ * @method DimPlacesQuery leftJoinFactSnsdata($relationAlias = null) Adds a LEFT JOIN clause to the query using the FactSnsdata relation
+ * @method DimPlacesQuery rightJoinFactSnsdata($relationAlias = null) Adds a RIGHT JOIN clause to the query using the FactSnsdata relation
+ * @method DimPlacesQuery innerJoinFactSnsdata($relationAlias = null) Adds a INNER JOIN clause to the query using the FactSnsdata relation
  *
- * @method TrackSites findOne(PropelPDO $con = null) Return the first TrackSites matching the query
- * @method TrackSites findOneOrCreate(PropelPDO $con = null) Return the first TrackSites matching the query, or a new TrackSites object populated from the query conditions when no match is found
+ * @method DimPlaces findOne(PropelPDO $con = null) Return the first DimPlaces matching the query
+ * @method DimPlaces findOneOrCreate(PropelPDO $con = null) Return the first DimPlaces matching the query, or a new DimPlaces object populated from the query conditions when no match is found
  *
- * @method TrackSites findOneByRowId(int $row_id) Return the first TrackSites filtered by the row_id column
- * @method TrackSites findOneByPlace(string $place) Return the first TrackSites filtered by the place column
+ * @method DimPlaces findOneByRowId(int $row_id) Return the first DimPlaces filtered by the row_id column
+ * @method DimPlaces findOneByPlace(string $place) Return the first DimPlaces filtered by the place column
  *
- * @method array findById(int $id) Return TrackSites objects filtered by the id column
- * @method array findByRowId(int $row_id) Return TrackSites objects filtered by the row_id column
- * @method array findByPlace(string $place) Return TrackSites objects filtered by the place column
+ * @method array findById(int $id) Return DimPlaces objects filtered by the id column
+ * @method array findByRowId(int $row_id) Return DimPlaces objects filtered by the row_id column
+ * @method array findByPlace(string $place) Return DimPlaces objects filtered by the place column
  *
  * @package    propel.generator.parkview.om
  */
-abstract class BaseTrackSitesQuery extends ModelCriteria
+abstract class BaseDimPlacesQuery extends ModelCriteria
 {
     /**
-     * Initializes internal state of BaseTrackSitesQuery object.
+     * Initializes internal state of BaseDimPlacesQuery object.
      *
      * @param     string $dbName The dabase name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
@@ -49,25 +49,25 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
             $dbName = 'parkview';
         }
         if (null === $modelName) {
-            $modelName = 'TrackSites';
+            $modelName = 'DimPlaces';
         }
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new TrackSitesQuery object.
+     * Returns a new DimPlacesQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
-     * @param   TrackSitesQuery|Criteria $criteria Optional Criteria to build the query from
+     * @param   DimPlacesQuery|Criteria $criteria Optional Criteria to build the query from
      *
-     * @return TrackSitesQuery
+     * @return DimPlacesQuery
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof TrackSitesQuery) {
+        if ($criteria instanceof DimPlacesQuery) {
             return $criteria;
         }
-        $query = new TrackSitesQuery(null, null, $modelAlias);
+        $query = new DimPlacesQuery(null, null, $modelAlias);
 
         if ($criteria instanceof Criteria) {
             $query->mergeWith($criteria);
@@ -88,19 +88,19 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param     PropelPDO $con an optional connection object
      *
-     * @return   TrackSites|TrackSites[]|mixed the result, formatted by the current formatter
+     * @return   DimPlaces|DimPlaces[]|mixed the result, formatted by the current formatter
      */
     public function findPk($key, $con = null)
     {
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TrackSitesPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = DimPlacesPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {
-            $con = Propel::getConnection(TrackSitesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
         $this->basePreSelect($con);
         if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -118,7 +118,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return                 TrackSites A model object, or null if the key is not found
+     * @return                 DimPlaces A model object, or null if the key is not found
      * @throws PropelException
      */
      public function findOneById($key, $con = null)
@@ -133,7 +133,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return                 TrackSites A model object, or null if the key is not found
+     * @return                 DimPlaces A model object, or null if the key is not found
      * @throws PropelException
      */
     protected function findPkSimple($key, $con)
@@ -149,9 +149,9 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $obj = new TrackSites();
+            $obj = new DimPlaces();
             $obj->hydrate($row);
-            TrackSitesPeer::addInstanceToPool($obj, (string) $key);
+            DimPlacesPeer::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -164,7 +164,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return TrackSites|TrackSites[]|mixed the result, formatted by the current formatter
+     * @return DimPlaces|DimPlaces[]|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, $con)
     {
@@ -185,7 +185,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      * @param     array $keys Primary keys to use for the query
      * @param     PropelPDO $con an optional connection object
      *
-     * @return PropelObjectCollection|TrackSites[]|mixed the list of results, formatted by the current formatter
+     * @return PropelObjectCollection|DimPlaces[]|mixed the list of results, formatted by the current formatter
      */
     public function findPks($keys, $con = null)
     {
@@ -206,12 +206,12 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return TrackSitesQuery The current query, for fluid interface
+     * @return DimPlacesQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(TrackSitesPeer::ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(DimPlacesPeer::ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -219,12 +219,12 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return TrackSitesQuery The current query, for fluid interface
+     * @return DimPlacesQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(TrackSitesPeer::ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(DimPlacesPeer::ID, $keys, Criteria::IN);
     }
 
     /**
@@ -244,18 +244,18 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return TrackSitesQuery The current query, for fluid interface
+     * @return DimPlacesQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(TrackSitesPeer::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(DimPlacesPeer::ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(TrackSitesPeer::ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(DimPlacesPeer::ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -266,7 +266,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TrackSitesPeer::ID, $id, $comparison);
+        return $this->addUsingAlias(DimPlacesPeer::ID, $id, $comparison);
     }
 
     /**
@@ -286,18 +286,18 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return TrackSitesQuery The current query, for fluid interface
+     * @return DimPlacesQuery The current query, for fluid interface
      */
     public function filterByRowId($rowId = null, $comparison = null)
     {
         if (is_array($rowId)) {
             $useMinMax = false;
             if (isset($rowId['min'])) {
-                $this->addUsingAlias(TrackSitesPeer::ROW_ID, $rowId['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(DimPlacesPeer::ROW_ID, $rowId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($rowId['max'])) {
-                $this->addUsingAlias(TrackSitesPeer::ROW_ID, $rowId['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(DimPlacesPeer::ROW_ID, $rowId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -308,7 +308,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TrackSitesPeer::ROW_ID, $rowId, $comparison);
+        return $this->addUsingAlias(DimPlacesPeer::ROW_ID, $rowId, $comparison);
     }
 
     /**
@@ -324,7 +324,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return TrackSitesQuery The current query, for fluid interface
+     * @return DimPlacesQuery The current query, for fluid interface
      */
     public function filterByPlace($place = null, $comparison = null)
     {
@@ -337,7 +337,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TrackSitesPeer::PLACE, $place, $comparison);
+        return $this->addUsingAlias(DimPlacesPeer::PLACE, $place, $comparison);
     }
 
     /**
@@ -346,14 +346,14 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      * @param   FactSnsdata|PropelObjectCollection $factSnsdata  the related object to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return                 TrackSitesQuery The current query, for fluid interface
+     * @return                 DimPlacesQuery The current query, for fluid interface
      * @throws PropelException - if the provided filter is invalid.
      */
     public function filterByFactSnsdata($factSnsdata, $comparison = null)
     {
         if ($factSnsdata instanceof FactSnsdata) {
             return $this
-                ->addUsingAlias(TrackSitesPeer::ROW_ID, $factSnsdata->getPlacesRowId(), $comparison);
+                ->addUsingAlias(DimPlacesPeer::ROW_ID, $factSnsdata->getPlacesRowId(), $comparison);
         } elseif ($factSnsdata instanceof PropelObjectCollection) {
             return $this
                 ->useFactSnsdataQuery()
@@ -370,7 +370,7 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return TrackSitesQuery The current query, for fluid interface
+     * @return DimPlacesQuery The current query, for fluid interface
      */
     public function joinFactSnsdata($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
@@ -417,14 +417,14 @@ abstract class BaseTrackSitesQuery extends ModelCriteria
     /**
      * Exclude object from result
      *
-     * @param   TrackSites $trackSites Object to remove from the list of results
+     * @param   DimPlaces $dimPlaces Object to remove from the list of results
      *
-     * @return TrackSitesQuery The current query, for fluid interface
+     * @return DimPlacesQuery The current query, for fluid interface
      */
-    public function prune($trackSites = null)
+    public function prune($dimPlaces = null)
     {
-        if ($trackSites) {
-            $this->addUsingAlias(TrackSitesPeer::ID, $trackSites->getId(), Criteria::NOT_EQUAL);
+        if ($dimPlaces) {
+            $this->addUsingAlias(DimPlacesPeer::ID, $dimPlaces->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;

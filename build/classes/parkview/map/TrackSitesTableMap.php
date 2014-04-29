@@ -3,7 +3,7 @@
 
 
 /**
- * This class defines the structure of the 'TRACK_SITES' table.
+ * This class defines the structure of the 'DIM_PLACES' table.
  *
  *
  *
@@ -32,16 +32,15 @@ class TrackSitesTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('TRACK_SITES');
+        $this->setName('DIM_PLACES');
         $this->setPhpName('TrackSites');
         $this->setClassname('TrackSites');
         $this->setPackage('parkview');
         $this->setUseIdGenerator(true);
         // columns
-        $this->addPrimaryKey('site_id', 'SiteId', 'INTEGER', true, null, null);
-        $this->addColumn('recID', 'Recid', 'INTEGER', true, null, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('row_id', 'RowId', 'INTEGER', true, null, null);
         $this->addColumn('place', 'Place', 'VARCHAR', true, 45, null);
-        $this->addForeignKey('sns_id', 'SnsId', 'INTEGER', 'SOCIALNETS', 'sns_id', true, 45, null);
         // validators
     } // initialize()
 
@@ -50,8 +49,7 @@ class TrackSitesTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Socialnets', 'Socialnets', RelationMap::MANY_TO_ONE, array('sns_id' => 'sns_id', ), null, null);
-        $this->addRelation('FactSnsdata', 'FactSnsdata', RelationMap::ONE_TO_MANY, array('site_id' => 'site_id', ), null, null, 'FactSnsdatas');
+        $this->addRelation('FactSnsdata', 'FactSnsdata', RelationMap::ONE_TO_MANY, array('row_id' => 'places_row_id', ), null, null, 'FactSnsdatas');
     } // buildRelations()
 
 } // TrackSitesTableMap

@@ -8,12 +8,14 @@
  *
  * @method DimUserQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
  * @method DimUserQuery orderByRowId($order = Criteria::ASC) Order by the row_id column
+ * @method DimUserQuery orderByUser($order = Criteria::ASC) Order by the user column
  * @method DimUserQuery orderByAddress($order = Criteria::ASC) Order by the address column
  * @method DimUserQuery orderByCity($order = Criteria::ASC) Order by the city column
  * @method DimUserQuery orderByState($order = Criteria::ASC) Order by the State column
  *
  * @method DimUserQuery groupByUserId() Group by the user_id column
  * @method DimUserQuery groupByRowId() Group by the row_id column
+ * @method DimUserQuery groupByUser() Group by the user column
  * @method DimUserQuery groupByAddress() Group by the address column
  * @method DimUserQuery groupByCity() Group by the city column
  * @method DimUserQuery groupByState() Group by the State column
@@ -34,12 +36,14 @@
  * @method DimUser findOneOrCreate(PropelPDO $con = null) Return the first DimUser matching the query, or a new DimUser object populated from the query conditions when no match is found
  *
  * @method DimUser findOneByRowId(int $row_id) Return the first DimUser filtered by the row_id column
+ * @method DimUser findOneByUser(string $user) Return the first DimUser filtered by the user column
  * @method DimUser findOneByAddress(string $address) Return the first DimUser filtered by the address column
  * @method DimUser findOneByCity(string $city) Return the first DimUser filtered by the city column
  * @method DimUser findOneByState(string $State) Return the first DimUser filtered by the State column
  *
  * @method array findByUserId(int $user_id) Return DimUser objects filtered by the user_id column
  * @method array findByRowId(int $row_id) Return DimUser objects filtered by the row_id column
+ * @method array findByUser(string $user) Return DimUser objects filtered by the user column
  * @method array findByAddress(string $address) Return DimUser objects filtered by the address column
  * @method array findByCity(string $city) Return DimUser objects filtered by the city column
  * @method array findByState(string $State) Return DimUser objects filtered by the State column
@@ -150,7 +154,7 @@ abstract class BaseDimUserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `user_id`, `row_id`, `address`, `city`, `State` FROM `DIM_USER` WHERE `user_id` = :p0';
+        $sql = 'SELECT `user_id`, `row_id`, `user`, `address`, `city`, `State` FROM `DIM_USER` WHERE `user_id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -323,6 +327,35 @@ abstract class BaseDimUserQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(DimUserPeer::ROW_ID, $rowId, $comparison);
+    }
+
+    /**
+     * Filter the query on the user column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByUser('fooValue');   // WHERE user = 'fooValue'
+     * $query->filterByUser('%fooValue%'); // WHERE user LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $user The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return DimUserQuery The current query, for fluid interface
+     */
+    public function filterByUser($user = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($user)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $user)) {
+                $user = str_replace('*', '%', $user);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(DimUserPeer::USER, $user, $comparison);
     }
 
     /**

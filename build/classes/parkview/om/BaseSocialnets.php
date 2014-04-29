@@ -42,12 +42,6 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
     protected $sns;
 
     /**
-     * @var        PropelObjectCollection|TrackSites[] Collection to store aggregation of TrackSites objects.
-     */
-    protected $collTrackSitess;
-    protected $collTrackSitessPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      * @var        boolean
@@ -66,12 +60,6 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
      * @var        boolean
      */
     protected $alreadyInClearAllReferencesDeep = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var		PropelObjectCollection
-     */
-    protected $trackSitessScheduledForDeletion = null;
 
     /**
      * Get the [sns_id] column value.
@@ -242,8 +230,6 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collTrackSitess = null;
-
         } // if (deep)
     }
 
@@ -366,23 +352,6 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
                 }
                 $affectedRows += 1;
                 $this->resetModified();
-            }
-
-            if ($this->trackSitessScheduledForDeletion !== null) {
-                if (!$this->trackSitessScheduledForDeletion->isEmpty()) {
-                    TrackSitesQuery::create()
-                        ->filterByPrimaryKeys($this->trackSitessScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->trackSitessScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collTrackSitess !== null) {
-                foreach ($this->collTrackSitess as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             $this->alreadyInSave = false;
@@ -533,14 +502,6 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
             }
 
 
-                if ($this->collTrackSitess !== null) {
-                    foreach ($this->collTrackSitess as $referrerFK) {
-                        if (!$referrerFK->validate($columns)) {
-                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-                        }
-                    }
-                }
-
 
             $this->alreadyInValidation = false;
         }
@@ -599,11 +560,10 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
      *                    Defaults to BasePeer::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to true.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
+    public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
         if (isset($alreadyDumpedObjects['Socialnets'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
@@ -619,11 +579,6 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
             $result[$key] = $virtualColumn;
         }
 
-        if ($includeForeignObjects) {
-            if (null !== $this->collTrackSitess) {
-                $result['TrackSitess'] = $this->collTrackSitess->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
-        }
 
         return $result;
     }
@@ -766,24 +721,6 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setSns($this->getSns());
-
-        if ($deepCopy && !$this->startCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-            // store object hash to prevent cycle
-            $this->startCopy = true;
-
-            foreach ($this->getTrackSitess() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addTrackSites($relObj->copy($deepCopy));
-                }
-            }
-
-            //unflag object copy
-            $this->startCopy = false;
-        } // if ($deepCopy)
-
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setSnsId(NULL); // this is a auto-increment column, so set to default value
@@ -830,247 +767,6 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
         return self::$peer;
     }
 
-
-    /**
-     * Initializes a collection based on the name of a relation.
-     * Avoids crafting an 'init[$relationName]s' method name
-     * that wouldn't work when StandardEnglishPluralizer is used.
-     *
-     * @param string $relationName The name of the relation to initialize
-     * @return void
-     */
-    public function initRelation($relationName)
-    {
-        if ('TrackSites' == $relationName) {
-            $this->initTrackSitess();
-        }
-    }
-
-    /**
-     * Clears out the collTrackSitess collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return Socialnets The current object (for fluent API support)
-     * @see        addTrackSitess()
-     */
-    public function clearTrackSitess()
-    {
-        $this->collTrackSitess = null; // important to set this to null since that means it is uninitialized
-        $this->collTrackSitessPartial = null;
-
-        return $this;
-    }
-
-    /**
-     * reset is the collTrackSitess collection loaded partially
-     *
-     * @return void
-     */
-    public function resetPartialTrackSitess($v = true)
-    {
-        $this->collTrackSitessPartial = $v;
-    }
-
-    /**
-     * Initializes the collTrackSitess collection.
-     *
-     * By default this just sets the collTrackSitess collection to an empty array (like clearcollTrackSitess());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initTrackSitess($overrideExisting = true)
-    {
-        if (null !== $this->collTrackSitess && !$overrideExisting) {
-            return;
-        }
-        $this->collTrackSitess = new PropelObjectCollection();
-        $this->collTrackSitess->setModel('TrackSites');
-    }
-
-    /**
-     * Gets an array of TrackSites objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this Socialnets is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|TrackSites[] List of TrackSites objects
-     * @throws PropelException
-     */
-    public function getTrackSitess($criteria = null, PropelPDO $con = null)
-    {
-        $partial = $this->collTrackSitessPartial && !$this->isNew();
-        if (null === $this->collTrackSitess || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collTrackSitess) {
-                // return empty collection
-                $this->initTrackSitess();
-            } else {
-                $collTrackSitess = TrackSitesQuery::create(null, $criteria)
-                    ->filterBySocialnets($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    if (false !== $this->collTrackSitessPartial && count($collTrackSitess)) {
-                      $this->initTrackSitess(false);
-
-                      foreach ($collTrackSitess as $obj) {
-                        if (false == $this->collTrackSitess->contains($obj)) {
-                          $this->collTrackSitess->append($obj);
-                        }
-                      }
-
-                      $this->collTrackSitessPartial = true;
-                    }
-
-                    $collTrackSitess->getInternalIterator()->rewind();
-
-                    return $collTrackSitess;
-                }
-
-                if ($partial && $this->collTrackSitess) {
-                    foreach ($this->collTrackSitess as $obj) {
-                        if ($obj->isNew()) {
-                            $collTrackSitess[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collTrackSitess = $collTrackSitess;
-                $this->collTrackSitessPartial = false;
-            }
-        }
-
-        return $this->collTrackSitess;
-    }
-
-    /**
-     * Sets a collection of TrackSites objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param PropelCollection $trackSitess A Propel collection.
-     * @param PropelPDO $con Optional connection object
-     * @return Socialnets The current object (for fluent API support)
-     */
-    public function setTrackSitess(PropelCollection $trackSitess, PropelPDO $con = null)
-    {
-        $trackSitessToDelete = $this->getTrackSitess(new Criteria(), $con)->diff($trackSitess);
-
-
-        $this->trackSitessScheduledForDeletion = $trackSitessToDelete;
-
-        foreach ($trackSitessToDelete as $trackSitesRemoved) {
-            $trackSitesRemoved->setSocialnets(null);
-        }
-
-        $this->collTrackSitess = null;
-        foreach ($trackSitess as $trackSites) {
-            $this->addTrackSites($trackSites);
-        }
-
-        $this->collTrackSitess = $trackSitess;
-        $this->collTrackSitessPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related TrackSites objects.
-     *
-     * @param Criteria $criteria
-     * @param boolean $distinct
-     * @param PropelPDO $con
-     * @return int             Count of related TrackSites objects.
-     * @throws PropelException
-     */
-    public function countTrackSitess(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-    {
-        $partial = $this->collTrackSitessPartial && !$this->isNew();
-        if (null === $this->collTrackSitess || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collTrackSitess) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getTrackSitess());
-            }
-            $query = TrackSitesQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterBySocialnets($this)
-                ->count($con);
-        }
-
-        return count($this->collTrackSitess);
-    }
-
-    /**
-     * Method called to associate a TrackSites object to this object
-     * through the TrackSites foreign key attribute.
-     *
-     * @param    TrackSites $l TrackSites
-     * @return Socialnets The current object (for fluent API support)
-     */
-    public function addTrackSites(TrackSites $l)
-    {
-        if ($this->collTrackSitess === null) {
-            $this->initTrackSitess();
-            $this->collTrackSitessPartial = true;
-        }
-
-        if (!in_array($l, $this->collTrackSitess->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddTrackSites($l);
-
-            if ($this->trackSitessScheduledForDeletion and $this->trackSitessScheduledForDeletion->contains($l)) {
-                $this->trackSitessScheduledForDeletion->remove($this->trackSitessScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param	TrackSites $trackSites The trackSites object to add.
-     */
-    protected function doAddTrackSites($trackSites)
-    {
-        $this->collTrackSitess[]= $trackSites;
-        $trackSites->setSocialnets($this);
-    }
-
-    /**
-     * @param	TrackSites $trackSites The trackSites object to remove.
-     * @return Socialnets The current object (for fluent API support)
-     */
-    public function removeTrackSites($trackSites)
-    {
-        if ($this->getTrackSitess()->contains($trackSites)) {
-            $this->collTrackSitess->remove($this->collTrackSitess->search($trackSites));
-            if (null === $this->trackSitessScheduledForDeletion) {
-                $this->trackSitessScheduledForDeletion = clone $this->collTrackSitess;
-                $this->trackSitessScheduledForDeletion->clear();
-            }
-            $this->trackSitessScheduledForDeletion[]= clone $trackSites;
-            $trackSites->setSocialnets(null);
-        }
-
-        return $this;
-    }
-
     /**
      * Clears the current object and sets all attributes to their default values
      */
@@ -1100,19 +796,10 @@ abstract class BaseSocialnets extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->collTrackSitess) {
-                foreach ($this->collTrackSitess as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        if ($this->collTrackSitess instanceof PropelCollection) {
-            $this->collTrackSitess->clearIterator();
-        }
-        $this->collTrackSitess = null;
     }
 
     /**

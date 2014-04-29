@@ -11,12 +11,14 @@
  * @method DimCommentsQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method DimCommentsQuery orderByLink($order = Criteria::ASC) Order by the link column
  * @method DimCommentsQuery orderBySpread($order = Criteria::ASC) Order by the spread column
+ * @method DimCommentsQuery orderBySns($order = Criteria::ASC) Order by the sns column
  *
  * @method DimCommentsQuery groupByCommentId() Group by the comment_id column
  * @method DimCommentsQuery groupByComment() Group by the comment column
  * @method DimCommentsQuery groupByTitle() Group by the title column
  * @method DimCommentsQuery groupByLink() Group by the link column
  * @method DimCommentsQuery groupBySpread() Group by the spread column
+ * @method DimCommentsQuery groupBySns() Group by the sns column
  *
  * @method DimCommentsQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method DimCommentsQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -33,12 +35,14 @@
  * @method DimComments findOneByTitle(string $title) Return the first DimComments filtered by the title column
  * @method DimComments findOneByLink(string $link) Return the first DimComments filtered by the link column
  * @method DimComments findOneBySpread(int $spread) Return the first DimComments filtered by the spread column
+ * @method DimComments findOneBySns(string $sns) Return the first DimComments filtered by the sns column
  *
  * @method array findByCommentId(int $comment_id) Return DimComments objects filtered by the comment_id column
  * @method array findByComment(string $comment) Return DimComments objects filtered by the comment column
  * @method array findByTitle(string $title) Return DimComments objects filtered by the title column
  * @method array findByLink(string $link) Return DimComments objects filtered by the link column
  * @method array findBySpread(int $spread) Return DimComments objects filtered by the spread column
+ * @method array findBySns(string $sns) Return DimComments objects filtered by the sns column
  *
  * @package    propel.generator.parkview.om
  */
@@ -146,7 +150,7 @@ abstract class BaseDimCommentsQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `comment_id`, `comment`, `title`, `link`, `spread` FROM `DIM_COMMENTS` WHERE `comment_id` = :p0';
+        $sql = 'SELECT `comment_id`, `comment`, `title`, `link`, `spread`, `sns` FROM `DIM_COMMENTS` WHERE `comment_id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -404,6 +408,35 @@ abstract class BaseDimCommentsQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(DimCommentsPeer::SPREAD, $spread, $comparison);
+    }
+
+    /**
+     * Filter the query on the sns column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySns('fooValue');   // WHERE sns = 'fooValue'
+     * $query->filterBySns('%fooValue%'); // WHERE sns LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $sns The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return DimCommentsQuery The current query, for fluid interface
+     */
+    public function filterBySns($sns = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($sns)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $sns)) {
+                $sns = str_replace('*', '%', $sns);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(DimCommentsPeer::SNS, $sns, $comparison);
     }
 
     /**

@@ -35,8 +35,8 @@ abstract class BaseFactSnsdataPeer
     /** the column name for the id field */
     const ID = 'FACT_SNSDATA.id';
 
-    /** the column name for the user_id field */
-    const USER_ID = 'FACT_SNSDATA.user_id';
+    /** the column name for the row_id field */
+    const ROW_ID = 'FACT_SNSDATA.row_id';
 
     /** the column name for the comment_id field */
     const COMMENT_ID = 'FACT_SNSDATA.comment_id';
@@ -44,8 +44,8 @@ abstract class BaseFactSnsdataPeer
     /** the column name for the date_id field */
     const DATE_ID = 'FACT_SNSDATA.date_id';
 
-    /** the column name for the site_id field */
-    const SITE_ID = 'FACT_SNSDATA.site_id';
+    /** the column name for the places_row_id field */
+    const PLACES_ROW_ID = 'FACT_SNSDATA.places_row_id';
 
     /** the column name for the sentiment field */
     const SENTIMENT = 'FACT_SNSDATA.sentiment';
@@ -72,11 +72,11 @@ abstract class BaseFactSnsdataPeer
      * e.g. FactSnsdataPeer::$fieldNames[FactSnsdataPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'CommentId', 'DateId', 'SiteId', 'Sentiment', 'Rating', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'userId', 'commentId', 'dateId', 'siteId', 'sentiment', 'rating', ),
-        BasePeer::TYPE_COLNAME => array (FactSnsdataPeer::ID, FactSnsdataPeer::USER_ID, FactSnsdataPeer::COMMENT_ID, FactSnsdataPeer::DATE_ID, FactSnsdataPeer::SITE_ID, FactSnsdataPeer::SENTIMENT, FactSnsdataPeer::RATING, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'USER_ID', 'COMMENT_ID', 'DATE_ID', 'SITE_ID', 'SENTIMENT', 'RATING', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'comment_id', 'date_id', 'site_id', 'sentiment', 'rating', ),
+        BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'CommentId', 'DateId', 'PlacesRowId', 'Sentiment', 'Rating', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'userId', 'commentId', 'dateId', 'placesRowId', 'sentiment', 'rating', ),
+        BasePeer::TYPE_COLNAME => array (FactSnsdataPeer::ID, FactSnsdataPeer::ROW_ID, FactSnsdataPeer::COMMENT_ID, FactSnsdataPeer::DATE_ID, FactSnsdataPeer::PLACES_ROW_ID, FactSnsdataPeer::SENTIMENT, FactSnsdataPeer::RATING, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'ROW_ID', 'COMMENT_ID', 'DATE_ID', 'PLACES_ROW_ID', 'SENTIMENT', 'RATING', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'row_id', 'comment_id', 'date_id', 'places_row_id', 'sentiment', 'rating', ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -87,11 +87,11 @@ abstract class BaseFactSnsdataPeer
      * e.g. FactSnsdataPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'CommentId' => 2, 'DateId' => 3, 'SiteId' => 4, 'Sentiment' => 5, 'Rating' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'userId' => 1, 'commentId' => 2, 'dateId' => 3, 'siteId' => 4, 'sentiment' => 5, 'rating' => 6, ),
-        BasePeer::TYPE_COLNAME => array (FactSnsdataPeer::ID => 0, FactSnsdataPeer::USER_ID => 1, FactSnsdataPeer::COMMENT_ID => 2, FactSnsdataPeer::DATE_ID => 3, FactSnsdataPeer::SITE_ID => 4, FactSnsdataPeer::SENTIMENT => 5, FactSnsdataPeer::RATING => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'USER_ID' => 1, 'COMMENT_ID' => 2, 'DATE_ID' => 3, 'SITE_ID' => 4, 'SENTIMENT' => 5, 'RATING' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'comment_id' => 2, 'date_id' => 3, 'site_id' => 4, 'sentiment' => 5, 'rating' => 6, ),
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'CommentId' => 2, 'DateId' => 3, 'PlacesRowId' => 4, 'Sentiment' => 5, 'Rating' => 6, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'userId' => 1, 'commentId' => 2, 'dateId' => 3, 'placesRowId' => 4, 'sentiment' => 5, 'rating' => 6, ),
+        BasePeer::TYPE_COLNAME => array (FactSnsdataPeer::ID => 0, FactSnsdataPeer::ROW_ID => 1, FactSnsdataPeer::COMMENT_ID => 2, FactSnsdataPeer::DATE_ID => 3, FactSnsdataPeer::PLACES_ROW_ID => 4, FactSnsdataPeer::SENTIMENT => 5, FactSnsdataPeer::RATING => 6, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'ROW_ID' => 1, 'COMMENT_ID' => 2, 'DATE_ID' => 3, 'PLACES_ROW_ID' => 4, 'SENTIMENT' => 5, 'RATING' => 6, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'row_id' => 1, 'comment_id' => 2, 'date_id' => 3, 'places_row_id' => 4, 'sentiment' => 5, 'rating' => 6, ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -167,18 +167,18 @@ abstract class BaseFactSnsdataPeer
     {
         if (null === $alias) {
             $criteria->addSelectColumn(FactSnsdataPeer::ID);
-            $criteria->addSelectColumn(FactSnsdataPeer::USER_ID);
+            $criteria->addSelectColumn(FactSnsdataPeer::ROW_ID);
             $criteria->addSelectColumn(FactSnsdataPeer::COMMENT_ID);
             $criteria->addSelectColumn(FactSnsdataPeer::DATE_ID);
-            $criteria->addSelectColumn(FactSnsdataPeer::SITE_ID);
+            $criteria->addSelectColumn(FactSnsdataPeer::PLACES_ROW_ID);
             $criteria->addSelectColumn(FactSnsdataPeer::SENTIMENT);
             $criteria->addSelectColumn(FactSnsdataPeer::RATING);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.user_id');
+            $criteria->addSelectColumn($alias . '.row_id');
             $criteria->addSelectColumn($alias . '.comment_id');
             $criteria->addSelectColumn($alias . '.date_id');
-            $criteria->addSelectColumn($alias . '.site_id');
+            $criteria->addSelectColumn($alias . '.places_row_id');
             $criteria->addSelectColumn($alias . '.sentiment');
             $criteria->addSelectColumn($alias . '.rating');
         }
@@ -620,7 +620,7 @@ abstract class BaseFactSnsdataPeer
             $con = Propel::getConnection(FactSnsdataPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -636,7 +636,7 @@ abstract class BaseFactSnsdataPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related TrackSites table
+     * Returns the number of rows matching criteria, joining the related DimPlaces table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -644,7 +644,7 @@ abstract class BaseFactSnsdataPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinTrackSites(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinDimPlaces(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -671,7 +671,7 @@ abstract class BaseFactSnsdataPeer
             $con = Propel::getConnection(FactSnsdataPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -842,7 +842,7 @@ abstract class BaseFactSnsdataPeer
         $startcol = FactSnsdataPeer::NUM_HYDRATE_COLUMNS;
         DimUserPeer::addSelectColumns($criteria);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -888,7 +888,7 @@ abstract class BaseFactSnsdataPeer
 
 
     /**
-     * Selects a collection of FactSnsdata objects pre-filled with their TrackSites objects.
+     * Selects a collection of FactSnsdata objects pre-filled with their DimPlaces objects.
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
@@ -896,7 +896,7 @@ abstract class BaseFactSnsdataPeer
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinTrackSites(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinDimPlaces(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -907,9 +907,9 @@ abstract class BaseFactSnsdataPeer
 
         FactSnsdataPeer::addSelectColumns($criteria);
         $startcol = FactSnsdataPeer::NUM_HYDRATE_COLUMNS;
-        TrackSitesPeer::addSelectColumns($criteria);
+        DimPlacesPeer::addSelectColumns($criteria);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -929,19 +929,19 @@ abstract class BaseFactSnsdataPeer
                 FactSnsdataPeer::addInstanceToPool($obj1, $key1);
             } // if $obj1 already loaded
 
-            $key2 = TrackSitesPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            $key2 = DimPlacesPeer::getPrimaryKeyHashFromRow($row, $startcol);
             if ($key2 !== null) {
-                $obj2 = TrackSitesPeer::getInstanceFromPool($key2);
+                $obj2 = DimPlacesPeer::getInstanceFromPool($key2);
                 if (!$obj2) {
 
-                    $cls = TrackSitesPeer::getOMClass();
+                    $cls = DimPlacesPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol);
-                    TrackSitesPeer::addInstanceToPool($obj2, $key2);
+                    DimPlacesPeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 already loaded
 
-                // Add the $obj1 (FactSnsdata) to $obj2 (TrackSites)
+                // Add the $obj1 (FactSnsdata) to $obj2 (DimPlaces)
                 $obj2->addFactSnsdata($obj1);
 
             } // if joined row was not null
@@ -994,9 +994,9 @@ abstract class BaseFactSnsdataPeer
 
         $criteria->addJoin(FactSnsdataPeer::DATE_ID, DimPeriodPeer::DATE_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1041,16 +1041,16 @@ abstract class BaseFactSnsdataPeer
         DimUserPeer::addSelectColumns($criteria);
         $startcol5 = $startcol4 + DimUserPeer::NUM_HYDRATE_COLUMNS;
 
-        TrackSitesPeer::addSelectColumns($criteria);
-        $startcol6 = $startcol5 + TrackSitesPeer::NUM_HYDRATE_COLUMNS;
+        DimPlacesPeer::addSelectColumns($criteria);
+        $startcol6 = $startcol5 + DimPlacesPeer::NUM_HYDRATE_COLUMNS;
 
         $criteria->addJoin(FactSnsdataPeer::COMMENT_ID, DimCommentsPeer::COMMENT_ID, $join_behavior);
 
         $criteria->addJoin(FactSnsdataPeer::DATE_ID, DimPeriodPeer::DATE_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -1123,21 +1123,21 @@ abstract class BaseFactSnsdataPeer
                 $obj4->addFactSnsdata($obj1);
             } // if joined row not null
 
-            // Add objects for joined TrackSites rows
+            // Add objects for joined DimPlaces rows
 
-            $key5 = TrackSitesPeer::getPrimaryKeyHashFromRow($row, $startcol5);
+            $key5 = DimPlacesPeer::getPrimaryKeyHashFromRow($row, $startcol5);
             if ($key5 !== null) {
-                $obj5 = TrackSitesPeer::getInstanceFromPool($key5);
+                $obj5 = DimPlacesPeer::getInstanceFromPool($key5);
                 if (!$obj5) {
 
-                    $cls = TrackSitesPeer::getOMClass();
+                    $cls = DimPlacesPeer::getOMClass();
 
                     $obj5 = new $cls();
                     $obj5->hydrate($row, $startcol5);
-                    TrackSitesPeer::addInstanceToPool($obj5, $key5);
+                    DimPlacesPeer::addInstanceToPool($obj5, $key5);
                 } // if obj5 loaded
 
-                // Add the $obj1 (FactSnsdata) to the collection in $obj5 (TrackSites)
+                // Add the $obj1 (FactSnsdata) to the collection in $obj5 (DimPlaces)
                 $obj5->addFactSnsdata($obj1);
             } // if joined row not null
 
@@ -1187,9 +1187,9 @@ abstract class BaseFactSnsdataPeer
 
         $criteria->addJoin(FactSnsdataPeer::DATE_ID, DimPeriodPeer::DATE_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1242,9 +1242,9 @@ abstract class BaseFactSnsdataPeer
 
         $criteria->addJoin(FactSnsdataPeer::COMMENT_ID, DimCommentsPeer::COMMENT_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1299,7 +1299,7 @@ abstract class BaseFactSnsdataPeer
 
         $criteria->addJoin(FactSnsdataPeer::DATE_ID, DimPeriodPeer::DATE_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1315,7 +1315,7 @@ abstract class BaseFactSnsdataPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related TrackSites table
+     * Returns the number of rows matching criteria, joining the related DimPlaces table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -1323,7 +1323,7 @@ abstract class BaseFactSnsdataPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinAllExceptTrackSites(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinAllExceptDimPlaces(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -1354,7 +1354,7 @@ abstract class BaseFactSnsdataPeer
 
         $criteria->addJoin(FactSnsdataPeer::DATE_ID, DimPeriodPeer::DATE_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1399,14 +1399,14 @@ abstract class BaseFactSnsdataPeer
         DimUserPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + DimUserPeer::NUM_HYDRATE_COLUMNS;
 
-        TrackSitesPeer::addSelectColumns($criteria);
-        $startcol5 = $startcol4 + TrackSitesPeer::NUM_HYDRATE_COLUMNS;
+        DimPlacesPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + DimPlacesPeer::NUM_HYDRATE_COLUMNS;
 
         $criteria->addJoin(FactSnsdataPeer::DATE_ID, DimPeriodPeer::DATE_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
 
         $stmt = BasePeer::doSelect($criteria, $con);
@@ -1464,21 +1464,21 @@ abstract class BaseFactSnsdataPeer
 
             } // if joined row is not null
 
-                // Add objects for joined TrackSites rows
+                // Add objects for joined DimPlaces rows
 
-                $key4 = TrackSitesPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                $key4 = DimPlacesPeer::getPrimaryKeyHashFromRow($row, $startcol4);
                 if ($key4 !== null) {
-                    $obj4 = TrackSitesPeer::getInstanceFromPool($key4);
+                    $obj4 = DimPlacesPeer::getInstanceFromPool($key4);
                     if (!$obj4) {
 
-                        $cls = TrackSitesPeer::getOMClass();
+                        $cls = DimPlacesPeer::getOMClass();
 
                     $obj4 = new $cls();
                     $obj4->hydrate($row, $startcol4);
-                    TrackSitesPeer::addInstanceToPool($obj4, $key4);
+                    DimPlacesPeer::addInstanceToPool($obj4, $key4);
                 } // if $obj4 already loaded
 
-                // Add the $obj1 (FactSnsdata) to the collection in $obj4 (TrackSites)
+                // Add the $obj1 (FactSnsdata) to the collection in $obj4 (DimPlaces)
                 $obj4->addFactSnsdata($obj1);
 
             } // if joined row is not null
@@ -1521,14 +1521,14 @@ abstract class BaseFactSnsdataPeer
         DimUserPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + DimUserPeer::NUM_HYDRATE_COLUMNS;
 
-        TrackSitesPeer::addSelectColumns($criteria);
-        $startcol5 = $startcol4 + TrackSitesPeer::NUM_HYDRATE_COLUMNS;
+        DimPlacesPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + DimPlacesPeer::NUM_HYDRATE_COLUMNS;
 
         $criteria->addJoin(FactSnsdataPeer::COMMENT_ID, DimCommentsPeer::COMMENT_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
 
         $stmt = BasePeer::doSelect($criteria, $con);
@@ -1586,21 +1586,21 @@ abstract class BaseFactSnsdataPeer
 
             } // if joined row is not null
 
-                // Add objects for joined TrackSites rows
+                // Add objects for joined DimPlaces rows
 
-                $key4 = TrackSitesPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                $key4 = DimPlacesPeer::getPrimaryKeyHashFromRow($row, $startcol4);
                 if ($key4 !== null) {
-                    $obj4 = TrackSitesPeer::getInstanceFromPool($key4);
+                    $obj4 = DimPlacesPeer::getInstanceFromPool($key4);
                     if (!$obj4) {
 
-                        $cls = TrackSitesPeer::getOMClass();
+                        $cls = DimPlacesPeer::getOMClass();
 
                     $obj4 = new $cls();
                     $obj4->hydrate($row, $startcol4);
-                    TrackSitesPeer::addInstanceToPool($obj4, $key4);
+                    DimPlacesPeer::addInstanceToPool($obj4, $key4);
                 } // if $obj4 already loaded
 
-                // Add the $obj1 (FactSnsdata) to the collection in $obj4 (TrackSites)
+                // Add the $obj1 (FactSnsdata) to the collection in $obj4 (DimPlaces)
                 $obj4->addFactSnsdata($obj1);
 
             } // if joined row is not null
@@ -1643,14 +1643,14 @@ abstract class BaseFactSnsdataPeer
         DimPeriodPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + DimPeriodPeer::NUM_HYDRATE_COLUMNS;
 
-        TrackSitesPeer::addSelectColumns($criteria);
-        $startcol5 = $startcol4 + TrackSitesPeer::NUM_HYDRATE_COLUMNS;
+        DimPlacesPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + DimPlacesPeer::NUM_HYDRATE_COLUMNS;
 
         $criteria->addJoin(FactSnsdataPeer::COMMENT_ID, DimCommentsPeer::COMMENT_ID, $join_behavior);
 
         $criteria->addJoin(FactSnsdataPeer::DATE_ID, DimPeriodPeer::DATE_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::SITE_ID, TrackSitesPeer::SITE_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::PLACES_ROW_ID, DimPlacesPeer::ROW_ID, $join_behavior);
 
 
         $stmt = BasePeer::doSelect($criteria, $con);
@@ -1708,21 +1708,21 @@ abstract class BaseFactSnsdataPeer
 
             } // if joined row is not null
 
-                // Add objects for joined TrackSites rows
+                // Add objects for joined DimPlaces rows
 
-                $key4 = TrackSitesPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                $key4 = DimPlacesPeer::getPrimaryKeyHashFromRow($row, $startcol4);
                 if ($key4 !== null) {
-                    $obj4 = TrackSitesPeer::getInstanceFromPool($key4);
+                    $obj4 = DimPlacesPeer::getInstanceFromPool($key4);
                     if (!$obj4) {
 
-                        $cls = TrackSitesPeer::getOMClass();
+                        $cls = DimPlacesPeer::getOMClass();
 
                     $obj4 = new $cls();
                     $obj4->hydrate($row, $startcol4);
-                    TrackSitesPeer::addInstanceToPool($obj4, $key4);
+                    DimPlacesPeer::addInstanceToPool($obj4, $key4);
                 } // if $obj4 already loaded
 
-                // Add the $obj1 (FactSnsdata) to the collection in $obj4 (TrackSites)
+                // Add the $obj1 (FactSnsdata) to the collection in $obj4 (DimPlaces)
                 $obj4->addFactSnsdata($obj1);
 
             } // if joined row is not null
@@ -1736,7 +1736,7 @@ abstract class BaseFactSnsdataPeer
 
 
     /**
-     * Selects a collection of FactSnsdata objects pre-filled with all related objects except TrackSites.
+     * Selects a collection of FactSnsdata objects pre-filled with all related objects except DimPlaces.
      *
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
@@ -1745,7 +1745,7 @@ abstract class BaseFactSnsdataPeer
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinAllExceptTrackSites(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinAllExceptDimPlaces(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -1772,7 +1772,7 @@ abstract class BaseFactSnsdataPeer
 
         $criteria->addJoin(FactSnsdataPeer::DATE_ID, DimPeriodPeer::DATE_ID, $join_behavior);
 
-        $criteria->addJoin(FactSnsdataPeer::USER_ID, DimUserPeer::ROW_ID, $join_behavior);
+        $criteria->addJoin(FactSnsdataPeer::ROW_ID, DimUserPeer::ROW_ID, $join_behavior);
 
 
         $stmt = BasePeer::doSelect($criteria, $con);

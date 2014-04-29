@@ -2,24 +2,24 @@
 
 
 /**
- * Base class that represents a row from the 'DIM_USER' table.
+ * Base class that represents a row from the 'DIM_PLACES' table.
  *
  *
  *
  * @package    propel.generator.parkview.om
  */
-abstract class BaseDimUser extends BaseObject implements Persistent
+abstract class BaseDimPlaces extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'DimUserPeer';
+    const PEER = 'DimPlacesPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        DimUserPeer
+     * @var        DimPlacesPeer
      */
     protected static $peer;
 
@@ -30,10 +30,10 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     protected $startCopy = false;
 
     /**
-     * The value for the user_id field.
+     * The value for the id field.
      * @var        int
      */
-    protected $user_id;
+    protected $id;
 
     /**
      * The value for the row_id field.
@@ -42,33 +42,10 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     protected $row_id;
 
     /**
-     * The value for the user field.
+     * The value for the place field.
      * @var        string
      */
-    protected $user;
-
-    /**
-     * The value for the address field.
-     * @var        string
-     */
-    protected $address;
-
-    /**
-     * The value for the city field.
-     * @var        string
-     */
-    protected $city;
-
-    /**
-     * The value for the state field.
-     * @var        string
-     */
-    protected $state;
-
-    /**
-     * @var        Allsnsdata
-     */
-    protected $aAllsnsdata;
+    protected $place;
 
     /**
      * @var        PropelObjectCollection|FactSnsdata[] Collection to store aggregation of FactSnsdata objects.
@@ -103,14 +80,14 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     protected $factSnsdatasScheduledForDeletion = null;
 
     /**
-     * Get the [user_id] column value.
+     * Get the [id] column value.
      *
      * @return int
      */
-    public function getUserId()
+    public function getId()
     {
 
-        return $this->user_id;
+        return $this->id;
     }
 
     /**
@@ -125,75 +102,42 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [user] column value.
+     * Get the [place] column value.
      *
      * @return string
      */
-    public function getUser()
+    public function getPlace()
     {
 
-        return $this->user;
+        return $this->place;
     }
 
     /**
-     * Get the [address] column value.
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-
-        return $this->address;
-    }
-
-    /**
-     * Get the [city] column value.
-     *
-     * @return string
-     */
-    public function getCity()
-    {
-
-        return $this->city;
-    }
-
-    /**
-     * Get the [state] column value.
-     *
-     * @return string
-     */
-    public function getState()
-    {
-
-        return $this->state;
-    }
-
-    /**
-     * Set the value of [user_id] column.
+     * Set the value of [id] column.
      *
      * @param  int $v new value
-     * @return DimUser The current object (for fluent API support)
+     * @return DimPlaces The current object (for fluent API support)
      */
-    public function setUserId($v)
+    public function setId($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->user_id !== $v) {
-            $this->user_id = $v;
-            $this->modifiedColumns[] = DimUserPeer::USER_ID;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[] = DimPlacesPeer::ID;
         }
 
 
         return $this;
-    } // setUserId()
+    } // setId()
 
     /**
      * Set the value of [row_id] column.
      *
      * @param  int $v new value
-     * @return DimUser The current object (for fluent API support)
+     * @return DimPlaces The current object (for fluent API support)
      */
     public function setRowId($v)
     {
@@ -203,11 +147,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
 
         if ($this->row_id !== $v) {
             $this->row_id = $v;
-            $this->modifiedColumns[] = DimUserPeer::ROW_ID;
-        }
-
-        if ($this->aAllsnsdata !== null && $this->aAllsnsdata->getRowId() !== $v) {
-            $this->aAllsnsdata = null;
+            $this->modifiedColumns[] = DimPlacesPeer::ROW_ID;
         }
 
 
@@ -215,88 +155,25 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     } // setRowId()
 
     /**
-     * Set the value of [user] column.
+     * Set the value of [place] column.
      *
      * @param  string $v new value
-     * @return DimUser The current object (for fluent API support)
+     * @return DimPlaces The current object (for fluent API support)
      */
-    public function setUser($v)
+    public function setPlace($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->user !== $v) {
-            $this->user = $v;
-            $this->modifiedColumns[] = DimUserPeer::USER;
+        if ($this->place !== $v) {
+            $this->place = $v;
+            $this->modifiedColumns[] = DimPlacesPeer::PLACE;
         }
 
 
         return $this;
-    } // setUser()
-
-    /**
-     * Set the value of [address] column.
-     *
-     * @param  string $v new value
-     * @return DimUser The current object (for fluent API support)
-     */
-    public function setAddress($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->address !== $v) {
-            $this->address = $v;
-            $this->modifiedColumns[] = DimUserPeer::ADDRESS;
-        }
-
-
-        return $this;
-    } // setAddress()
-
-    /**
-     * Set the value of [city] column.
-     *
-     * @param  string $v new value
-     * @return DimUser The current object (for fluent API support)
-     */
-    public function setCity($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->city !== $v) {
-            $this->city = $v;
-            $this->modifiedColumns[] = DimUserPeer::CITY;
-        }
-
-
-        return $this;
-    } // setCity()
-
-    /**
-     * Set the value of [state] column.
-     *
-     * @param  string $v new value
-     * @return DimUser The current object (for fluent API support)
-     */
-    public function setState($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->state !== $v) {
-            $this->state = $v;
-            $this->modifiedColumns[] = DimUserPeer::STATE;
-        }
-
-
-        return $this;
-    } // setState()
+    } // setPlace()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -330,12 +207,9 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     {
         try {
 
-            $this->user_id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
+            $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->row_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->user = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->address = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->city = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->state = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->place = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -345,10 +219,10 @@ abstract class BaseDimUser extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 6; // 6 = DimUserPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = DimPlacesPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating DimUser object", $e);
+            throw new PropelException("Error populating DimPlaces object", $e);
         }
     }
 
@@ -368,9 +242,6 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aAllsnsdata !== null && $this->row_id !== $this->aAllsnsdata->getRowId()) {
-            $this->aAllsnsdata = null;
-        }
     } // ensureConsistency
 
     /**
@@ -394,13 +265,13 @@ abstract class BaseDimUser extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(DimUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = DimUserPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = DimPlacesPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -410,7 +281,6 @@ abstract class BaseDimUser extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aAllsnsdata = null;
             $this->collFactSnsdatas = null;
 
         } // if (deep)
@@ -433,12 +303,12 @@ abstract class BaseDimUser extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(DimUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = DimUserQuery::create()
+            $deleteQuery = DimPlacesQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -476,7 +346,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(DimUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(DimPlacesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -496,7 +366,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                DimUserPeer::addInstanceToPool($this);
+                DimPlacesPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -525,18 +395,6 @@ abstract class BaseDimUser extends BaseObject implements Persistent
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
-
-            // We call the save method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aAllsnsdata !== null) {
-                if ($this->aAllsnsdata->isModified() || $this->aAllsnsdata->isNew()) {
-                    $affectedRows += $this->aAllsnsdata->save($con);
-                }
-                $this->setAllsnsdata($this->aAllsnsdata);
-            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -586,33 +444,24 @@ abstract class BaseDimUser extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = DimUserPeer::USER_ID;
-        if (null !== $this->user_id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . DimUserPeer::USER_ID . ')');
+        $this->modifiedColumns[] = DimPlacesPeer::ID;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . DimPlacesPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(DimUserPeer::USER_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`user_id`';
+        if ($this->isColumnModified(DimPlacesPeer::ID)) {
+            $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(DimUserPeer::ROW_ID)) {
+        if ($this->isColumnModified(DimPlacesPeer::ROW_ID)) {
             $modifiedColumns[':p' . $index++]  = '`row_id`';
         }
-        if ($this->isColumnModified(DimUserPeer::USER)) {
-            $modifiedColumns[':p' . $index++]  = '`user`';
-        }
-        if ($this->isColumnModified(DimUserPeer::ADDRESS)) {
-            $modifiedColumns[':p' . $index++]  = '`address`';
-        }
-        if ($this->isColumnModified(DimUserPeer::CITY)) {
-            $modifiedColumns[':p' . $index++]  = '`city`';
-        }
-        if ($this->isColumnModified(DimUserPeer::STATE)) {
-            $modifiedColumns[':p' . $index++]  = '`State`';
+        if ($this->isColumnModified(DimPlacesPeer::PLACE)) {
+            $modifiedColumns[':p' . $index++]  = '`place`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `DIM_USER` (%s) VALUES (%s)',
+            'INSERT INTO `DIM_PLACES` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -621,23 +470,14 @@ abstract class BaseDimUser extends BaseObject implements Persistent
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case '`user_id`':
-                        $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
+                    case '`id`':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case '`row_id`':
                         $stmt->bindValue($identifier, $this->row_id, PDO::PARAM_INT);
                         break;
-                    case '`user`':
-                        $stmt->bindValue($identifier, $this->user, PDO::PARAM_STR);
-                        break;
-                    case '`address`':
-                        $stmt->bindValue($identifier, $this->address, PDO::PARAM_STR);
-                        break;
-                    case '`city`':
-                        $stmt->bindValue($identifier, $this->city, PDO::PARAM_STR);
-                        break;
-                    case '`State`':
-                        $stmt->bindValue($identifier, $this->state, PDO::PARAM_STR);
+                    case '`place`':
+                        $stmt->bindValue($identifier, $this->place, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -652,7 +492,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
         } catch (Exception $e) {
             throw new PropelException('Unable to get autoincrement id.', $e);
         }
-        $this->setUserId($pk);
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -733,19 +573,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
             $failureMap = array();
 
 
-            // We call the validate method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aAllsnsdata !== null) {
-                if (!$this->aAllsnsdata->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aAllsnsdata->getValidationFailures());
-                }
-            }
-
-
-            if (($retval = DimUserPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = DimPlacesPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -777,7 +605,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = DimUserPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = DimPlacesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -794,22 +622,13 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     {
         switch ($pos) {
             case 0:
-                return $this->getUserId();
+                return $this->getId();
                 break;
             case 1:
                 return $this->getRowId();
                 break;
             case 2:
-                return $this->getUser();
-                break;
-            case 3:
-                return $this->getAddress();
-                break;
-            case 4:
-                return $this->getCity();
-                break;
-            case 5:
-                return $this->getState();
+                return $this->getPlace();
                 break;
             default:
                 return null;
@@ -834,18 +653,15 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['DimUser'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['DimPlaces'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['DimUser'][$this->getPrimaryKey()] = true;
-        $keys = DimUserPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['DimPlaces'][$this->getPrimaryKey()] = true;
+        $keys = DimPlacesPeer::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getUserId(),
+            $keys[0] => $this->getId(),
             $keys[1] => $this->getRowId(),
-            $keys[2] => $this->getUser(),
-            $keys[3] => $this->getAddress(),
-            $keys[4] => $this->getCity(),
-            $keys[5] => $this->getState(),
+            $keys[2] => $this->getPlace(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -853,9 +669,6 @@ abstract class BaseDimUser extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aAllsnsdata) {
-                $result['Allsnsdata'] = $this->aAllsnsdata->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
             if (null !== $this->collFactSnsdatas) {
                 $result['FactSnsdatas'] = $this->collFactSnsdatas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -877,7 +690,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = DimUserPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = DimPlacesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -894,22 +707,13 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     {
         switch ($pos) {
             case 0:
-                $this->setUserId($value);
+                $this->setId($value);
                 break;
             case 1:
                 $this->setRowId($value);
                 break;
             case 2:
-                $this->setUser($value);
-                break;
-            case 3:
-                $this->setAddress($value);
-                break;
-            case 4:
-                $this->setCity($value);
-                break;
-            case 5:
-                $this->setState($value);
+                $this->setPlace($value);
                 break;
         } // switch()
     }
@@ -933,14 +737,11 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = DimUserPeer::getFieldNames($keyType);
+        $keys = DimPlacesPeer::getFieldNames($keyType);
 
-        if (array_key_exists($keys[0], $arr)) $this->setUserId($arr[$keys[0]]);
+        if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setRowId($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setUser($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setAddress($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setCity($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setState($arr[$keys[5]]);
+        if (array_key_exists($keys[2], $arr)) $this->setPlace($arr[$keys[2]]);
     }
 
     /**
@@ -950,14 +751,11 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(DimUserPeer::DATABASE_NAME);
+        $criteria = new Criteria(DimPlacesPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(DimUserPeer::USER_ID)) $criteria->add(DimUserPeer::USER_ID, $this->user_id);
-        if ($this->isColumnModified(DimUserPeer::ROW_ID)) $criteria->add(DimUserPeer::ROW_ID, $this->row_id);
-        if ($this->isColumnModified(DimUserPeer::USER)) $criteria->add(DimUserPeer::USER, $this->user);
-        if ($this->isColumnModified(DimUserPeer::ADDRESS)) $criteria->add(DimUserPeer::ADDRESS, $this->address);
-        if ($this->isColumnModified(DimUserPeer::CITY)) $criteria->add(DimUserPeer::CITY, $this->city);
-        if ($this->isColumnModified(DimUserPeer::STATE)) $criteria->add(DimUserPeer::STATE, $this->state);
+        if ($this->isColumnModified(DimPlacesPeer::ID)) $criteria->add(DimPlacesPeer::ID, $this->id);
+        if ($this->isColumnModified(DimPlacesPeer::ROW_ID)) $criteria->add(DimPlacesPeer::ROW_ID, $this->row_id);
+        if ($this->isColumnModified(DimPlacesPeer::PLACE)) $criteria->add(DimPlacesPeer::PLACE, $this->place);
 
         return $criteria;
     }
@@ -972,8 +770,8 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(DimUserPeer::DATABASE_NAME);
-        $criteria->add(DimUserPeer::USER_ID, $this->user_id);
+        $criteria = new Criteria(DimPlacesPeer::DATABASE_NAME);
+        $criteria->add(DimPlacesPeer::ID, $this->id);
 
         return $criteria;
     }
@@ -984,18 +782,18 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function getPrimaryKey()
     {
-        return $this->getUserId();
+        return $this->getId();
     }
 
     /**
-     * Generic method to set the primary key (user_id column).
+     * Generic method to set the primary key (id column).
      *
      * @param  int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
     {
-        $this->setUserId($key);
+        $this->setId($key);
     }
 
     /**
@@ -1005,7 +803,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     public function isPrimaryKeyNull()
     {
 
-        return null === $this->getUserId();
+        return null === $this->getId();
     }
 
     /**
@@ -1014,7 +812,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of DimUser (or compatible) type.
+     * @param object $copyObj An object of DimPlaces (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1022,10 +820,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setRowId($this->getRowId());
-        $copyObj->setUser($this->getUser());
-        $copyObj->setAddress($this->getAddress());
-        $copyObj->setCity($this->getCity());
-        $copyObj->setState($this->getState());
+        $copyObj->setPlace($this->getPlace());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1046,7 +841,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
 
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setUserId(NULL); // this is a auto-increment column, so set to default value
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1059,7 +854,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return DimUser Clone of current object.
+     * @return DimPlaces Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1079,67 +874,15 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return DimUserPeer
+     * @return DimPlacesPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new DimUserPeer();
+            self::$peer = new DimPlacesPeer();
         }
 
         return self::$peer;
-    }
-
-    /**
-     * Declares an association between this object and a Allsnsdata object.
-     *
-     * @param                  Allsnsdata $v
-     * @return DimUser The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setAllsnsdata(Allsnsdata $v = null)
-    {
-        if ($v === null) {
-            $this->setRowId(NULL);
-        } else {
-            $this->setRowId($v->getRowId());
-        }
-
-        $this->aAllsnsdata = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Allsnsdata object, it will not be re-added.
-        if ($v !== null) {
-            $v->addDimUser($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated Allsnsdata object
-     *
-     * @param PropelPDO $con Optional Connection object.
-     * @param $doQuery Executes a query to get the object if required
-     * @return Allsnsdata The associated Allsnsdata object.
-     * @throws PropelException
-     */
-    public function getAllsnsdata(PropelPDO $con = null, $doQuery = true)
-    {
-        if ($this->aAllsnsdata === null && ($this->row_id !== null) && $doQuery) {
-            $this->aAllsnsdata = AllsnsdataQuery::create()->findPk($this->row_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aAllsnsdata->addDimUsers($this);
-             */
-        }
-
-        return $this->aAllsnsdata;
     }
 
 
@@ -1164,7 +907,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return DimUser The current object (for fluent API support)
+     * @return DimPlaces The current object (for fluent API support)
      * @see        addFactSnsdatas()
      */
     public function clearFactSnsdatas()
@@ -1212,7 +955,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this DimUser is new, it will return
+     * If this DimPlaces is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param Criteria $criteria optional Criteria object to narrow the query
@@ -1229,7 +972,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
                 $this->initFactSnsdatas();
             } else {
                 $collFactSnsdatas = FactSnsdataQuery::create(null, $criteria)
-                    ->filterByDimUser($this)
+                    ->filterByDimPlaces($this)
                     ->find($con);
                 if (null !== $criteria) {
                     if (false !== $this->collFactSnsdatasPartial && count($collFactSnsdatas)) {
@@ -1273,7 +1016,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      *
      * @param PropelCollection $factSnsdatas A Propel collection.
      * @param PropelPDO $con Optional connection object
-     * @return DimUser The current object (for fluent API support)
+     * @return DimPlaces The current object (for fluent API support)
      */
     public function setFactSnsdatas(PropelCollection $factSnsdatas, PropelPDO $con = null)
     {
@@ -1283,7 +1026,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
         $this->factSnsdatasScheduledForDeletion = $factSnsdatasToDelete;
 
         foreach ($factSnsdatasToDelete as $factSnsdataRemoved) {
-            $factSnsdataRemoved->setDimUser(null);
+            $factSnsdataRemoved->setDimPlaces(null);
         }
 
         $this->collFactSnsdatas = null;
@@ -1323,7 +1066,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
             }
 
             return $query
-                ->filterByDimUser($this)
+                ->filterByDimPlaces($this)
                 ->count($con);
         }
 
@@ -1335,7 +1078,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      * through the FactSnsdata foreign key attribute.
      *
      * @param    FactSnsdata $l FactSnsdata
-     * @return DimUser The current object (for fluent API support)
+     * @return DimPlaces The current object (for fluent API support)
      */
     public function addFactSnsdata(FactSnsdata $l)
     {
@@ -1361,12 +1104,12 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     protected function doAddFactSnsdata($factSnsdata)
     {
         $this->collFactSnsdatas[]= $factSnsdata;
-        $factSnsdata->setDimUser($this);
+        $factSnsdata->setDimPlaces($this);
     }
 
     /**
      * @param	FactSnsdata $factSnsdata The factSnsdata object to remove.
-     * @return DimUser The current object (for fluent API support)
+     * @return DimPlaces The current object (for fluent API support)
      */
     public function removeFactSnsdata($factSnsdata)
     {
@@ -1377,7 +1120,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
                 $this->factSnsdatasScheduledForDeletion->clear();
             }
             $this->factSnsdatasScheduledForDeletion[]= clone $factSnsdata;
-            $factSnsdata->setDimUser(null);
+            $factSnsdata->setDimPlaces(null);
         }
 
         return $this;
@@ -1387,13 +1130,13 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this DimUser is new, it will return
-     * an empty collection; or if this DimUser has previously
+     * Otherwise if this DimPlaces is new, it will return
+     * an empty collection; or if this DimPlaces has previously
      * been saved, it will retrieve related FactSnsdatas from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in DimUser.
+     * actually need in DimPlaces.
      *
      * @param Criteria $criteria optional Criteria object to narrow the query
      * @param PropelPDO $con optional connection object
@@ -1412,13 +1155,13 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this DimUser is new, it will return
-     * an empty collection; or if this DimUser has previously
+     * Otherwise if this DimPlaces is new, it will return
+     * an empty collection; or if this DimPlaces has previously
      * been saved, it will retrieve related FactSnsdatas from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in DimUser.
+     * actually need in DimPlaces.
      *
      * @param Criteria $criteria optional Criteria object to narrow the query
      * @param PropelPDO $con optional connection object
@@ -1437,23 +1180,23 @@ abstract class BaseDimUser extends BaseObject implements Persistent
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this DimUser is new, it will return
-     * an empty collection; or if this DimUser has previously
+     * Otherwise if this DimPlaces is new, it will return
+     * an empty collection; or if this DimPlaces has previously
      * been saved, it will retrieve related FactSnsdatas from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in DimUser.
+     * actually need in DimPlaces.
      *
      * @param Criteria $criteria optional Criteria object to narrow the query
      * @param PropelPDO $con optional connection object
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|FactSnsdata[] List of FactSnsdata objects
      */
-    public function getFactSnsdatasJoinDimPlaces($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getFactSnsdatasJoinDimUser($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = FactSnsdataQuery::create(null, $criteria);
-        $query->joinWith('DimPlaces', $join_behavior);
+        $query->joinWith('DimUser', $join_behavior);
 
         return $this->getFactSnsdatas($query, $con);
     }
@@ -1463,12 +1206,9 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function clear()
     {
-        $this->user_id = null;
+        $this->id = null;
         $this->row_id = null;
-        $this->user = null;
-        $this->address = null;
-        $this->city = null;
-        $this->state = null;
+        $this->place = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1496,9 +1236,6 @@ abstract class BaseDimUser extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->aAllsnsdata instanceof Persistent) {
-              $this->aAllsnsdata->clearAllReferences($deep);
-            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
@@ -1507,7 +1244,6 @@ abstract class BaseDimUser extends BaseObject implements Persistent
             $this->collFactSnsdatas->clearIterator();
         }
         $this->collFactSnsdatas = null;
-        $this->aAllsnsdata = null;
     }
 
     /**
@@ -1517,7 +1253,7 @@ abstract class BaseDimUser extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(DimUserPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(DimPlacesPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**

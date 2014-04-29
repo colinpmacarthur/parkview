@@ -2,7 +2,7 @@
 
 
 /**
- * Base class that represents a row from the 'TRACK_SITES' table.
+ * Base class that represents a row from the 'DIM_PLACES' table.
  *
  *
  *
@@ -30,33 +30,22 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     protected $startCopy = false;
 
     /**
-     * The value for the site_id field.
+     * The value for the id field.
      * @var        int
      */
-    protected $site_id;
+    protected $id;
 
     /**
-     * The value for the recid field.
+     * The value for the row_id field.
      * @var        int
      */
-    protected $recid;
+    protected $row_id;
 
     /**
      * The value for the place field.
      * @var        string
      */
     protected $place;
-
-    /**
-     * The value for the sns_id field.
-     * @var        int
-     */
-    protected $sns_id;
-
-    /**
-     * @var        Socialnets
-     */
-    protected $aSocialnets;
 
     /**
      * @var        PropelObjectCollection|FactSnsdata[] Collection to store aggregation of FactSnsdata objects.
@@ -91,25 +80,25 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     protected $factSnsdatasScheduledForDeletion = null;
 
     /**
-     * Get the [site_id] column value.
+     * Get the [id] column value.
      *
      * @return int
      */
-    public function getSiteId()
+    public function getId()
     {
 
-        return $this->site_id;
+        return $this->id;
     }
 
     /**
-     * Get the [recid] column value.
+     * Get the [row_id] column value.
      *
      * @return int
      */
-    public function getRecid()
+    public function getRowId()
     {
 
-        return $this->recid;
+        return $this->row_id;
     }
 
     /**
@@ -124,57 +113,46 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [sns_id] column value.
-     *
-     * @return int
-     */
-    public function getSnsId()
-    {
-
-        return $this->sns_id;
-    }
-
-    /**
-     * Set the value of [site_id] column.
+     * Set the value of [id] column.
      *
      * @param  int $v new value
      * @return TrackSites The current object (for fluent API support)
      */
-    public function setSiteId($v)
+    public function setId($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->site_id !== $v) {
-            $this->site_id = $v;
-            $this->modifiedColumns[] = TrackSitesPeer::SITE_ID;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[] = TrackSitesPeer::ID;
         }
 
 
         return $this;
-    } // setSiteId()
+    } // setId()
 
     /**
-     * Set the value of [recid] column.
+     * Set the value of [row_id] column.
      *
      * @param  int $v new value
      * @return TrackSites The current object (for fluent API support)
      */
-    public function setRecid($v)
+    public function setRowId($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->recid !== $v) {
-            $this->recid = $v;
-            $this->modifiedColumns[] = TrackSitesPeer::RECID;
+        if ($this->row_id !== $v) {
+            $this->row_id = $v;
+            $this->modifiedColumns[] = TrackSitesPeer::ROW_ID;
         }
 
 
         return $this;
-    } // setRecid()
+    } // setRowId()
 
     /**
      * Set the value of [place] column.
@@ -196,31 +174,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
 
         return $this;
     } // setPlace()
-
-    /**
-     * Set the value of [sns_id] column.
-     *
-     * @param  int $v new value
-     * @return TrackSites The current object (for fluent API support)
-     */
-    public function setSnsId($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->sns_id !== $v) {
-            $this->sns_id = $v;
-            $this->modifiedColumns[] = TrackSitesPeer::SNS_ID;
-        }
-
-        if ($this->aSocialnets !== null && $this->aSocialnets->getSnsId() !== $v) {
-            $this->aSocialnets = null;
-        }
-
-
-        return $this;
-    } // setSnsId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -254,10 +207,9 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     {
         try {
 
-            $this->site_id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->recid = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+            $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
+            $this->row_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->place = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->sns_id = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -267,7 +219,7 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 4; // 4 = TrackSitesPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = TrackSitesPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating TrackSites object", $e);
@@ -290,9 +242,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aSocialnets !== null && $this->sns_id !== $this->aSocialnets->getSnsId()) {
-            $this->aSocialnets = null;
-        }
     } // ensureConsistency
 
     /**
@@ -332,7 +281,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aSocialnets = null;
             $this->collFactSnsdatas = null;
 
         } // if (deep)
@@ -448,18 +396,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
-            // We call the save method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aSocialnets !== null) {
-                if ($this->aSocialnets->isModified() || $this->aSocialnets->isNew()) {
-                    $affectedRows += $this->aSocialnets->save($con);
-                }
-                $this->setSocialnets($this->aSocialnets);
-            }
-
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -508,27 +444,24 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = TrackSitesPeer::SITE_ID;
-        if (null !== $this->site_id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . TrackSitesPeer::SITE_ID . ')');
+        $this->modifiedColumns[] = TrackSitesPeer::ID;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . TrackSitesPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(TrackSitesPeer::SITE_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`site_id`';
+        if ($this->isColumnModified(TrackSitesPeer::ID)) {
+            $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(TrackSitesPeer::RECID)) {
-            $modifiedColumns[':p' . $index++]  = '`recID`';
+        if ($this->isColumnModified(TrackSitesPeer::ROW_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`row_id`';
         }
         if ($this->isColumnModified(TrackSitesPeer::PLACE)) {
             $modifiedColumns[':p' . $index++]  = '`place`';
         }
-        if ($this->isColumnModified(TrackSitesPeer::SNS_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`sns_id`';
-        }
 
         $sql = sprintf(
-            'INSERT INTO `TRACK_SITES` (%s) VALUES (%s)',
+            'INSERT INTO `DIM_PLACES` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -537,17 +470,14 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case '`site_id`':
-                        $stmt->bindValue($identifier, $this->site_id, PDO::PARAM_INT);
+                    case '`id`':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case '`recID`':
-                        $stmt->bindValue($identifier, $this->recid, PDO::PARAM_INT);
+                    case '`row_id`':
+                        $stmt->bindValue($identifier, $this->row_id, PDO::PARAM_INT);
                         break;
                     case '`place`':
                         $stmt->bindValue($identifier, $this->place, PDO::PARAM_STR);
-                        break;
-                    case '`sns_id`':
-                        $stmt->bindValue($identifier, $this->sns_id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -562,7 +492,7 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
         } catch (Exception $e) {
             throw new PropelException('Unable to get autoincrement id.', $e);
         }
-        $this->setSiteId($pk);
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -643,18 +573,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
             $failureMap = array();
 
 
-            // We call the validate method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aSocialnets !== null) {
-                if (!$this->aSocialnets->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aSocialnets->getValidationFailures());
-                }
-            }
-
-
             if (($retval = TrackSitesPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
@@ -704,16 +622,13 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     {
         switch ($pos) {
             case 0:
-                return $this->getSiteId();
+                return $this->getId();
                 break;
             case 1:
-                return $this->getRecid();
+                return $this->getRowId();
                 break;
             case 2:
                 return $this->getPlace();
-                break;
-            case 3:
-                return $this->getSnsId();
                 break;
             default:
                 return null;
@@ -744,10 +659,9 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
         $alreadyDumpedObjects['TrackSites'][$this->getPrimaryKey()] = true;
         $keys = TrackSitesPeer::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getSiteId(),
-            $keys[1] => $this->getRecid(),
+            $keys[0] => $this->getId(),
+            $keys[1] => $this->getRowId(),
             $keys[2] => $this->getPlace(),
-            $keys[3] => $this->getSnsId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -755,9 +669,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aSocialnets) {
-                $result['Socialnets'] = $this->aSocialnets->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
             if (null !== $this->collFactSnsdatas) {
                 $result['FactSnsdatas'] = $this->collFactSnsdatas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -796,16 +707,13 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     {
         switch ($pos) {
             case 0:
-                $this->setSiteId($value);
+                $this->setId($value);
                 break;
             case 1:
-                $this->setRecid($value);
+                $this->setRowId($value);
                 break;
             case 2:
                 $this->setPlace($value);
-                break;
-            case 3:
-                $this->setSnsId($value);
                 break;
         } // switch()
     }
@@ -831,10 +739,9 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     {
         $keys = TrackSitesPeer::getFieldNames($keyType);
 
-        if (array_key_exists($keys[0], $arr)) $this->setSiteId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setRecid($arr[$keys[1]]);
+        if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
+        if (array_key_exists($keys[1], $arr)) $this->setRowId($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setPlace($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setSnsId($arr[$keys[3]]);
     }
 
     /**
@@ -846,10 +753,9 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     {
         $criteria = new Criteria(TrackSitesPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(TrackSitesPeer::SITE_ID)) $criteria->add(TrackSitesPeer::SITE_ID, $this->site_id);
-        if ($this->isColumnModified(TrackSitesPeer::RECID)) $criteria->add(TrackSitesPeer::RECID, $this->recid);
+        if ($this->isColumnModified(TrackSitesPeer::ID)) $criteria->add(TrackSitesPeer::ID, $this->id);
+        if ($this->isColumnModified(TrackSitesPeer::ROW_ID)) $criteria->add(TrackSitesPeer::ROW_ID, $this->row_id);
         if ($this->isColumnModified(TrackSitesPeer::PLACE)) $criteria->add(TrackSitesPeer::PLACE, $this->place);
-        if ($this->isColumnModified(TrackSitesPeer::SNS_ID)) $criteria->add(TrackSitesPeer::SNS_ID, $this->sns_id);
 
         return $criteria;
     }
@@ -865,7 +771,7 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     public function buildPkeyCriteria()
     {
         $criteria = new Criteria(TrackSitesPeer::DATABASE_NAME);
-        $criteria->add(TrackSitesPeer::SITE_ID, $this->site_id);
+        $criteria->add(TrackSitesPeer::ID, $this->id);
 
         return $criteria;
     }
@@ -876,18 +782,18 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
      */
     public function getPrimaryKey()
     {
-        return $this->getSiteId();
+        return $this->getId();
     }
 
     /**
-     * Generic method to set the primary key (site_id column).
+     * Generic method to set the primary key (id column).
      *
      * @param  int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
     {
-        $this->setSiteId($key);
+        $this->setId($key);
     }
 
     /**
@@ -897,7 +803,7 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
     public function isPrimaryKeyNull()
     {
 
-        return null === $this->getSiteId();
+        return null === $this->getId();
     }
 
     /**
@@ -913,9 +819,8 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setRecid($this->getRecid());
+        $copyObj->setRowId($this->getRowId());
         $copyObj->setPlace($this->getPlace());
-        $copyObj->setSnsId($this->getSnsId());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -936,7 +841,7 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
 
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setSiteId(NULL); // this is a auto-increment column, so set to default value
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -978,58 +883,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
         }
 
         return self::$peer;
-    }
-
-    /**
-     * Declares an association between this object and a Socialnets object.
-     *
-     * @param                  Socialnets $v
-     * @return TrackSites The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setSocialnets(Socialnets $v = null)
-    {
-        if ($v === null) {
-            $this->setSnsId(NULL);
-        } else {
-            $this->setSnsId($v->getSnsId());
-        }
-
-        $this->aSocialnets = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Socialnets object, it will not be re-added.
-        if ($v !== null) {
-            $v->addTrackSites($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated Socialnets object
-     *
-     * @param PropelPDO $con Optional Connection object.
-     * @param $doQuery Executes a query to get the object if required
-     * @return Socialnets The associated Socialnets object.
-     * @throws PropelException
-     */
-    public function getSocialnets(PropelPDO $con = null, $doQuery = true)
-    {
-        if ($this->aSocialnets === null && ($this->sns_id !== null) && $doQuery) {
-            $this->aSocialnets = SocialnetsQuery::create()->findPk($this->sns_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aSocialnets->addTrackSitess($this);
-             */
-        }
-
-        return $this->aSocialnets;
     }
 
 
@@ -1353,10 +1206,9 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
      */
     public function clear()
     {
-        $this->site_id = null;
-        $this->recid = null;
+        $this->id = null;
+        $this->row_id = null;
         $this->place = null;
-        $this->sns_id = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1384,9 +1236,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->aSocialnets instanceof Persistent) {
-              $this->aSocialnets->clearAllReferences($deep);
-            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
@@ -1395,7 +1244,6 @@ abstract class BaseTrackSites extends BaseObject implements Persistent
             $this->collFactSnsdatas->clearIterator();
         }
         $this->collFactSnsdatas = null;
-        $this->aSocialnets = null;
     }
 
     /**

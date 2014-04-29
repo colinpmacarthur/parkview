@@ -66,19 +66,17 @@ class ParkDBQuery
 		foreach ( $services as $service )
 		{
 			$count = FactSnsdataQuery::create()
-			  	->_if($service!="all"||$place)
-                          	  ->useTrackSitesQuery()
-		 	           ->_if($service!="all")
-			            ->useSocialnetsQuery()
-			             ->filterBySns($service)
-			            ->endUse()
-                                   ->_endif()
-			          ->_if($place)
+		 	        ->_if($place)
+                          	  ->useDimPlacesQuery()
 			           ->filterByPlace($place)
-			          ->_endif()
 		      	         ->endUse()
 			        ->_endif()
-				->useDimPeriodQuery()
+			        ->_if($service!="all")
+			          ->useDimCommentsQuery()
+			           ->filterBySns($service)
+			          ->endUse()
+                                ->_endif()
+			        ->useDimPeriodQuery()
 				 ->filterByYear($this->getYear())
 				 ->filterByQuarter($this->getQuarter())
 				->endUse()
@@ -98,26 +96,24 @@ class ParkDBQuery
 		$counts = array();
 		$months = array();
 		$results = FactSnsdataQuery::create()
-			 ->_if($service||$place)
-                          ->useTrackSitesQuery()
-		 	   ->_if($service)
-			    ->useSocialnetsQuery()
-			     ->filterBySns($service)
-			    ->endUse()
-                           ->_endif()
-			   ->_if($place)
+			 ->_if($place)
+                           ->useDimPlacesQuery()
 			    ->filterByPlace($place)
-			   ->_endif()
+		      	   ->endUse()
+			  ->_endif()
+			  ->_if($service!="all")
+			   ->useDimCommentsQuery()
+			    ->filterBySns($service)
+			   ->endUse()
+                          ->_endif()
+			  ->useDimPeriodQuery()
+			   ->filterByYear($this->getYear())
+			   ->filterByQuarter($this->getQuarter())
+			   ->groupBy('month')
 			  ->endUse()
-			 ->_endif()
-			 ->useDimPeriodQuery()
-			  ->filterByYear($this->getYear())
-			  ->filterByQuarter($this->getQuarter())
-			  ->groupBy('month')
-			 ->endUse()
-			 ->withColumn('COUNT(id)','Count')
-			 ->withColumn('DIM_PERIOD.Month', 'Month')
-			 ->find();
+			  ->withColumn('COUNT(FACT_SNSDATA.id)','Count')
+			  ->withColumn('DIM_PERIOD.Month', 'Month')
+			  ->find();
 		foreach ( $results as $result)
 		{
 			array_push($counts,$result->getCount());
@@ -160,20 +156,20 @@ class ParkDBQuery
 		{
 			$results_array = array();
 			$results = FactSnsdataQuery::create()
-                	          ->useTrackSitesQuery()
+                	          ->useDimPlacesQuery()
 				   ->groupBy('Place')
 				  ->endUse()
 				 ->useDimPeriodQuery()
 				  ->filterByYear($this->getYear())
 				  ->filterByQuarter($this->getQuarter())
 				 ->endUse()
-				 ->withColumn('COUNT(id)','Count')
-				 ->withColumn('TRACK_SITES.Place','Place')
+				 ->withColumn('COUNT(FACT_SNSDATA.row_id)','Count')
+				 ->withColumn('DIM_PLACES.Place','Place')
 				 ->orderByCount('desc')
 				 ->find();
 			foreach ( $results as $result)
-			{
-				if ($result->getPlace())
+			{echo $result->getRating();
+				if (($result->getPlace()))
 				{
 					array_push($results_array,
 						  [ 
@@ -187,7 +183,7 @@ class ParkDBQuery
 		}
 		if ( $rank == 0 )
 		{
-			return array_slice($this->rankedplaces,0,2);
+			return $this->rankedplaces;
 		}
 		else
 		{
@@ -264,27 +260,23 @@ class ParkDBQuery
 		foreach ( $services as $service )
 		{
 			$count = FactSnsdataQuery::create()
-			  	->_if($service!="all"||$place)
-                          	  ->useTrackSitesQuery()
-		 	           ->_if($service!="all")
-			            ->useSocialnetsQuery()
-			             ->filterBySns($service)
-			            ->endUse()
-                                   ->_endif()
-			          ->_if($place)
-			           ->filterByPlace($place)
-			          ->_endif()
-		      	         ->endUse()
-			        ->_endif()
-				->useDimPeriodQuery()
-				 ->filterByYear($this->getYear())
-				 ->filterByQuarter($this->getQuarter())
-				->endUse()
-				->useDimUserQuery()
-				 ->useAllsnsdataQuery()
+			         ->_if($place)
+                                  ->useDimPlacesQuery()
+		 	           ->filterByPlace($place)
+		      	          ->endUse()
+			         ->_endif()
+			         ->_if($service!="all")
+			          ->useDimCommentsQuery()
+			           ->filterBySns($service)
+			          ->endUse()
+                                 ->_endif()
+			         ->useDimPeriodQuery()
+				  ->filterByYear($this->getYear())
+				  ->filterByQuarter($this->getQuarter())
+				 ->endUse()
+				 ->useDimUserQuery()
 				  ->groupBy('user')
 				 ->endUse()
-				->endUse()
 				->count();
 			$total =+ $count;
 		}
@@ -332,31 +324,30 @@ class ParkDBQuery
 		foreach ( $services as $service )
 		{
 			$result = FactSnsdataQuery::create()
-			  	->_if($service!="all"||$place)
-                          	  ->useTrackSitesQuery()
-		 	           ->_if($service!="all")
-			            ->useSocialnetsQuery()
-			             ->filterBySns($service)
-			            ->endUse()
-                                   ->_endif()
-			          ->_if($place)
-			           ->filterByPlace($place)
-			          ->_endif()
+		 	        ->_if($place)
+                                 ->useDimPlacesQuery()
+		 	           ->filterByPlace($place)
 		      	         ->endUse()
-			        ->_endif()
-				->useDimPeriodQuery()
-				 ->filterByYear($this->getYear())
-				 ->filterByQuarter($this->getQuarter())
-				 ->groupBy('Year')
-				->endUse()
-				->filterByRating(array('min'=>1))
-				->withColumn('SUM(FACT_SNSDATA.rating)','Sum')
-				->withColumn('COUNT(id)','Count')
-				->find();
+			         ->_endif()
+			         ->_if($service!="all")
+			          ->useDimCommentsQuery()
+			           ->filterBySns($service)
+			          ->endUse()
+                                 ->_endif()
+			         ->useDimPeriodQuery()
+				  ->filterByYear($this->getYear())
+				  ->filterByQuarter($this->getQuarter())
+				 ->endUse()
+				 ->filterByRating(array('min'=>1))
+				 ->withColumn('SUM(FACT_SNSDATA.rating)','Sum')
+				 ->withColumn('COUNT(FACT_SNSDATA.id)','Count')
+				 ->find();
 			if ( count($result) < 1 ) return false;
 			$sum =+ current($result)->getSum();
 			$count =+ current($result)->getCount();
+			if ( $count == 0 ) return false;
 		}
+
 		return round($sum/$count,1);
 	}
 	
@@ -385,23 +376,19 @@ class ParkDBQuery
 	function getLastComment($service)
 	{
 		$results = DimCommentsQuery::create()
-			->useFactSnsdataQuery()
-		 	 ->useTracksitesQuery()
-		          ->useSocialnetsQuery()
-			   ->filterBySns($service)
-			  ->enduse() 
-			 ->enduse()
-			 ->useDimPeriodQuery()
-			  ->filterByYear($this->getYear())
-			  ->filterByQuarter($this->getQuarter())
-			 ->enduse()	
-			->enduse()			 		 
-			->withColumn('DIM_PERIOD.creation_date','Date')
-			->orderBy('Date')
+		         ->filterBySns($service)
+			 ->useFactSnsdataQuery()
+		          ->useDimPeriodQuery()
+			   ->filterByYear($this->getYear())
+			   ->filterByQuarter($this->getQuarter())
+			  ->endUse()
+		         ->endUse()
+                         ->withColumn('DIM_PERIOD.creation_date','Date')
+			 ->orderBy('Date')
 			->limit(1)
 			->find();
 		if (count($results) < 1) return false; 
-		return substr(current($results)->getComment(),0,75)."...";
+		return substr(current($results)->getComment(),0,125).'...<a href="'.current($results)->getLink().'"> Read more</a>';
 	}
 
 

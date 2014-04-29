@@ -24,19 +24,22 @@ abstract class BaseDimUserPeer
     const TM_CLASS = 'DimUserTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 6;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /** the column name for the user_id field */
     const USER_ID = 'DIM_USER.user_id';
 
     /** the column name for the row_id field */
     const ROW_ID = 'DIM_USER.row_id';
+
+    /** the column name for the user field */
+    const USER = 'DIM_USER.user';
 
     /** the column name for the address field */
     const ADDRESS = 'DIM_USER.address';
@@ -66,12 +69,12 @@ abstract class BaseDimUserPeer
      * e.g. DimUserPeer::$fieldNames[DimUserPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('UserId', 'RowId', 'Address', 'City', 'State', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('userId', 'rowId', 'address', 'city', 'state', ),
-        BasePeer::TYPE_COLNAME => array (DimUserPeer::USER_ID, DimUserPeer::ROW_ID, DimUserPeer::ADDRESS, DimUserPeer::CITY, DimUserPeer::STATE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('USER_ID', 'ROW_ID', 'ADDRESS', 'CITY', 'STATE', ),
-        BasePeer::TYPE_FIELDNAME => array ('user_id', 'row_id', 'address', 'city', 'State', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('UserId', 'RowId', 'User', 'Address', 'City', 'State', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('userId', 'rowId', 'user', 'address', 'city', 'state', ),
+        BasePeer::TYPE_COLNAME => array (DimUserPeer::USER_ID, DimUserPeer::ROW_ID, DimUserPeer::USER, DimUserPeer::ADDRESS, DimUserPeer::CITY, DimUserPeer::STATE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('USER_ID', 'ROW_ID', 'USER', 'ADDRESS', 'CITY', 'STATE', ),
+        BasePeer::TYPE_FIELDNAME => array ('user_id', 'row_id', 'user', 'address', 'city', 'State', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -81,12 +84,12 @@ abstract class BaseDimUserPeer
      * e.g. DimUserPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('UserId' => 0, 'RowId' => 1, 'Address' => 2, 'City' => 3, 'State' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('userId' => 0, 'rowId' => 1, 'address' => 2, 'city' => 3, 'state' => 4, ),
-        BasePeer::TYPE_COLNAME => array (DimUserPeer::USER_ID => 0, DimUserPeer::ROW_ID => 1, DimUserPeer::ADDRESS => 2, DimUserPeer::CITY => 3, DimUserPeer::STATE => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('USER_ID' => 0, 'ROW_ID' => 1, 'ADDRESS' => 2, 'CITY' => 3, 'STATE' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('user_id' => 0, 'row_id' => 1, 'address' => 2, 'city' => 3, 'State' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('UserId' => 0, 'RowId' => 1, 'User' => 2, 'Address' => 3, 'City' => 4, 'State' => 5, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('userId' => 0, 'rowId' => 1, 'user' => 2, 'address' => 3, 'city' => 4, 'state' => 5, ),
+        BasePeer::TYPE_COLNAME => array (DimUserPeer::USER_ID => 0, DimUserPeer::ROW_ID => 1, DimUserPeer::USER => 2, DimUserPeer::ADDRESS => 3, DimUserPeer::CITY => 4, DimUserPeer::STATE => 5, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('USER_ID' => 0, 'ROW_ID' => 1, 'USER' => 2, 'ADDRESS' => 3, 'CITY' => 4, 'STATE' => 5, ),
+        BasePeer::TYPE_FIELDNAME => array ('user_id' => 0, 'row_id' => 1, 'user' => 2, 'address' => 3, 'city' => 4, 'State' => 5, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -162,12 +165,14 @@ abstract class BaseDimUserPeer
         if (null === $alias) {
             $criteria->addSelectColumn(DimUserPeer::USER_ID);
             $criteria->addSelectColumn(DimUserPeer::ROW_ID);
+            $criteria->addSelectColumn(DimUserPeer::USER);
             $criteria->addSelectColumn(DimUserPeer::ADDRESS);
             $criteria->addSelectColumn(DimUserPeer::CITY);
             $criteria->addSelectColumn(DimUserPeer::STATE);
         } else {
             $criteria->addSelectColumn($alias . '.user_id');
             $criteria->addSelectColumn($alias . '.row_id');
+            $criteria->addSelectColumn($alias . '.user');
             $criteria->addSelectColumn($alias . '.address');
             $criteria->addSelectColumn($alias . '.city');
             $criteria->addSelectColumn($alias . '.State');

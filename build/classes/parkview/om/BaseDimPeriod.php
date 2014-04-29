@@ -1389,10 +1389,10 @@ abstract class BaseDimPeriod extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|FactSnsdata[] List of FactSnsdata objects
      */
-    public function getFactSnsdatasJoinTrackSites($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getFactSnsdatasJoinDimPlaces($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = FactSnsdataQuery::create(null, $criteria);
-        $query->joinWith('TrackSites', $join_behavior);
+        $query->joinWith('DimPlaces', $join_behavior);
 
         return $this->getFactSnsdatas($query, $con);
     }

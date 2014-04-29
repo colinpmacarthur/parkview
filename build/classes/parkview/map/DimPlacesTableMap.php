@@ -3,7 +3,7 @@
 
 
 /**
- * This class defines the structure of the 'DIM_COMMENTS' table.
+ * This class defines the structure of the 'DIM_PLACES' table.
  *
  *
  *
@@ -14,13 +14,13 @@
  *
  * @package    propel.generator.parkview.map
  */
-class DimCommentsTableMap extends TableMap
+class DimPlacesTableMap extends TableMap
 {
 
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'parkview.map.DimCommentsTableMap';
+    const CLASS_NAME = 'parkview.map.DimPlacesTableMap';
 
     /**
      * Initialize the table attributes, columns and validators
@@ -32,18 +32,15 @@ class DimCommentsTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('DIM_COMMENTS');
-        $this->setPhpName('DimComments');
-        $this->setClassname('DimComments');
+        $this->setName('DIM_PLACES');
+        $this->setPhpName('DimPlaces');
+        $this->setClassname('DimPlaces');
         $this->setPackage('parkview');
         $this->setUseIdGenerator(true);
         // columns
-        $this->addPrimaryKey('comment_id', 'CommentId', 'INTEGER', true, null, null);
-        $this->addColumn('comment', 'Comment', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('title', 'Title', 'VARCHAR', false, 150, null);
-        $this->addColumn('link', 'Link', 'VARCHAR', false, 100, null);
-        $this->addColumn('spread', 'Spread', 'INTEGER', false, null, null);
-        $this->addColumn('sns', 'Sns', 'VARCHAR', false, 150, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('row_id', 'RowId', 'INTEGER', true, null, null);
+        $this->addColumn('place', 'Place', 'VARCHAR', true, 45, null);
         // validators
     } // initialize()
 
@@ -52,7 +49,7 @@ class DimCommentsTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('FactSnsdata', 'FactSnsdata', RelationMap::ONE_TO_MANY, array('comment_id' => 'comment_id', ), null, null, 'FactSnsdatas');
+        $this->addRelation('FactSnsdata', 'FactSnsdata', RelationMap::ONE_TO_MANY, array('row_id' => 'places_row_id', ), null, null, 'FactSnsdatas');
     } // buildRelations()
 
-} // DimCommentsTableMap
+} // DimPlacesTableMap

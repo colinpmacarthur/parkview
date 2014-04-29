@@ -2,7 +2,7 @@
 
 
 /**
- * Base static class for performing query and update operations on the 'TRACK_SITES' table.
+ * Base static class for performing query and update operations on the 'DIM_PLACES' table.
  *
  *
  *
@@ -15,7 +15,7 @@ abstract class BaseTrackSitesPeer
     const DATABASE_NAME = 'parkview';
 
     /** the table name for this class */
-    const TABLE_NAME = 'TRACK_SITES';
+    const TABLE_NAME = 'DIM_PLACES';
 
     /** the related Propel class for this table */
     const OM_CLASS = 'TrackSites';
@@ -24,25 +24,22 @@ abstract class BaseTrackSitesPeer
     const TM_CLASS = 'TrackSitesTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 3;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 3;
 
-    /** the column name for the site_id field */
-    const SITE_ID = 'TRACK_SITES.site_id';
+    /** the column name for the id field */
+    const ID = 'DIM_PLACES.id';
 
-    /** the column name for the recID field */
-    const RECID = 'TRACK_SITES.recID';
+    /** the column name for the row_id field */
+    const ROW_ID = 'DIM_PLACES.row_id';
 
     /** the column name for the place field */
-    const PLACE = 'TRACK_SITES.place';
-
-    /** the column name for the sns_id field */
-    const SNS_ID = 'TRACK_SITES.sns_id';
+    const PLACE = 'DIM_PLACES.place';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -63,12 +60,12 @@ abstract class BaseTrackSitesPeer
      * e.g. TrackSitesPeer::$fieldNames[TrackSitesPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('SiteId', 'Recid', 'Place', 'SnsId', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('siteId', 'recid', 'place', 'snsId', ),
-        BasePeer::TYPE_COLNAME => array (TrackSitesPeer::SITE_ID, TrackSitesPeer::RECID, TrackSitesPeer::PLACE, TrackSitesPeer::SNS_ID, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('SITE_ID', 'RECID', 'PLACE', 'SNS_ID', ),
-        BasePeer::TYPE_FIELDNAME => array ('site_id', 'recID', 'place', 'sns_id', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'RowId', 'Place', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'rowId', 'place', ),
+        BasePeer::TYPE_COLNAME => array (TrackSitesPeer::ID, TrackSitesPeer::ROW_ID, TrackSitesPeer::PLACE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'ROW_ID', 'PLACE', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'row_id', 'place', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, )
     );
 
     /**
@@ -78,12 +75,12 @@ abstract class BaseTrackSitesPeer
      * e.g. TrackSitesPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('SiteId' => 0, 'Recid' => 1, 'Place' => 2, 'SnsId' => 3, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('siteId' => 0, 'recid' => 1, 'place' => 2, 'snsId' => 3, ),
-        BasePeer::TYPE_COLNAME => array (TrackSitesPeer::SITE_ID => 0, TrackSitesPeer::RECID => 1, TrackSitesPeer::PLACE => 2, TrackSitesPeer::SNS_ID => 3, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('SITE_ID' => 0, 'RECID' => 1, 'PLACE' => 2, 'SNS_ID' => 3, ),
-        BasePeer::TYPE_FIELDNAME => array ('site_id' => 0, 'recID' => 1, 'place' => 2, 'sns_id' => 3, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'RowId' => 1, 'Place' => 2, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'rowId' => 1, 'place' => 2, ),
+        BasePeer::TYPE_COLNAME => array (TrackSitesPeer::ID => 0, TrackSitesPeer::ROW_ID => 1, TrackSitesPeer::PLACE => 2, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'ROW_ID' => 1, 'PLACE' => 2, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'row_id' => 1, 'place' => 2, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, )
     );
 
     /**
@@ -157,15 +154,13 @@ abstract class BaseTrackSitesPeer
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(TrackSitesPeer::SITE_ID);
-            $criteria->addSelectColumn(TrackSitesPeer::RECID);
+            $criteria->addSelectColumn(TrackSitesPeer::ID);
+            $criteria->addSelectColumn(TrackSitesPeer::ROW_ID);
             $criteria->addSelectColumn(TrackSitesPeer::PLACE);
-            $criteria->addSelectColumn(TrackSitesPeer::SNS_ID);
         } else {
-            $criteria->addSelectColumn($alias . '.site_id');
-            $criteria->addSelectColumn($alias . '.recID');
+            $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.row_id');
             $criteria->addSelectColumn($alias . '.place');
-            $criteria->addSelectColumn($alias . '.sns_id');
         }
     }
 
@@ -292,7 +287,7 @@ abstract class BaseTrackSitesPeer
     {
         if (Propel::isInstancePoolingEnabled()) {
             if ($key === null) {
-                $key = (string) $obj->getSiteId();
+                $key = (string) $obj->getId();
             } // if key === null
             TrackSitesPeer::$instances[$key] = $obj;
         }
@@ -315,7 +310,7 @@ abstract class BaseTrackSitesPeer
     {
         if (Propel::isInstancePoolingEnabled() && $value !== null) {
             if (is_object($value) && $value instanceof TrackSites) {
-                $key = (string) $value->getSiteId();
+                $key = (string) $value->getId();
             } elseif (is_scalar($value)) {
                 // assume we've been passed a primary key
                 $key = (string) $value;
@@ -365,7 +360,7 @@ abstract class BaseTrackSitesPeer
     }
 
     /**
-     * Method to invalidate the instance pool of all tables related to TRACK_SITES
+     * Method to invalidate the instance pool of all tables related to DIM_PLACES
      * by a foreign key with ON DELETE CASCADE
      */
     public static function clearRelatedInstancePool()
@@ -466,244 +461,6 @@ abstract class BaseTrackSitesPeer
         return array($obj, $col);
     }
 
-
-    /**
-     * Returns the number of rows matching criteria, joining the related Socialnets table
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinSocialnets(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(TrackSitesPeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            TrackSitesPeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-        // Set the correct dbName
-        $criteria->setDbName(TrackSitesPeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(TrackSitesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(TrackSitesPeer::SNS_ID, SocialnetsPeer::SNS_ID, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
-    }
-
-
-    /**
-     * Selects a collection of TrackSites objects pre-filled with their Socialnets objects.
-     * @param      Criteria  $criteria
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of TrackSites objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
-     */
-    public static function doSelectJoinSocialnets(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $criteria = clone $criteria;
-
-        // Set the correct dbName if it has not been overridden
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(TrackSitesPeer::DATABASE_NAME);
-        }
-
-        TrackSitesPeer::addSelectColumns($criteria);
-        $startcol = TrackSitesPeer::NUM_HYDRATE_COLUMNS;
-        SocialnetsPeer::addSelectColumns($criteria);
-
-        $criteria->addJoin(TrackSitesPeer::SNS_ID, SocialnetsPeer::SNS_ID, $join_behavior);
-
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = TrackSitesPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = TrackSitesPeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-
-                $cls = TrackSitesPeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                TrackSitesPeer::addInstanceToPool($obj1, $key1);
-            } // if $obj1 already loaded
-
-            $key2 = SocialnetsPeer::getPrimaryKeyHashFromRow($row, $startcol);
-            if ($key2 !== null) {
-                $obj2 = SocialnetsPeer::getInstanceFromPool($key2);
-                if (!$obj2) {
-
-                    $cls = SocialnetsPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol);
-                    SocialnetsPeer::addInstanceToPool($obj2, $key2);
-                } // if obj2 already loaded
-
-                // Add the $obj1 (TrackSites) to $obj2 (Socialnets)
-                $obj2->addTrackSites($obj1);
-
-            } // if joined row was not null
-
-            $results[] = $obj1;
-        }
-        $stmt->closeCursor();
-
-        return $results;
-    }
-
-
-    /**
-     * Returns the number of rows matching criteria, joining all related tables
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(TrackSitesPeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            TrackSitesPeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-        // Set the correct dbName
-        $criteria->setDbName(TrackSitesPeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(TrackSitesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(TrackSitesPeer::SNS_ID, SocialnetsPeer::SNS_ID, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
-    }
-
-    /**
-     * Selects a collection of TrackSites objects pre-filled with all related objects.
-     *
-     * @param      Criteria  $criteria
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of TrackSites objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
-     */
-    public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $criteria = clone $criteria;
-
-        // Set the correct dbName if it has not been overridden
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(TrackSitesPeer::DATABASE_NAME);
-        }
-
-        TrackSitesPeer::addSelectColumns($criteria);
-        $startcol2 = TrackSitesPeer::NUM_HYDRATE_COLUMNS;
-
-        SocialnetsPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + SocialnetsPeer::NUM_HYDRATE_COLUMNS;
-
-        $criteria->addJoin(TrackSitesPeer::SNS_ID, SocialnetsPeer::SNS_ID, $join_behavior);
-
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = TrackSitesPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = TrackSitesPeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-                $cls = TrackSitesPeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                TrackSitesPeer::addInstanceToPool($obj1, $key1);
-            } // if obj1 already loaded
-
-            // Add objects for joined Socialnets rows
-
-            $key2 = SocialnetsPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-            if ($key2 !== null) {
-                $obj2 = SocialnetsPeer::getInstanceFromPool($key2);
-                if (!$obj2) {
-
-                    $cls = SocialnetsPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    SocialnetsPeer::addInstanceToPool($obj2, $key2);
-                } // if obj2 loaded
-
-                // Add the $obj1 (TrackSites) to the collection in $obj2 (Socialnets)
-                $obj2->addTrackSites($obj1);
-            } // if joined row not null
-
-            $results[] = $obj1;
-        }
-        $stmt->closeCursor();
-
-        return $results;
-    }
-
     /**
      * Returns the TableMap related to this peer.
      * This method is not needed for general use but a specific application could have a need.
@@ -759,8 +516,8 @@ abstract class BaseTrackSitesPeer
             $criteria = $values->buildCriteria(); // build Criteria from TrackSites object
         }
 
-        if ($criteria->containsKey(TrackSitesPeer::SITE_ID) && $criteria->keyContainsValue(TrackSitesPeer::SITE_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.TrackSitesPeer::SITE_ID.')');
+        if ($criteria->containsKey(TrackSitesPeer::ID) && $criteria->keyContainsValue(TrackSitesPeer::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.TrackSitesPeer::ID.')');
         }
 
 
@@ -801,10 +558,10 @@ abstract class BaseTrackSitesPeer
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
 
-            $comparison = $criteria->getComparison(TrackSitesPeer::SITE_ID);
-            $value = $criteria->remove(TrackSitesPeer::SITE_ID);
+            $comparison = $criteria->getComparison(TrackSitesPeer::ID);
+            $value = $criteria->remove(TrackSitesPeer::ID);
             if ($value) {
-                $selectCriteria->add(TrackSitesPeer::SITE_ID, $value, $comparison);
+                $selectCriteria->add(TrackSitesPeer::ID, $value, $comparison);
             } else {
                 $selectCriteria->setPrimaryTableName(TrackSitesPeer::TABLE_NAME);
             }
@@ -821,7 +578,7 @@ abstract class BaseTrackSitesPeer
     }
 
     /**
-     * Deletes all rows from the TRACK_SITES table.
+     * Deletes all rows from the DIM_PLACES table.
      *
      * @param      PropelPDO $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).
@@ -883,7 +640,7 @@ abstract class BaseTrackSitesPeer
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(TrackSitesPeer::DATABASE_NAME);
-            $criteria->add(TrackSitesPeer::SITE_ID, (array) $values, Criteria::IN);
+            $criteria->add(TrackSitesPeer::ID, (array) $values, Criteria::IN);
             // invalidate the cache for this object(s)
             foreach ((array) $values as $singleval) {
                 TrackSitesPeer::removeInstanceFromPool($singleval);
@@ -967,7 +724,7 @@ abstract class BaseTrackSitesPeer
         }
 
         $criteria = new Criteria(TrackSitesPeer::DATABASE_NAME);
-        $criteria->add(TrackSitesPeer::SITE_ID, $pk);
+        $criteria->add(TrackSitesPeer::ID, $pk);
 
         $v = TrackSitesPeer::doSelect($criteria, $con);
 
@@ -994,7 +751,7 @@ abstract class BaseTrackSitesPeer
             $objs = array();
         } else {
             $criteria = new Criteria(TrackSitesPeer::DATABASE_NAME);
-            $criteria->add(TrackSitesPeer::SITE_ID, $pks, Criteria::IN);
+            $criteria->add(TrackSitesPeer::ID, $pks, Criteria::IN);
             $objs = TrackSitesPeer::doSelect($criteria, $con);
         }
 

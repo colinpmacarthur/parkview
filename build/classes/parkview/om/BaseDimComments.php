@@ -60,6 +60,12 @@ abstract class BaseDimComments extends BaseObject implements Persistent
     protected $spread;
 
     /**
+     * The value for the sns field.
+     * @var        string
+     */
+    protected $sns;
+
+    /**
      * @var        PropelObjectCollection|FactSnsdata[] Collection to store aggregation of FactSnsdata objects.
      */
     protected $collFactSnsdatas;
@@ -144,6 +150,17 @@ abstract class BaseDimComments extends BaseObject implements Persistent
     {
 
         return $this->spread;
+    }
+
+    /**
+     * Get the [sns] column value.
+     *
+     * @return string
+     */
+    public function getSns()
+    {
+
+        return $this->sns;
     }
 
     /**
@@ -252,6 +269,27 @@ abstract class BaseDimComments extends BaseObject implements Persistent
     } // setSpread()
 
     /**
+     * Set the value of [sns] column.
+     *
+     * @param  string $v new value
+     * @return DimComments The current object (for fluent API support)
+     */
+    public function setSns($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->sns !== $v) {
+            $this->sns = $v;
+            $this->modifiedColumns[] = DimCommentsPeer::SNS;
+        }
+
+
+        return $this;
+    } // setSns()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -288,6 +326,7 @@ abstract class BaseDimComments extends BaseObject implements Persistent
             $this->title = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->link = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->spread = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+            $this->sns = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -297,7 +336,7 @@ abstract class BaseDimComments extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = DimCommentsPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = DimCommentsPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating DimComments object", $e);
@@ -543,6 +582,9 @@ abstract class BaseDimComments extends BaseObject implements Persistent
         if ($this->isColumnModified(DimCommentsPeer::SPREAD)) {
             $modifiedColumns[':p' . $index++]  = '`spread`';
         }
+        if ($this->isColumnModified(DimCommentsPeer::SNS)) {
+            $modifiedColumns[':p' . $index++]  = '`sns`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `DIM_COMMENTS` (%s) VALUES (%s)',
@@ -568,6 +610,9 @@ abstract class BaseDimComments extends BaseObject implements Persistent
                         break;
                     case '`spread`':
                         $stmt->bindValue($identifier, $this->spread, PDO::PARAM_INT);
+                        break;
+                    case '`sns`':
+                        $stmt->bindValue($identifier, $this->sns, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -726,6 +771,9 @@ abstract class BaseDimComments extends BaseObject implements Persistent
             case 4:
                 return $this->getSpread();
                 break;
+            case 5:
+                return $this->getSns();
+                break;
             default:
                 return null;
                 break;
@@ -760,6 +808,7 @@ abstract class BaseDimComments extends BaseObject implements Persistent
             $keys[2] => $this->getTitle(),
             $keys[3] => $this->getLink(),
             $keys[4] => $this->getSpread(),
+            $keys[5] => $this->getSns(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -819,6 +868,9 @@ abstract class BaseDimComments extends BaseObject implements Persistent
             case 4:
                 $this->setSpread($value);
                 break;
+            case 5:
+                $this->setSns($value);
+                break;
         } // switch()
     }
 
@@ -848,6 +900,7 @@ abstract class BaseDimComments extends BaseObject implements Persistent
         if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setLink($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setSpread($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setSns($arr[$keys[5]]);
     }
 
     /**
@@ -864,6 +917,7 @@ abstract class BaseDimComments extends BaseObject implements Persistent
         if ($this->isColumnModified(DimCommentsPeer::TITLE)) $criteria->add(DimCommentsPeer::TITLE, $this->title);
         if ($this->isColumnModified(DimCommentsPeer::LINK)) $criteria->add(DimCommentsPeer::LINK, $this->link);
         if ($this->isColumnModified(DimCommentsPeer::SPREAD)) $criteria->add(DimCommentsPeer::SPREAD, $this->spread);
+        if ($this->isColumnModified(DimCommentsPeer::SNS)) $criteria->add(DimCommentsPeer::SNS, $this->sns);
 
         return $criteria;
     }
@@ -931,6 +985,7 @@ abstract class BaseDimComments extends BaseObject implements Persistent
         $copyObj->setTitle($this->getTitle());
         $copyObj->setLink($this->getLink());
         $copyObj->setSpread($this->getSpread());
+        $copyObj->setSns($this->getSns());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1303,10 +1358,10 @@ abstract class BaseDimComments extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|FactSnsdata[] List of FactSnsdata objects
      */
-    public function getFactSnsdatasJoinTrackSites($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getFactSnsdatasJoinDimPlaces($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = FactSnsdataQuery::create(null, $criteria);
-        $query->joinWith('TrackSites', $join_behavior);
+        $query->joinWith('DimPlaces', $join_behavior);
 
         return $this->getFactSnsdatas($query, $con);
     }
@@ -1321,6 +1376,7 @@ abstract class BaseDimComments extends BaseObject implements Persistent
         $this->title = null;
         $this->link = null;
         $this->spread = null;
+        $this->sns = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

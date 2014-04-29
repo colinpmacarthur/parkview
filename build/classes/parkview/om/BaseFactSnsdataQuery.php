@@ -7,18 +7,18 @@
  *
  *
  * @method FactSnsdataQuery orderById($order = Criteria::ASC) Order by the id column
- * @method FactSnsdataQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
+ * @method FactSnsdataQuery orderByUserId($order = Criteria::ASC) Order by the row_id column
  * @method FactSnsdataQuery orderByCommentId($order = Criteria::ASC) Order by the comment_id column
  * @method FactSnsdataQuery orderByDateId($order = Criteria::ASC) Order by the date_id column
- * @method FactSnsdataQuery orderBySiteId($order = Criteria::ASC) Order by the site_id column
+ * @method FactSnsdataQuery orderByPlacesRowId($order = Criteria::ASC) Order by the places_row_id column
  * @method FactSnsdataQuery orderBySentiment($order = Criteria::ASC) Order by the sentiment column
  * @method FactSnsdataQuery orderByRating($order = Criteria::ASC) Order by the rating column
  *
  * @method FactSnsdataQuery groupById() Group by the id column
- * @method FactSnsdataQuery groupByUserId() Group by the user_id column
+ * @method FactSnsdataQuery groupByUserId() Group by the row_id column
  * @method FactSnsdataQuery groupByCommentId() Group by the comment_id column
  * @method FactSnsdataQuery groupByDateId() Group by the date_id column
- * @method FactSnsdataQuery groupBySiteId() Group by the site_id column
+ * @method FactSnsdataQuery groupByPlacesRowId() Group by the places_row_id column
  * @method FactSnsdataQuery groupBySentiment() Group by the sentiment column
  * @method FactSnsdataQuery groupByRating() Group by the rating column
  *
@@ -38,25 +38,25 @@
  * @method FactSnsdataQuery rightJoinDimUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the DimUser relation
  * @method FactSnsdataQuery innerJoinDimUser($relationAlias = null) Adds a INNER JOIN clause to the query using the DimUser relation
  *
- * @method FactSnsdataQuery leftJoinTrackSites($relationAlias = null) Adds a LEFT JOIN clause to the query using the TrackSites relation
- * @method FactSnsdataQuery rightJoinTrackSites($relationAlias = null) Adds a RIGHT JOIN clause to the query using the TrackSites relation
- * @method FactSnsdataQuery innerJoinTrackSites($relationAlias = null) Adds a INNER JOIN clause to the query using the TrackSites relation
+ * @method FactSnsdataQuery leftJoinDimPlaces($relationAlias = null) Adds a LEFT JOIN clause to the query using the DimPlaces relation
+ * @method FactSnsdataQuery rightJoinDimPlaces($relationAlias = null) Adds a RIGHT JOIN clause to the query using the DimPlaces relation
+ * @method FactSnsdataQuery innerJoinDimPlaces($relationAlias = null) Adds a INNER JOIN clause to the query using the DimPlaces relation
  *
  * @method FactSnsdata findOne(PropelPDO $con = null) Return the first FactSnsdata matching the query
  * @method FactSnsdata findOneOrCreate(PropelPDO $con = null) Return the first FactSnsdata matching the query, or a new FactSnsdata object populated from the query conditions when no match is found
  *
- * @method FactSnsdata findOneByUserId(int $user_id) Return the first FactSnsdata filtered by the user_id column
+ * @method FactSnsdata findOneByUserId(int $row_id) Return the first FactSnsdata filtered by the row_id column
  * @method FactSnsdata findOneByCommentId(int $comment_id) Return the first FactSnsdata filtered by the comment_id column
  * @method FactSnsdata findOneByDateId(int $date_id) Return the first FactSnsdata filtered by the date_id column
- * @method FactSnsdata findOneBySiteId(int $site_id) Return the first FactSnsdata filtered by the site_id column
+ * @method FactSnsdata findOneByPlacesRowId(int $places_row_id) Return the first FactSnsdata filtered by the places_row_id column
  * @method FactSnsdata findOneBySentiment(double $sentiment) Return the first FactSnsdata filtered by the sentiment column
  * @method FactSnsdata findOneByRating(int $rating) Return the first FactSnsdata filtered by the rating column
  *
  * @method array findById(int $id) Return FactSnsdata objects filtered by the id column
- * @method array findByUserId(int $user_id) Return FactSnsdata objects filtered by the user_id column
+ * @method array findByUserId(int $row_id) Return FactSnsdata objects filtered by the row_id column
  * @method array findByCommentId(int $comment_id) Return FactSnsdata objects filtered by the comment_id column
  * @method array findByDateId(int $date_id) Return FactSnsdata objects filtered by the date_id column
- * @method array findBySiteId(int $site_id) Return FactSnsdata objects filtered by the site_id column
+ * @method array findByPlacesRowId(int $places_row_id) Return FactSnsdata objects filtered by the places_row_id column
  * @method array findBySentiment(double $sentiment) Return FactSnsdata objects filtered by the sentiment column
  * @method array findByRating(int $rating) Return FactSnsdata objects filtered by the rating column
  *
@@ -166,7 +166,7 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `user_id`, `comment_id`, `date_id`, `site_id`, `sentiment`, `rating` FROM `FACT_SNSDATA` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `row_id`, `comment_id`, `date_id`, `places_row_id`, `sentiment`, `rating` FROM `FACT_SNSDATA` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -298,14 +298,14 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the user_id column
+     * Filter the query on the row_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByUserId(1234); // WHERE user_id = 1234
-     * $query->filterByUserId(array(12, 34)); // WHERE user_id IN (12, 34)
-     * $query->filterByUserId(array('min' => 12)); // WHERE user_id >= 12
-     * $query->filterByUserId(array('max' => 12)); // WHERE user_id <= 12
+     * $query->filterByUserId(1234); // WHERE row_id = 1234
+     * $query->filterByUserId(array(12, 34)); // WHERE row_id IN (12, 34)
+     * $query->filterByUserId(array('min' => 12)); // WHERE row_id >= 12
+     * $query->filterByUserId(array('max' => 12)); // WHERE row_id <= 12
      * </code>
      *
      * @see       filterByDimUser()
@@ -323,11 +323,11 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
         if (is_array($userId)) {
             $useMinMax = false;
             if (isset($userId['min'])) {
-                $this->addUsingAlias(FactSnsdataPeer::USER_ID, $userId['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(FactSnsdataPeer::ROW_ID, $userId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($userId['max'])) {
-                $this->addUsingAlias(FactSnsdataPeer::USER_ID, $userId['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(FactSnsdataPeer::ROW_ID, $userId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -338,7 +338,7 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(FactSnsdataPeer::USER_ID, $userId, $comparison);
+        return $this->addUsingAlias(FactSnsdataPeer::ROW_ID, $userId, $comparison);
     }
 
     /**
@@ -430,19 +430,19 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the site_id column
+     * Filter the query on the places_row_id column
      *
      * Example usage:
      * <code>
-     * $query->filterBySiteId(1234); // WHERE site_id = 1234
-     * $query->filterBySiteId(array(12, 34)); // WHERE site_id IN (12, 34)
-     * $query->filterBySiteId(array('min' => 12)); // WHERE site_id >= 12
-     * $query->filterBySiteId(array('max' => 12)); // WHERE site_id <= 12
+     * $query->filterByPlacesRowId(1234); // WHERE places_row_id = 1234
+     * $query->filterByPlacesRowId(array(12, 34)); // WHERE places_row_id IN (12, 34)
+     * $query->filterByPlacesRowId(array('min' => 12)); // WHERE places_row_id >= 12
+     * $query->filterByPlacesRowId(array('max' => 12)); // WHERE places_row_id <= 12
      * </code>
      *
-     * @see       filterByTrackSites()
+     * @see       filterByDimPlaces()
      *
-     * @param     mixed $siteId The value to use as filter.
+     * @param     mixed $placesRowId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -450,16 +450,16 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
      *
      * @return FactSnsdataQuery The current query, for fluid interface
      */
-    public function filterBySiteId($siteId = null, $comparison = null)
+    public function filterByPlacesRowId($placesRowId = null, $comparison = null)
     {
-        if (is_array($siteId)) {
+        if (is_array($placesRowId)) {
             $useMinMax = false;
-            if (isset($siteId['min'])) {
-                $this->addUsingAlias(FactSnsdataPeer::SITE_ID, $siteId['min'], Criteria::GREATER_EQUAL);
+            if (isset($placesRowId['min'])) {
+                $this->addUsingAlias(FactSnsdataPeer::PLACES_ROW_ID, $placesRowId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($siteId['max'])) {
-                $this->addUsingAlias(FactSnsdataPeer::SITE_ID, $siteId['max'], Criteria::LESS_EQUAL);
+            if (isset($placesRowId['max'])) {
+                $this->addUsingAlias(FactSnsdataPeer::PLACES_ROW_ID, $placesRowId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -470,7 +470,7 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(FactSnsdataPeer::SITE_ID, $siteId, $comparison);
+        return $this->addUsingAlias(FactSnsdataPeer::PLACES_ROW_ID, $placesRowId, $comparison);
     }
 
     /**
@@ -722,14 +722,14 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
     {
         if ($dimUser instanceof DimUser) {
             return $this
-                ->addUsingAlias(FactSnsdataPeer::USER_ID, $dimUser->getRowId(), $comparison);
+                ->addUsingAlias(FactSnsdataPeer::ROW_ID, $dimUser->getRowId(), $comparison);
         } elseif ($dimUser instanceof PropelObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(FactSnsdataPeer::USER_ID, $dimUser->toKeyValue('PrimaryKey', 'RowId'), $comparison);
+                ->addUsingAlias(FactSnsdataPeer::ROW_ID, $dimUser->toKeyValue('PrimaryKey', 'RowId'), $comparison);
         } else {
             throw new PropelException('filterByDimUser() only accepts arguments of type DimUser or PropelCollection');
         }
@@ -786,43 +786,43 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related TrackSites object
+     * Filter the query by a related DimPlaces object
      *
-     * @param   TrackSites|PropelObjectCollection $trackSites The related object(s) to use as filter
+     * @param   DimPlaces|PropelObjectCollection $dimPlaces The related object(s) to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return                 FactSnsdataQuery The current query, for fluid interface
      * @throws PropelException - if the provided filter is invalid.
      */
-    public function filterByTrackSites($trackSites, $comparison = null)
+    public function filterByDimPlaces($dimPlaces, $comparison = null)
     {
-        if ($trackSites instanceof TrackSites) {
+        if ($dimPlaces instanceof DimPlaces) {
             return $this
-                ->addUsingAlias(FactSnsdataPeer::SITE_ID, $trackSites->getSiteId(), $comparison);
-        } elseif ($trackSites instanceof PropelObjectCollection) {
+                ->addUsingAlias(FactSnsdataPeer::PLACES_ROW_ID, $dimPlaces->getRowId(), $comparison);
+        } elseif ($dimPlaces instanceof PropelObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(FactSnsdataPeer::SITE_ID, $trackSites->toKeyValue('PrimaryKey', 'SiteId'), $comparison);
+                ->addUsingAlias(FactSnsdataPeer::PLACES_ROW_ID, $dimPlaces->toKeyValue('PrimaryKey', 'RowId'), $comparison);
         } else {
-            throw new PropelException('filterByTrackSites() only accepts arguments of type TrackSites or PropelCollection');
+            throw new PropelException('filterByDimPlaces() only accepts arguments of type DimPlaces or PropelCollection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the TrackSites relation
+     * Adds a JOIN clause to the query using the DimPlaces relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return FactSnsdataQuery The current query, for fluid interface
      */
-    public function joinTrackSites($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinDimPlaces($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('TrackSites');
+        $relationMap = $tableMap->getRelation('DimPlaces');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -837,14 +837,14 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'TrackSites');
+            $this->addJoinObject($join, 'DimPlaces');
         }
 
         return $this;
     }
 
     /**
-     * Use the TrackSites relation TrackSites object
+     * Use the DimPlaces relation DimPlaces object
      *
      * @see       useQuery()
      *
@@ -852,13 +852,13 @@ abstract class BaseFactSnsdataQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   TrackSitesQuery A secondary query class using the current class as primary query
+     * @return   DimPlacesQuery A secondary query class using the current class as primary query
      */
-    public function useTrackSitesQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useDimPlacesQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinTrackSites($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'TrackSites', 'TrackSitesQuery');
+            ->joinDimPlaces($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'DimPlaces', 'DimPlacesQuery');
     }
 
     /**
