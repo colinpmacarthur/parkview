@@ -117,26 +117,30 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 			<div class="col-md-3"><div class="stat-context text-center"><?php echo 	$db->getAggregateCountChange(['Yelp','Trip_Advisor','Twitter']) ?> from last year</div></div>
 		</div>
 		<?php
-		$services = [ 'yelp' => [ 'full_name' => 'Yelp', 'noun' => 'reviews' ],
-			      'trip_advisor' => [ 'full_name' => 'Trip Advisor', 'noun' => 'reviews' ],
-			      'flickr' => [ 'full_name' => 'Flickr', 'noun' => 'photos' ],
-			      'twitter' => [ 'full_name' => 'Twitter', 'noun' => 'posts' ],
-			      'facebook' => [ 'full_name' => 'Facebook', 'noun' => 'posts' ]
+		$no_count_services = [];
+		$services = [ $db->getCount('yelp').'yelp'  => [ 'name' => 'yelp', 'full_name' => 'Yelp', 'noun' => 'reviews' ],
+			      $db->getCount('trip_advisor').'ta' => ['name' => 'trip_advisor', 'full_name' => 'Trip Advisor', 'noun' => 'reviews' ],
+			      $db->getCount('flickr').'fl' => [ 'name' => 'flickr', 'full_name' => 'Flickr', 'noun' => 'photos' ],
+			      $db->getCount('twitter').'tw' => [ 'name' => 'twitter', 'full_name' => 'Twitter', 'noun' => 'posts' ],
+			      $db->getCount('facebook').'fb' => [ 'name' => 'facebook', 'full_name' => 'Facebook', 'noun' => 'posts' ]
 			    ];
-		foreach ( $services as $name => $setting )
+		krsort($services);
+		foreach ( $services as $count => $setting )
 		{
-		$percent_change = $db->getCountPercentChange($name);
+		if ( $db->getCount($setting['name']) > 0)
+		{
+		$percent_change = $db->getCountPercentChange($setting['name']);
 		$percent_change = $percent_change ? $percent_change.' from last year' : '';
-		$rating = $db->getAverageRating($name);
+		$rating = $db->getAverageRating($setting['name']);
 		$rating = $rating ? $rating.'<span class="gray">/5</span>' : '<span class="gray">N/A</span>';
 		echo '
 		<div class="row report-row" style="padding-top: 2em; padding-bottom: 2em;">
 			<div class="col-md-2" style="color: #616161;">
-				<img class="stat-image" src="images/icons/'.$name.'/'.$name.'-128-black.png" height="64" width="64" alt=""/>
+				<img class="stat-image" src="images/icons/'.$setting['name'].'/'.$setting['name'].'-128-black.png" height="64" width="64" alt=""/>
 				'.$setting['full_name'].'
 			</div>
 			<div class="col-md-2 text-center">
-					<div class="stat-junior">'.$db->getCount($name).'</div>
+					<div class="stat-junior">'.$db->getCount($setting['name']).'</div>
 					<div class="stat-type">reviews from visitors</div>
 					<div class="stat-context text-center">'.$percent_change.'</div>
 			</div>
@@ -147,11 +151,17 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 				<div class="stat-junior">'.$rating.'</div>
 				<div class="stat-type">Average rating</div>
 			</div>
-			<div class="col-md-2" style="font-size: 0.8em;">'.$db->getLastComment($name).'
+			<div class="col-md-2" style="font-size: 0.8em;">'.$db->getLastComment($setting['name']).'
 			</div>
 		</div>
 		';
 		}
+		else
+		{
+			array_push($no_count_services, $setting['full_name']);
+		}
+		}
+		if (count($no_count_services) > 0) echo 'No data from '.join(', ',$no_count_services).' this quarter.'; 
 		?>
 		<!--Twitter-->
    <!-- /.container -->
