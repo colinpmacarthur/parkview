@@ -425,7 +425,7 @@
 											}, {
 												name: 'Neutral',
 												data: [neut4, neut3, neut2, neut1, neut0],
-												color: '#6cd67f'
+												color: '#88898A'
 											}, {
 												name: 'Positive',
 												data: [posi4, posi3, posi2, posi1, posi0],
@@ -569,7 +569,7 @@
 							pieHole: 0.35,
 							//pieSliceText: 'value', //
 							backgroundColor: 'transparent',
-							slices: {0: {color: '#27ae60'}, 1: {color: '#6cd67f'}, 2: {color: '#b1ff9e'}}, //positive, neutral, negative
+							slices: {0: {color: '#27ae60'}, 1: {color: '#88898A'}, 2: {color: '#FFDD4C'}}, //positive, neutral, negative
 							pieSliceText: 'none',
 							//pieSliceTextStyle: {color: '#333333'},
 							legend: 'none'
@@ -613,17 +613,16 @@
 			$dbh = new PDO($db['dsn'], $db['user'], $db['password']);
 
 			$sql_user_review = '
-				SELECT DIM_USER.user_id as user_id, SOCIALNETS.sns as SNS, ALLSNSDATA.user as userName, DIM_USER.address as address, DIM_PERIOD.creation_date as date, FACT_SNSDATA.rating, ROUND(FACT_SNSDATA.sentiment, 1) as sentiment, DIM_COMMENTS.comment, DIM_COMMENTS.link as pageURL
-				FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES, DIM_COMMENTS, SOCIALNETS, DIM_USER, ALLSNSDATA
+				SELECT DIM_USER.user_id as user_id, SOCIALNETS.sns as SNS, DIM_USER.user as userName, DIM_USER.address as address, DIM_PERIOD.creation_date as date, FACT_SNSDATA.rating, ROUND(FACT_SNSDATA.sentiment, 1) as sentiment, DIM_COMMENTS.comment, DIM_COMMENTS.link as pageURL
+				FROM FACT_SNSDATA, DIM_PERIOD, DIM_PLACES, DIM_COMMENTS, SOCIALNETS, DIM_USER, ALLSNSDATA
 				WHERE FACT_SNSDATA.sentiment < -0.1
 				AND FACT_SNSDATA.date_id = DIM_PERIOD.date_id
-				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
-				AND FACT_SNSDATA.comment_id = DIM_COMMENTS.comment_id
-				AND FACT_SNSDATA.user_id = DIM_USER.row_id
-				AND DIM_USER.row_id = ALLSNSDATA.row_id
-				AND TRACK_SITES.sns_id = SOCIALNETS.sns_id
-				AND TRACK_SITES.sns_id IN(1, 3)
-				AND date < "' . $year . '-' . $modosu . '-01"
+				AND FACT_SNSDATA.places_row_id = DIM_PLACES.row_id
+				AND FACT_SNSDATA.row_id = DIM_USER.row_id
+				AND DIM_COMMENTS.comment_id = FACT_SNSDATA.comment_id
+				AND DIM_COMMENTS.sns = SOCIALNETS.sns
+				AND SOCIALNETS.id IN(1, 3)
+				AND DIM_PERIOD.creation_date < "' . $year . '-' . $modosu . '-01"
 				GROUP BY user_id, userName
 				ORDER By date desc LIMIT 0,3
 			';
