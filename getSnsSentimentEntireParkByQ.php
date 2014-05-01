@@ -12,33 +12,36 @@
 		$sql_senti = '
 			SELECT year, quarter, sum(negative) as negative, sum(neutral) as neutral, sum(positive) as positive
 			FROM(
-				SELECT year(DIM_PERIOD.creation_date) as year, Quarter(DIM_PERIOD.creation_date) as quarter, count(*) as negative, 0 as neutral, 0 as positive
-				FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES
+				SELECT DIM_PERIOD.year, DIM_PERIOD.quarter, count(*) as negative, 0 as neutral, 0 as positive
+				FROM FACT_SNSDATA, DIM_PERIOD, DIM_PLACES, DIM_SNS
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
-				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
-				AND TRACK_SITES.sns_id IN(' . $targetSNS . ')
+				AND FACT_SNSDATA.places_row_id = DIM_PLACES.row_id
+				AND DIM_SNS.sns_id = FACT_SNSDATA.sns_id
+				AND DIM_SNS.sns_number IN(' . $targetSNS . ')
 				AND FACT_SNSDATA.sentiment < ' . strval($thnega) . '
-				GROUP BY Year(DIM_PERIOD.creation_date), Quarter(DIM_PERIOD.creation_date)
+				GROUP BY DIM_PERIOD.year, DIM_PERIOD.quarter
 
 				UNION ALL
 
-				SELECT year(DIM_PERIOD.creation_date) as year, Quarter(DIM_PERIOD.creation_date) as quarter, 0 as negative, count(*) as neutral, 0 as positive
-				FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES
+				SELECT DIM_PERIOD.year, DIM_PERIOD.quarter, 0 negative, count(*) as neutral, 0 as positive
+				FROM FACT_SNSDATA, DIM_PERIOD, DIM_PLACES, DIM_SNS
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
-				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
-				AND TRACK_SITES.sns_id IN(' . $targetSNS . ')
+				AND FACT_SNSDATA.places_row_id = DIM_PLACES.row_id
+				AND DIM_SNS.sns_id = FACT_SNSDATA.sns_id
+				AND DIM_SNS.sns_number IN(' . $targetSNS . ')
 				AND FACT_SNSDATA.sentiment between ' . strval($thnega) . ' and ' . strval($thposi) . '
-				GROUP BY Year(DIM_PERIOD.creation_date), Quarter(DIM_PERIOD.creation_date)
+				GROUP BY DIM_PERIOD.year, DIM_PERIOD.quarter
 				
 				UNION ALL
 
-				SELECT year(DIM_PERIOD.creation_date) as year, Quarter(DIM_PERIOD.creation_date) as quarter, 0 as negative, 0 as neutral, count(*) as positive
-				FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES
+				SELECT DIM_PERIOD.year, DIM_PERIOD.quarter, 0 as negative, 0 as neutral, count(*) as positive
+				FROM FACT_SNSDATA, DIM_PERIOD, DIM_PLACES, DIM_SNS
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
-				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
-				AND TRACK_SITES.sns_id IN(' . $targetSNS . ')
-				AND FACT_SNSDATA.sentiment > ' . strval($thposi) . '
-				GROUP BY Year(DIM_PERIOD.creation_date), Quarter(DIM_PERIOD.creation_date)
+				AND FACT_SNSDATA.places_row_id = DIM_PLACES.row_id
+				AND DIM_SNS.sns_id = FACT_SNSDATA.sns_id
+				AND DIM_SNS.sns_number IN(' . $targetSNS . ')
+				AND FACT_SNSDATA.sentiment > ' . strval($thnega) . '
+				GROUP BY DIM_PERIOD.year, DIM_PERIOD.quarter
 			) as UNITED
 			GROUP BY year, quarter
 		';

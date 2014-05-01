@@ -1,4 +1,7 @@
 <?php
+	$thposi = 0.1;
+	$thnega = -0.1;
+	$targetSNS = "1, 3";
 	$quarter = $_POST['quarter'];
 	$year = $_POST['year'];
 	//get data from mysql and put them into an array
@@ -11,36 +14,45 @@
 		$sql_ratings = '
 			SELECT place, latitude, longitude, sum(negative) as negative, sum(neutral) as neutral, sum(positive) as positive
 			FROM(
-				SELECT year(DIM_PERIOD.creation_date) as year, quarter(DIM_PERIOD.creation_date) as quarter, TRACK_SITES.place as place, TRACK_SITES.latitude as latitude, TRACK_SITES.longitude as longitude, count(*) as negative, 0 as neutral, 0 as positive
-				FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES
+				SELECT DIM_PERIOD.year, DIM_PERIOD.quarter, DIM_PLACES.place, DIM_PLACES.latitude, DIM_PLACES.longitude, count(*) as negative, 0 as neutral, 0 as positive
+				FROM FACT_SNSDATA, DIM_PERIOD, DIM_PLACES, DIM_SNS
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
-				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
-				AND FACT_SNSDATA.sentiment < -0.1
-				AND TRACK_SITES.place <>""
-				AND TRACK_SITES.sns_id IN(1, 3)
-				GROUP BY year(DIM_PERIOD.creation_date), quarter(DIM_PERIOD.creation_date), TRACK_SITES.place
+				AND FACT_SNSDATA.sentiment < ' . strval($thnega) . '
+				AND DIM_PLACES.row_id = FACT_SNSDATA.row_id
+				AND DIM_PLACES.place <>""
+				AND DIM_PLACES.latitude <>""
+				AND DIM_PLACES.longitude <>""
+				AND DIM_SNS.sns_id = FACT_SNSDATA.sns_id
+				AND DIM_SNS.sns_number IN(' . $targetSNS . ')
+				GROUP BY DIM_PERIOD.year, DIM_PERIOD.quarter, DIM_PLACES.place
 
 				UNION ALL
 
-				SELECT year(DIM_PERIOD.creation_date) as year, quarter(DIM_PERIOD.creation_date) as quarter, TRACK_SITES.place as place, TRACK_SITES.latitude as latitude, TRACK_SITES.longitude as longitude, 0 as negative, count(*) as neutral, 0 as positive
-				FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES
+				SELECT DIM_PERIOD.year, DIM_PERIOD.quarter, DIM_PLACES.place, DIM_PLACES.latitude, DIM_PLACES.longitude, 0 as negative, count(*) as neutral, 0 as positive
+				FROM FACT_SNSDATA, DIM_PERIOD, DIM_PLACES, DIM_SNS
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
-				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
-				AND FACT_SNSDATA.sentiment between -0.1 and 0.1
-				AND TRACK_SITES.place <>""
-				AND TRACK_SITES.sns_id IN(1, 3)
-				GROUP BY year(DIM_PERIOD.creation_date), quarter(DIM_PERIOD.creation_date), TRACK_SITES.place
+				AND FACT_SNSDATA.sentiment between ' . strval($thnega) . ' and ' . strval($thposi) . '
+				AND DIM_PLACES.row_id = FACT_SNSDATA.row_id
+				AND DIM_PLACES.place <>""
+				AND DIM_PLACES.latitude <>""
+				AND DIM_PLACES.longitude <>""
+				AND DIM_SNS.sns_id = FACT_SNSDATA.sns_id
+				AND DIM_SNS.sns_number IN(' . $targetSNS . ')
+				GROUP BY DIM_PERIOD.year, DIM_PERIOD.quarter, DIM_PLACES.place
 
 				UNION ALL
 
-				SELECT year(DIM_PERIOD.creation_date) as year, quarter(DIM_PERIOD.creation_date) as quarter, TRACK_SITES.place as place, TRACK_SITES.latitude as latitude, TRACK_SITES.longitude as longitude, 0 as negative, 0 as neutral, count(*) as positive
-				FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES
+				SELECT DIM_PERIOD.year, DIM_PERIOD.quarter, DIM_PLACES.place, DIM_PLACES.latitude, DIM_PLACES.longitude, 0 as negative, 0 as neutral, count(*) as positive
+				FROM FACT_SNSDATA, DIM_PERIOD, DIM_PLACES, DIM_SNS
 				WHERE FACT_SNSDATA.date_id = DIM_PERIOD.date_id
-				AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
-				AND FACT_SNSDATA.sentiment > 0.1
-				AND TRACK_SITES.place <>""
-				AND TRACK_SITES.sns_id IN(1, 3)
-				GROUP BY year(DIM_PERIOD.creation_date), quarter(DIM_PERIOD.creation_date), TRACK_SITES.place
+				AND FACT_SNSDATA.sentiment > ' . strval($thnega) . '
+				AND DIM_PLACES.row_id = FACT_SNSDATA.row_id
+				AND DIM_PLACES.place <>""
+				AND DIM_PLACES.latitude <>""
+				AND DIM_PLACES.longitude <>""
+				AND DIM_SNS.sns_id = FACT_SNSDATA.sns_id
+				AND DIM_SNS.sns_number IN(' . $targetSNS . ')
+				GROUP BY DIM_PERIOD.year, DIM_PERIOD.quarter, DIM_PLACES.place
 			) as UNI
 			WHERE year = ' . $year . '
 			AND quarter = ' . $quarter . '
