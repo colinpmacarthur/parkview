@@ -135,7 +135,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 							dataType: "json",
 
 							success: function(hoge) {
-								console.log(JSON.stringify(hoge));
+								//console.log(JSON.stringify(hoge));
 								//iterate making circles, markers, and infowindows for each point
 								//alert(hoge[0].ratingThree);
 								var i;
