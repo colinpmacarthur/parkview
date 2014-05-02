@@ -138,13 +138,13 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8">
+			<div style="margin-left: -15px;" class="col-md-8">
 				<h3>Negative Reviews: <?php echo "Q" . $quarter . "-" . $year; ?></h3>
 			</div>
 			<div class="col-md-2 time-selectors col-md-offset-2" style="font-weight: 900;">
 				<form>
-	        <select id="seasonList" name="herolist" value="Season" class="select-block" onChange="top.location.href=value">
-						<option value="#">Select Qtr</option>
+	        <select id="seasonList" name="herolist" value="Season" class="select-block" style="font-weight: 600;"  onChange="top.location.href=value">
+						<option value="#">Select Quarter</option>
 	          <option value="?quarter=1&year=2014">Q1 - 2014</option>
 	          <option value="?quarter=4&year=2013">Q4 - 2013</option>
 	          <option value="?quarter=3&year=2013">Q3 - 2013</option>
@@ -167,10 +167,10 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Avg. Sentiment Score vs. Total mentions</div>
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px;">Quartery Number of Reviews</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Avg. Sentiment Score vs. Total Mentions</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Number of Negative Reviews per Quarter</div>
 		</div>
-		<div class="row" id="upper">
+		<div class="row" id="upper" style="background-color: #FAFAF5">
 			<div class="col-md-6" id="scatter-plot" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
 				<script>
 					$.ajax({
@@ -202,7 +202,8 @@
 											marginTop: 20,
 											marginLeft: 45,
 											zoomType: 'xy',
-											backgroundColor: '#F8FFF8'
+
+	    backgroundColor: '#FAFAF5',
 										},
 										title: {
 											text: ''
@@ -279,7 +280,6 @@
 											x: 10,
 											y: 70,
 											floating: true,
-											backgroundColor: '#FFFFFF',
 											borderWidth: 1
 										},
 										plotOptions: {
@@ -361,7 +361,7 @@
 											chart: {
 												type: 'column',
 												marginTop: 50,
-												backgroundColor: '#F8FFF8'
+												backgroundColor: '#FAFAF5'
 											},
 											title: {
 												text: ''
@@ -449,8 +449,8 @@
 			</div><!-- id="nega-posi-history" -->
 		</div><!-- id="upper" -->
 		<div class="row" id="rower">
-			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">Sentiment Score Map</div>
-			<div class="col-md-6" style="padding: 40px 5px 5px 5px;">3 Recent Negative Sentiment Reviews</div>
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px; font-weight: 600; color: #616161;">Sentiment Score Map</div>
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px; font-weight: 600; color: #616161;">3 Recent Negative Sentiment Reviews</div>
 		</div>
 		<div class="row">
 			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
