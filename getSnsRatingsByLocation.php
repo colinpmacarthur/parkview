@@ -3,6 +3,7 @@
 	$startmonth = $endmonth-2;
 	$year = $_POST['year'];
 	$quarter = $_POST['quarter'];
+	$targetSNS = "1, 3";
 	//get data from mysql and put them into an array
 	try{
 		$geolocation = null;
@@ -10,15 +11,16 @@
 		$dbh = new PDO($db['dsn'], $db['user'], $db['password']);
 
 		$sql_ratings = '
-			SELECT TRACK_SITES.place as siteName, TRACK_SITES.latitude as latitude, TRACK_SITES.longitude as longitude, count(*) as totalMentions
-			FROM FACT_SNSDATA, DIM_PERIOD, TRACK_SITES
+			SELECT DIM_PLACES.place as siteName, DIM_PLACES.latitude as latitude, DIM_PLACES.longitude as longitude, count(*) as totalMentions
+			FROM FACT_SNSDATA, DIM_PERIOD, DIM_SNS, DIM_PLACES
 			WHERE year(DIM_PERIOD.creation_date) = ' . $year . '
 			AND quarter(DIM_PERIOD.creation_date) = ' . $quarter . '
 			AND FACT_SNSDATA.date_id = DIM_PERIOD.date_id
-			AND FACT_SNSDATA.site_id = TRACK_SITES.site_id
-			AND TRACK_SITES.place <>""
-			AND TRACK_SITES.sns_id IN(1, 3)
-			GROUP BY TRACK_SITES.place
+			AND FACT_SNSDATA.places_row_id = DIM_PLACES.row_id
+			AND DIM_PLACES.place <>""
+			AND DIM_SNS.sns_id = FACT_SNSDATA.sns_id
+			AND DIM_SNS.sns_number IN(' . $targetSNS . ')
+			GROUP BY DIM_PLACES.place
 		';
 		$st = $dbh->query($sql_ratings);
 
