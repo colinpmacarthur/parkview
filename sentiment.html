@@ -12,6 +12,9 @@
 			.stat-context {font-size: 0.75em; color: #27ae60; margin-bottom: 2em; line-height: 1em;}
 			.report-row {border-top: 1px solid #ecf0f1; padding-top: 1.5em;}
 			body { padding-top: 70px; }
+			div#type1_center {text-align: center;}
+			span#type1_left {float: left;}
+			span#type1_right {float: right;}
     </style>
 <!-- Loading Bootstrap -->
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -183,10 +186,10 @@
 						for (i = 0; i<huga.length; i++) {
 							seriesopt[i] = {};
 							seriesopt[i]['name']=huga[i]['siteName'];
-							seriesopt[i]['color']='rgba(39, 174, 96, .8)';
+							seriesopt[i]['color']='rgba(137, 172, 10, .8)';
 //							totalmentions = huga[i]['totalMentions'];
 //							averagesentiment = huga[i]['averageSentiment'];
-							seriesopt[i]['data']=[[Number(huga[i]['totalMentions']), Number(huga[i]['averageSentiment'])]];
+							seriesopt[i]['data']=[[Number(huga[i]['totalMentions']), Number(Number(huga[i]['averageSentiment']).toFixed(1))]];
 						}
 						//console.log(JSON.stringify(huga));
 						//console.log(JSON.stringify(seriesopt));
@@ -221,11 +224,12 @@
 											min: -1,
 											max: 1,
 											title: {
-												margin: 50,
+												margin: 70,
 												text: 'Avg. Sentiment Score'
 											},
 											
 											labels: {
+												enabled: false,
 												format: '{value}',
 												overflow: 'none'
 											},
@@ -262,7 +266,7 @@
 																color: '#666'
 																},
 															align: 'left',
-															x: -74,
+															x: -65,
 															y: 4
 													}
 											}]
@@ -645,7 +649,7 @@
 												<img class="stat-image" src="images/icons/SNS/' . $reviews[0]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[0]["SNS"]. '"/></a><br>' . $reviews[0]["username"] . '</b> from ' . $reviews[0]["address"] . '
 												</div>
 												<div class="col-md-9">
-													<b>Sentiment score: ' . $reviews[0]["sentiment"] . '</b>, ' . $reviews[0]["rating"] . ' star(s) on  ' . $reviews[0]["date"] . ' <br>' . substr($reviews[0]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[0]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
+													<div id="type1_center">' . $reviews[0]["rating"] . ' star(s)  <span id="type1_left"><b>Sentiment score: ' . $reviews[0]["sentiment"] . '</b></span><span id="type1_right">' . $reviews[0]["date"] . '</span></div>' . substr($reviews[0]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[0]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
 												</div>
 											</div>
 											<hr>
@@ -655,7 +659,7 @@
 												<img class="stat-image" src="images/icons/SNS/' . $reviews[1]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[1]["SNS"]. '"/></a><br>' . $reviews[1]["username"] . '</b> from ' . $reviews[1]["address"] . '
 												</div>
 												<div class="col-md-9">
-													<b>Sentiment score: ' . $reviews[1]["sentiment"] . '</b>, ' . $reviews[1]["rating"] . ' star(s) on  ' . $reviews[1]["date"] . ' <br>' . substr($reviews[1]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[1]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
+													<div id="type1_center">' . $reviews[1]["rating"] . ' star(s)  <span id="type1_left"><b>Sentiment score: ' . $reviews[1]["sentiment"] . '</b></span><span id="type1_right">' . $reviews[1]["date"] . '</span></div>' . substr($reviews[1]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[0]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
 												</div>
 
 											</div>
@@ -666,7 +670,7 @@
 												<img class="stat-image" src="images/icons/SNS/' . $reviews[2]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[2]["SNS"]. '"/></a><br>' . $reviews[2]["username"] . '</b> from ' . $reviews[2]["address"] . '
 												</div>
 												<div class="col-md-9">
-													<b>Sentiment score: ' . $reviews[2]["sentiment"] . '</b>, ' . $reviews[2]["rating"] . ' star(s) on  ' . $reviews[2]["date"] . ' <br>' . substr($reviews[2]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[2]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
+													<div id="type1_center">' . $reviews[2]["rating"] . ' star(s)  <span id="type1_left"><b>Sentiment score: ' . $reviews[2]["sentiment"] . '</b></span><span id="type1_right">' . $reviews[2]["date"] . '</span></div>' . substr($reviews[2]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[2]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
 												</div>
 
 											</div>
