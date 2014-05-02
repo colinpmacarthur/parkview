@@ -13,12 +13,8 @@ class ParkViewPage
 
     function setYearQuarter($year,$quarter)
     {
-        $year = is_int($year)
-              ? $year : 2014;
-        $qtr  = is_int($quarter)
-              ? $quarter : 1;
-        $this->year = $year;
-        $this->quarter = $qtr;
+        $this->year = ($year);
+        $this->quarter = ($quarter);
         $this->openParkDBQuery(); }
 
     function getYear()

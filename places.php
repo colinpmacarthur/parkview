@@ -86,40 +86,6 @@ $page->setYearQuarter(htmlspecialchars($_GET["year"]),htmlspecialchars($_GET["qu
 				</script>
 				</div>
 				<div class="col-md-6">
-					<span style="color: #616161; font-weight: 600;">Number of Park Mentions</span>
-					<?php
-					$chartData = $page->db->getCountForGraph()['counts'];
-       				$series = new HighRollerSeriesData();
-	   		 		$series->addName('Total activity')->addData($chartData);
-	   		 	 	$chart = new HighRollerColumnChart();
-	   		 	 	$chart->chart->renderTo = 'TotalChart';
-	   		 		$chart->title->text = '';
-       		 	 	$chart->title->color = '#616161'; 
-       		 	 	$chart->legend->enabled = false;
-       		 	 	$chart->style->fontFamily = 'Lato, Helvetica';
-	   		 	 	$chart->yAxis->title->text = ucwords('Total activity');
-       		 	 	$chart->yAxis->title->style->color = "#9C9999";
-       		 	 	$chart->yAxis->lineColor = "#9C9999";
-       		 	 	$chart->yAxis->stackLabels->enabled = true;
-       		 	 	$chart->yAxis->stackLabels->style->color = '#9C9999';
-       		 	 	$chart->yAxis->gridLineWidth = 0;
-       		 	 	$chart->xAxis->title->text = "Month";
-	   		 	 	$chart->xAxis->title->style->color = "#9C9999";
-       		 	 	$chart->xAxis->categories = $page->db->getCountForGraph()['months'];
-       		 	 	$chart->xAxis->labels->style->color = "#9C9999";
-       		 	 	$chart->plotOptions->column->stacking = "normal";
-       		 	 	$chart->plotOptions->column->pointPadding = 0.2;
-       		 	 	$chart->plotOptions->column->borderWidth = 0;
-       		 	 	$chart->exporting->enabled = true;
-       		 	 	$chart->colors = ['#89AC6A'];
-       		 	 	$chart->addSeries($series);
-					?>
-					<div id="TotalChart" style="min-width: 310px; height: 150px; margin: 0 auto">
-						<script type="text/javascript">
-							<?php echo $chart->renderChart(); ?> 
-						</script>
-					</div>
-						
 					<span style="color: #616161; font-weight: 600;">Park Places</span><?php
 						$i = 1;
 						foreach ($page->db->getPlaceRanked() as $place)
