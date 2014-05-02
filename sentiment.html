@@ -200,7 +200,7 @@
 										chart: {
 											type: 'scatter',
 											marginTop: 20,
-											marginLeft: 85,
+											marginLeft: 45,
 											zoomType: 'xy',
 											backgroundColor: '#F8FFF8'
 										},
@@ -695,3 +695,39 @@
 	</div><!-- /.container -->
   </body>
 </html>
+
+<!--
+							echo ('
+											<div class="row">
+												<div class="col-md-3">
+												<img class="stat-image" src="images/icons/SNS/' . $reviews[0]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[0]["SNS"]. '"/></a><br>' . $reviews[0]["username"] . '</b> from ' . $reviews[0]["address"] . '
+												</div>
+												<div class="col-md-9">
+													<div id="type1_center">' . $reviews[0]["rating"] . ' star(s)  <span id="type1_left"><b>Sentiment score: ' . $reviews[0]["sentiment"] . '</b></span><span id="type1_right">' . $reviews[0]["date"] . '</span></div>' . substr($reviews[0]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[0]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
+												</div>
+											</div>
+											<hr>
+
+											<div class="row">
+												<div class="col-md-3">
+												<img class="stat-image" src="images/icons/SNS/' . $reviews[1]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[1]["SNS"]. '"/></a><br>' . $reviews[1]["username"] . '</b> from ' . $reviews[1]["address"] . '
+												</div>
+												<div class="col-md-9">
+													<div id="type1_center">' . $reviews[1]["rating"] . ' star(s)  <span id="type1_left"><b>Sentiment score: ' . $reviews[1]["sentiment"] . '</b></span><span id="type1_right">' . $reviews[1]["date"] . '</span></div>' . substr($reviews[1]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[0]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
+												</div>
+
+											</div>
+											<hr>
+
+											<div class="row">
+												<div class="col-md-3">
+												<img class="stat-image" src="images/icons/SNS/' . $reviews[2]["SNS"] . '.png" height="48" width="48" alt="' . $reviews[2]["SNS"]. '"/></a><br>' . $reviews[2]["username"] . '</b> from ' . $reviews[2]["address"] . '
+												</div>
+												<div class="col-md-9">
+													<div id="type1_center">' . $reviews[2]["rating"] . ' star(s)  <span id="type1_left"><b>Sentiment score: ' . $reviews[2]["sentiment"] . '</b></span><span id="type1_right">' . $reviews[2]["date"] . '</span></div>' . substr($reviews[2]["comment"], 0, 139) . ' ... <br><a href="' . $reviews[2]["URL"] . '" title="Read more..." target="_blank" >Read more from the original SNS.</a>
+												</div>
+
+											</div>
+											<hr>
+										');
+-->
