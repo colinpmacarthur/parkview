@@ -120,7 +120,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 
 					// Create the map.
 						var mapOptions = {
-							zoom: 12,
+							zoom: 11,
 							center: new google.maps.LatLng(40.497852, -121.420814),
 							mapTypeId: google.maps.MapTypeId.ROADMAP
 						}; //var mapOptions closed
@@ -144,7 +144,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 									var populationOptions = {
 										strokeColor: '#FF0000',
 										strokeOpacity: 0.8,
-										strokeWeight: 2,
+										strokeWeight: 1,
 										fillColor: '#FF0000',
 										fillOpacity: 0.35,
 										map: map,
