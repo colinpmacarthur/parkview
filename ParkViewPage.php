@@ -13,9 +13,9 @@ class ParkViewPage
 
     function setYearQuarter($year,$quarter)
     {
-        $year = isset($year)
+        $year = is_int($year)
               ? $year : 2014;
-        $qtr  = isset($quarter)
+        $qtr  = is_int($quarter)
               ? $quarter : 1;
         $this->year = $year;
         $this->quarter = $qtr;
@@ -75,71 +75,76 @@ class ParkViewPage
                 <script src="js/jquery.tagsinput.js"></script>
                 <script src="js/jquery.placeholder.js"></script>
                 '.HighRoller::setHighChartsLocation("highcharts/js/highcharts.js").'
-            </head>
-        ';
+				.'.$this->renderAdditionalHead().'
+            </head>';
+        
     } 
+
+	function renderAdditionalHead()
+	{
+
+	}
     
     function renderNav()
     {
-        echo '
-            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    	        <div class="container-fluid">
-    	            <!-- Brand and toggle get grouped for better mobile display -->
-    	            <div class="navbar-header">
-    	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-    	                    <span class="sr-only">Toggle navigation</span>
-    	                    <span class="icon-bar"></span>
-    	                    <span class="icon-bar"></span>
-    	                    <span class="icon-bar"></span>
-    	                </button>
-    	                <a class="navbar-brand" href="#">ParkView</a>
-    	            </div>
-    	            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    	                <ul class="nav navbar-nav">
-    	                    <li><a href="places.php?year=2013&quarter=3">Popular Places</a></li>
-    	                    <li class="active"><a href="#">Popular Platforms</a></li>
-    	                    <li><a href="sentiment.html?year=2013&quarter=3">Negative Reviews</a></li>
-    	                </ul>
-    	                <ul class="nav navbar-nav navbar-right">
-    	                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-weight: 600;">Lassen Volcanic NP <b class="caret"></b></a>
-    	                        <ul class="dropdown-menu">
-    	                            <li>No other parks available.</li>
-    	                        </ul>
-    	                    </li>
-    	                </ul>
-    	            </div>
-    	        </div>
-    	</nav>
-        ';
+        	echo '<nav class="navbar navbar-default navbar-fixed-top" role="navigation">';
+    	    echo '    <div class="container-fluid">';
+    	    echo '        <!-- Brand and toggle get grouped for better mobile display -->';
+    	    echo '        <div class="navbar-header">';
+    	    echo '            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">';
+    	    echo '                <span class="sr-only">Toggle navigation</span>';
+    	    echo '                <span class="icon-bar"></span>';
+    	    echo '                <span class="icon-bar"></span>';
+    	    echo '                <span class="icon-bar"></span>';
+    	    echo '            </button>';
+    	    echo '            <a class="navbar-brand" href="#">ParkView</a>';
+    	    echo '        </div>';
+    	    echo '        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
+    	    echo '            <ul class="nav navbar-nav">';
+    	    echo 			  	  $this->renderNavBarItems();
+			echo '            </ul>';
+    	    echo '            <ul class="nav navbar-nav navbar-right">';
+    	    echo '                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-weight: 600;">Lassen Volcanic NP <b class="caret"></b></a>';
+    	    echo '                    <ul class="dropdown-menu">';
+    	    echo '                        <li>No other parks available.</li>';
+    	    echo '                    </ul>';
+    	    echo '                </li>';
+    	    echo '            </ul>';
+    	    echo '        </div>';
+    	    echo '    </div>';
+    		echo '</nav>';
+        
     }
     function renderNavBarItems()
     {
-        $pages = array(
-            array(
-                'short_name' => 'Places',
+        $pages = [
+            [
+                'short_name' => 'Popular Places',
                 'full_name' => 'Popular Places',
                 'file_name' => 'places.php',
-            ),
-            array(
-                'short_name' => 'Platforms',
+            ],
+            [
+                'short_name' => 'Popular Platforms',
                 'full_name' => 'Popular Platforms',
                 'file_name' => 'platforms.php',
-            ),
-            array(
+            ],
+            [
                 'short_name' => 'Negative Reviews',
                 'full_name' => 'Negative Reviews',
                 'file_name' => 'sentiment.html',
-            ),
-        );
+            ],
+        ];
         $html = "";
         foreach ($pages as $page_info)
         {
-            $current = $this->getPageName() == $page_info['full_name']
+			$current = $this->getPageName() == $page_info['full_name']
                      ? 'class="active"' : '';
             $year    = $this->getYear();
-            $html =+ '<li><a href="places.php?year=2013&quarter=3">Popular Places</a></li>';
+			$quarter = $this->getQuarter();
+            $html = $html.'<li '.$current.'><a href="'.$page_info['file_name'].'?year='.$year.'&quarter='.$quarter.'">'.$page_info['short_name'].'</a></li>';
        
         }
+		echo $html;
     }
     
     function renderTitle()
@@ -147,7 +152,7 @@ class ParkViewPage
         echo '
             <div class="row" >
 	    	    <div class="col-md-8" style="padding-left:0px;">
-	    	    	<h3>Popular Platforms Q'.$this->getQuarter().'-'.$this->getYear().'</h3>
+	    	    	<h3>'.$this->getPageName().' Q'.$this->getQuarter().'-'.$this->getYear().'</h3>
 	    		</div>
 	    		<div class="col-md-4 time-selectors" >
 	    			<div class="dropdown time-selector">

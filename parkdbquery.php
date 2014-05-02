@@ -56,12 +56,11 @@ class ParkDBQuery
 					  "max" => $year.'-'.$end_month.'-31 00:00:00');
 	}
 	
-	function getCount($services=['all'],$place=false)
+	function getCount($services=['all'],$place=false,$year=false)
 	{
-		if ( is_string($services) )
-		{
-			$services = [$services];
-		};
+		if ( is_string($services) ) $services = [$services];
+		$year = $year ? $year : $this->getYear();
+
 		$total = 0;
 		foreach ( $services as $service )
 		{
@@ -77,7 +76,7 @@ class ParkDBQuery
 			          ->endUse()
                                 ->_endif()
 			        ->useDimPeriodQuery()
-				 ->filterByYear($this->getYear())
+				 ->filterByYear($year)
 				 ->filterByQuarter($this->getQuarter())
 				->endUse()
 				->count();
@@ -116,12 +115,12 @@ class ParkDBQuery
 			  ->find();
 		foreach ( $results as $result)
 		{
-			array_push($counts,$result->getCount());
+			array_push($counts,intval($result->getCount()));
 			$dateTimeObj = DateTime::createFromFormat('!m', $result->getMonth());
-			array_push($months,"'".$dateTimeObj->format('F')."'");
+			array_push($months,$dateTimeObj->format('F'));
 		};
-		return [ 'counts' => join($counts,","),
-			 'months' => join($months,",")
+		return [ 'counts' => $counts,
+			 'months' => $months
 		       ];		
 
 	}
@@ -168,7 +167,7 @@ class ParkDBQuery
 				 ->orderByCount('desc')
 				 ->find();
 			foreach ( $results as $result)
-			{echo $result->getRating();
+			{
 				if (($result->getPlace()))
 				{
 					array_push($results_array,
@@ -216,10 +215,8 @@ class ParkDBQuery
 	function getCountPercentChange($service='all')
 	{
 		$this_year = $this->getCount($service);
-		$this->year = $this->year - 1;
-		$last_year = $this->getCount($service);
+		$last_year = $this->getCount($service,false,$this->getYear()-1);
 		if ( $last_year == 0 ) return 'N/A';
-		$this->year = $this->year + 1;
 		$change = round( ( ( $this_year - $last_year ) / $last_year ) * 100 );
 		if ( $change < 0 ) {
 			return '<span class="glyphicon glyphicon-arrow-down"></span>'.abs($change)."%";
@@ -239,17 +236,27 @@ class ParkDBQuery
 		return $this->getCountPercentChange($services_array);
 	}
 	
-	function getAggregateCountsForGraph($services_array)
+	function getAggregateCountsForGraph($services_array,$place=false)
 	{
 		$array = array();
 		foreach ( $services_array as $service )
 		{
-			$count = $this->getCount($service);
+			$count = $this->getCount($service,$place);
 			array_push($array,$count);
 		}
 		return join($array,',');	
 	}
 	
+	function getAggregateCountForGraph($services_array,$place=false)
+	{
+		$array = array();
+		foreach ( $services_array as $service )
+		{
+			$count = $this->getCount($service,$place);
+			array_push($array,$count);
+		}
+		return $array;	
+	}
 	function getContributors($services=['all'],$place=false)
 	{
 		if ( is_string($services) )
@@ -420,6 +427,3 @@ class ParkDBQuery
 	
 }
 
-$db = new ParkDBQuery;
-$db->setYear(htmlspecialchars(2014));
-$db->setQuarter(htmlspecialchars(2));

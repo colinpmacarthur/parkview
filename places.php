@@ -1,115 +1,22 @@
 <?php
-include 'parkdbquery.php';
-$db = new ParkDBQuery;
-$db->setYear(htmlspecialchars($_GET["year"]));
-$db->setQuarter(htmlspecialchars($_GET["quarter"]));
+require_once "ParkViewPlatformPage.php";
+require_once "ParkViewPage.php";
+$page = new ParkViewPage;
+$page->setPageName('Popular Places');
+$page->setYearQuarter(htmlspecialchars($_GET["year"]),htmlspecialchars($_GET["quarter"]));
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>ParkView - Lassen Volcanic NP - Popular Places</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
-    <style>
-		.time-selectors {margin-top: 30px;}
-		.time-selector {float: right; margin-left: 10px; margin-bottom: 2em;}
-		.stat {font-size: 2.3em; line-height: 1em; margin-top: 0em; color: #616161;}
-		.stat-type {line-height: 1.2em; margin-bottom: 0.5em;}
-		.stat-context {font-size: 0.75em; color: #27ae60; margin-bottom: 2em; line-height: 1em;}
-		.report-row {border-top: 1px solid #ecf0f1; padding-top: 2em; padding-bottom: 2em;}
-		.gray {color: #D8D8D8;}
-
-		body { padding-top: 70px; }
-    </style>
-    <!-- Loading Bootstrap -->
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-    <!-- Loading Flat UI -->
-    <link href="css/flat-ui.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/favicon.ico">
- 	 <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="css/flat-ui.css" rel="stylesheet">
-    <link rel="shortcut icon" href="parkview-master/images/favicon.ico">
-		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <?php $page->renderHead() ?> 
+    <body>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		<script type="text/javascript" src="js/maplabel.js"></script>
-		<script src="http://people.ischool.berkeley.edu/~sasaki/fp/d3-master/d3.js"></script>
-    <script src="http://code.jquery.com/jquery.js"></script>
-		<script src="http://code.highcharts.com/highcharts.js"></script>
-		<script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <!-- <script src="js/jquery-ui-1.10.3.custom.min.js"></script> -->
-    <script src="js/jquery.ui.touch-punch.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap-select.js"></script>
-    <script src="js/bootstrap-switch.js"></script>
-    <script src="js/bootstrap-tooltip.js"></script>
-    <script src="js/flatui-checkbox.js"></script>
-    <script src="js/flatui-radio.js"></script>
-    <script src="js/jquery.tagsinput.js"></script>
-    <script src="js/jquery.placeholder.js"></script>
-   <!-- <script src="parkview-master/js/jquery.stacktable.js"></script> -->
-    <script src="http://vjs.zencdn.net/4.3/video.js"></script>
-    <script src="js/application.js"></script>
- <?php include 'chart_javascript_places.php'; ?>
-
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-      <script src="js/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-	  <div class="container-fluid">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="#">ParkView</a>
-	    </div>
-	    
-	    <!-- Collect the nav links, forms, and other content for toggling -->
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#">Popular Places</a></li>
-	        <li><a href="platforms.php?year=2013&quarter=3">Popular Platforms</a></li>
-	        <li><a href="sentiment.html?year=2013&quarter=3">Negative Reviews</a></li>
-	      </ul>
-	      <ul class="nav navbar-nav navbar-right">
-	        <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" style="font-weight: 900;" data-toggle="dropdown">Lassen Volcanic NP <b class="caret"></b></a>
-	          <ul class="dropdown-menu">
-	            <li>No other parks available.</li>
-	          </ul>
-	        </li>
-	      </ul>
-	    </div><!-- /.navbar-collapse -->
-	  </div><!-- /.container-fluid -->
-	</nav>
-
+		<script src="http://people.ischool.berkeley.edu/~sasaki/fp/d3-master/d3.js"></script>	
 	<div class="container">
-		<div class="row">
-			<div class="col-md-8" style="padding-left: 0px;">
-				<h3>Popular Places: Q<?php echo htmlspecialchars($_GET["quarter"])."-".htmlspecialchars($_GET["year"]); ?></h3>
-			</div>
-			<div class="col-md-4 time-selectors" >
-				<div class="dropdown time-selector">
-				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight: 600;">Select Quarter<span class="caret"></span></button>
-				<span class="dropdown-arrow"></span>
-					<ul class="dropdown-menu">
-					    <li><a href="?year=2013&quarter=1">2013 - Quarter 1</a></li>
-					    <li><a href="?year=2013&quarter=2">2013 - Quarter 2</a></li>
-					    <li><a href="?year=2013&quarter=3">2013 - Quarter 3</a></li>
-					    <li><a href="?year=2013&quarter=4">2013 - Quarter 4</a></li>
-					</u>
-				</div>
-			</div>
-		</div>
+	<?php 
+		$page->renderNav();
+		$page->renderTitle();
+	 ?>
 		<div class="row">
 			<div class="col-md-6" id="map-canvas" style="height: 700px;">
 				<script>
@@ -120,7 +27,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 
 					// Create the map.
 						var mapOptions = {
-							zoom: 12,
+							zoom: 11,
 							center: new google.maps.LatLng(40.497852, -121.420814),
 							mapTypeId: google.maps.MapTypeId.ROADMAP
 						}; //var mapOptions closed
@@ -131,11 +38,11 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 						$.ajax({
 							type: 'POST',
 							url: 'getSnsRatingsByLocation.php',
-							data: {'year':<?php echo $db->getYear(); ?>, 'quarter':<?php echo $db->getQuarter(); ?>},
+							data: {'year':2013, 'quarter':1},
 							dataType: "json",
 
 							success: function(hoge) {
-								console.log(JSON.stringify(hoge));
+								//console.log(JSON.stringify(hoge));
 								//iterate making circles, markers, and infowindows for each point
 								//alert(hoge[0].ratingThree);
 								var i;
@@ -144,7 +51,7 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 									var populationOptions = {
 										strokeColor: '#FF0000',
 										strokeOpacity: 0.8,
-										strokeWeight: 2,
+										strokeWeight: 1,
 										fillColor: '#FF0000',
 										fillOpacity: 0.35,
 										map: map,
@@ -179,16 +86,75 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 				</script>
 				</div>
 				<div class="col-md-6">
-					<span style="color: #616161; font-weight: 600;">Number of Mentions in Posts, Reviews, Comments</span>
-					<div id="TotalActivityOverMonths" style="min-width: 310px; height: 150px; margin: 0 auto"></div>
-					
+					<span style="color: #616161; font-weight: 600;">Number of Park Mentions</span>
 					<?php
+					$chartData = $page->db->getCountForGraph()['counts'];
+       				$series = new HighRollerSeriesData();
+	   		 		$series->addName('Total activity')->addData($chartData);
+	   		 	 	$chart = new HighRollerColumnChart();
+	   		 	 	$chart->chart->renderTo = 'TotalChart';
+	   		 		$chart->title->text = '';
+       		 	 	$chart->title->color = '#616161'; 
+       		 	 	$chart->legend->enabled = false;
+       		 	 	$chart->style->fontFamily = 'Lato, Helvetica';
+	   		 	 	$chart->yAxis->title->text = ucwords('Total activity');
+       		 	 	$chart->yAxis->title->style->color = "#9C9999";
+       		 	 	$chart->yAxis->lineColor = "#9C9999";
+       		 	 	$chart->yAxis->stackLabels->enabled = true;
+       		 	 	$chart->yAxis->stackLabels->style->color = '#9C9999';
+       		 	 	$chart->yAxis->gridLineWidth = 0;
+       		 	 	$chart->xAxis->title->text = "Month";
+	   		 	 	$chart->xAxis->title->style->color = "#9C9999";
+       		 	 	$chart->xAxis->categories = $page->db->getCountForGraph()['months'];
+       		 	 	$chart->xAxis->labels->style->color = "#9C9999";
+       		 	 	$chart->plotOptions->column->stacking = "normal";
+       		 	 	$chart->plotOptions->column->pointPadding = 0.2;
+       		 	 	$chart->plotOptions->column->borderWidth = 0;
+       		 	 	$chart->exporting->enabled = true;
+       		 	 	$chart->colors = ['#89AC6A'];
+       		 	 	$chart->addSeries($series);
+					?>
+					<div id="TotalChart" style="min-width: 310px; height: 150px; margin: 0 auto">
+						<script type="text/javascript">
+							<?php echo $chart->renderChart(); ?> 
+						</script>
+					</div>
+						
+					<span style="color: #616161; font-weight: 600;">Park Places</span><?php
 						$i = 1;
-						foreach ($db->getPlaceRanked() as $place)
+						foreach ($page->db->getPlaceRanked() as $place)
 						{
-						$rating = $db->getAverageRating('all',$place['place']);
+						$rating = $page->db->getAverageRating('all',$place['place']);
 						$rating = $rating ? $rating.'<span class=gray>/5</span>' : '<span class="gray">N/A'; 
-							echo '
+
+
+					$chart2Data = $page->db->getAggregateCountForGraph(['Trip_Advisor','Yelp','Facebook','Twitter','Flickr'],$place['place']);
+       				$series = new HighRollerSeriesData();
+	   		 		$series->addName('Total activity')->addData($chart2Data);
+	   		 	 	$chart2 = new HighRollerBarChart();
+	   		 	 	$chart2->chart->renderTo = 'chart'.$i;
+	   		 		$chart2->title->text = '';
+       		 	 	$chart2->title->color = '#616161'; 
+       		 	 	$chart2->legend->enabled = false;
+       		 	 	$chart2->style->fontFamily = 'Lato, Helvetica';
+	   		 	 	$chart2->yAxis->title->text = ucwords('Total activity');
+       		 	 	$chart2->yAxis->title->style->color = "#9C9999";
+       		 	 	$chart2->yAxis->lineColor = "#9C9999";
+       		 	 	$chart2->yAxis->stackLabels->enabled = true;
+       		 	 	$chart2->yAxis->stackLabels->style->color = '#9C9999';
+       		 	 	$chart2->yAxis->gridLineWidth = 0;
+       		 	 	$chart2->xAxis->title->text = "Month";
+	   		 	 	$chart2->xAxis->title->style->color = "#9C9999";
+       		 	 	$chart2->xAxis->categories = ['Trip Advisor',
+					'Yelp','Facebook','Twitter','Flickr'];
+       		 	 	$chart2->xAxis->labels->style->color = "#9C9999";
+       		 	 	$chart2->plotOptions->column->stacking = "normal";
+       		 	 	$chart2->plotOptions->column->pointPadding = 0.2;
+       		 	 	$chart2->plotOptions->column->borderWidth = 0;
+       		 	 	$chart2->exporting->enabled = true;
+       		 	 	$chart2->colors = ['#89AC6A'];
+       		 	 	$chart2->addSeries($series);
+								echo '
 					<div class="row">
 						<div class="col-md-6" style="color: #616161">'.$place['place'].'</div>
 					</div>
@@ -199,7 +165,11 @@ $db->setQuarter(htmlspecialchars($_GET["quarter"]));
 							<div class="stat-type text-center">Popularity Index</div>
 						</div>
 						<div class="col-md-6">
-							<div id="'.$i.'" style="min-width: 200px; height: 100px; margin: 0 auto"></div>
+							<div id="chart'.$i.'" style="min-width: 200px; height: 150px; margin: 0 auto">
+								<script type="text/javascript">
+									'.$chart2->renderChart().' 
+								</script>
+							</div>		
 						</div>
 						<div class="col-md-3 stats">
 							<div class="stat text-center">'.$rating.'</div>
