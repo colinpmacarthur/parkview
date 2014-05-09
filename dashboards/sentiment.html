@@ -167,14 +167,14 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Avg. Sentiment Score vs. Total Mentions</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Matrix of Sentiment Scores vs Mentions</div>
 			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Number of Negative Reviews per Quarter</div>
 		</div>
 		<div class="row" id="upper" style="background-color: #FAFAF5">
-			<div class="col-md-6" id="scatter-plot">
-				<div class="row" id="upper" style="background-color: #FAFAF5">
-					<div class="col-md-6" id="scatter-plot" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8">
-						<span style="font-size: 0.75em; font-weight: bold;">Reviewers have positive sentiment</span><br>
+			<div class="col-md-6" id="matrix">
+				<div class="row" id="upper1">
+					<div class="col-md-6" id="matrix-positive1" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-image: url(images/bg/positive1.png); background-repeat: no-repeat; background-position: center center;">
+						<span style="font-size: 0.75em; font-weight: bold;">Positive Sentiment</span><br>
 						<span style="font-size: 0.6em;">
 							<script>
 								var huga1 = $.ajax({
@@ -200,8 +200,8 @@
 							</script>
 						</span>
 					</div>
-					<div class="col-md-6" id="scatter-plot" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8">
-						<span style="font-size: 0.75em; font-weight: bold;">Many reviewers have positive sentiment</span><br>
+					<div class="col-md-6" id="matrix-positive2" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-image: url(images/bg/positive2.png); background-repeat: no-repeat; background-position: center center;">
+						<span style="font-size: 0.75em; font-weight: bold;">Much Positive Sentiment</span><br>
 						<span style="font-size: 0.6em;">
 							<script>
 								var huga2 = $.ajax({
@@ -228,9 +228,9 @@
 						<span>
 					</div>
 				</div>
-				<div class="row" id="upper" style="background-color: #FAFAF5">
-					<div class="col-md-6" id="scatter-plot" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8">
-						<span style="font-size: 0.75em; font-weight: bold;">Reviewers have negative sentiment</span><br>
+				<div class="row" id="upper2" style="background-color: #FAFAF5">
+					<div class="col-md-6" id="matrix-negative1" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-image: url(images/bg/negative1.png); background-repeat: no-repeat; background-position: center center;">
+						<span style="font-size: 0.75em; font-weight: bold;">Negative Sentiment</span><br>
 						<span style="font-size: 0.6em;">
 							<script>
 								var huga3 = $.ajax({
@@ -256,8 +256,8 @@
 							</script>
 						<span>
 					</div>
-					<div class="col-md-6" id="scatter-plot" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-color:#FFCCCC;">
-						<span style="font-size: 0.75em; font-weight: bold;">Many reviewers have negative sentiment</span><br>
+					<div class="col-md-6" id="matrix-negative2" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-color:#FFCCCC; background-image: url(images/bg/negative2.png); background-repeat: no-repeat; background-position: center center;">
+						<span style="font-size: 0.75em; font-weight: bold;">Much Negative Sentiment</span><br>
 						<span style="font-size: 0.6em;">
 							<script>
 								var huga4 = $.ajax({
@@ -285,7 +285,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6" id="nega-posi-history" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
+			<div class="col-md-6" id="nega-posi-history" style="height: 350px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
 				<script> // Stack Bar Graph by Highcharts
 						$.ajax({
 							type: 'POST',
@@ -294,7 +294,7 @@
 							dataType: "json",
 
 							success: function(hoge) {
-								console.log(JSON.stringify(hoge[<?php echo '"' . $year . 'Q' . $quarter . '"' ?>]["negative"]));
+								//console.log(JSON.stringify(hoge[<?php echo '"' . $year . 'Q' . $quarter . '"' ?>]["negative"]));
 								var nega0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '"' ?>]["negative"]);
 								var nega1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '"' ?>]["negative"]);
 								var nega2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '"' ?>]["negative"]);
@@ -432,8 +432,8 @@
 							alert('Error : ' + errorThrown);
 						} // error closed
 					}).responseJSON; //ajax closed
-				console.log(JSON.stringify(piyo));
-				console.log(piyo[0].siteName);
+				//console.log(JSON.stringify(piyo));
+				//console.log(piyo[0].siteName);
 
 				// loading google Google Charts
 				google.load( 'visualization', '1', { packages:['corechart'] });
