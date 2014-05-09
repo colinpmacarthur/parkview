@@ -1,0 +1,11 @@
+How to get data from Google Plus
+https://maps.googleapis.com/maps/api/place/textsearch/json?query=lassen%20volcanic%20national%20park&sensor=true&key=AIzaSyBQhvUFySoSJckFK4eM-tklpRhlG9F0-8o
+
+Then, put "reference" as 
+
+https://maps.googleapis.com/maps/api/place/details/json?reference=CoQBgAAAAGJfdoG2mkrM0d6szGOxBBczCGfFb3K3smDk_uf8he40QuHiENuJhQCx0wybJiis2fKv4JsUeDauHEGuI2oJH6hCuNZHSmQ_iPNI5txI3qeBlGEQccY7c9xRYLtN9FSL75pGrGr6fUEw0JKNTZ-n1UYALjOwwfTXF32h7u6uKilHEhAUOrTeHwXb6mgbcrr6u4xqGhRqf7yzC9BERmH3q5aDxt-916XVUg&sensor=true&key=AIzaSyBQhvUFySoSJckFK4eM-tklpRhlG9F0-8o&extensions&review_summary
+
+
+How to get data from Facebook
+Access explorer from developer page as
+https://developers.facebook.com/tools/explorer/145634995501895/?method=GET&path=353220348053485%2Ffeed
