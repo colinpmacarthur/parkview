@@ -171,161 +171,120 @@
 			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Number of Negative Reviews per Quarter</div>
 		</div>
 		<div class="row" id="upper" style="background-color: #FAFAF5">
-			<div class="col-md-6" id="scatter-plot" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
-				<script>
-					$.ajax({
-						type: 'POST',
-						url: 'getScatterPlotData.php',
-						data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
-						dataType: "json",
-						success: function(huga) {
+			<div class="col-md-6" id="scatter-plot">
+				<div class="row" id="upper" style="background-color: #FAFAF5">
+					<div class="col-md-6" id="scatter-plot" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8">
+						<span style="font-size: 0.75em; font-weight: bold;">Reviewers have positive sentiment</span><br>
+						<span style="font-size: 0.6em;">
+							<script>
+								var huga1 = $.ajax({
+									type: 'POST',
+									url: 'getUpperLeft.php',
+									data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
+									dataType: "json",
+									context: document.body,
+									global: false,
+									async:false,
+									success: function(data) {
+										return data;
+									}, //success closed
+									error: function(XMLHttpRequest, textStatus, errorThrown) {
+										alert('Error : ' + errorThrown);
+									} // error closed
+								}).responseJSON; //ajax closed
 
-						var seriesopt = [];
+								var i;
+								for (i =0; i<Object.keys(huga1).length; i++) {
+										document.write('@' + huga1[i]["siteName"] + '<BR>');
+								}
+							</script>
+						</span>
+					</div>
+					<div class="col-md-6" id="scatter-plot" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8">
+						<span style="font-size: 0.75em; font-weight: bold;">Many reviewers have positive sentiment</span><br>
+						<span style="font-size: 0.6em;">
+							<script>
+								var huga2 = $.ajax({
+									type: 'POST',
+									url: 'getUpperRight.php',
+									data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
+									dataType: "json",
+									context: document.body,
+									global: false,
+									async:false,
+									success: function(data) {
+										return data;
+									}, //success closed
+									error: function(XMLHttpRequest, textStatus, errorThrown) {
+										alert('Error : ' + errorThrown);
+									} // error closed
+								}).responseJSON; //ajax closed
 
-						var i;
-						for (i = 0; i<huga.length; i++) {
-							seriesopt[i] = {};
-							seriesopt[i]['name']=huga[i]['siteName'];
-							seriesopt[i]['color']='rgba(137, 172, 10, .8)';
-//							totalmentions = huga[i]['totalMentions'];
-//							averagesentiment = huga[i]['averageSentiment'];
-							seriesopt[i]['data']=[[Number(huga[i]['totalMentions']), Number(Number(huga[i]['averageSentiment']).toFixed(1))]];
-						}
-						//console.log(JSON.stringify(huga));
-						//console.log(JSON.stringify(seriesopt));
+								var i;
+								for (i =0; i<Object.keys(huga2).length; i++) {
+										document.write('@' + huga2[i]["siteName"] + '<BR>');
+								}
+							</script>
+						<span>
+					</div>
+				</div>
+				<div class="row" id="upper" style="background-color: #FAFAF5">
+					<div class="col-md-6" id="scatter-plot" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8">
+						<span style="font-size: 0.75em; font-weight: bold;">Reviewers have negative sentiment</span><br>
+						<span style="font-size: 0.6em;">
+							<script>
+								var huga3 = $.ajax({
+									type: 'POST',
+									url: 'getLowerLeft.php',
+									data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
+									dataType: "json",
+									context: document.body,
+									global: false,
+									async:false,
+									success: function(data) {
+										return data;
+									}, //success closed
+									error: function(XMLHttpRequest, textStatus, errorThrown) {
+										alert('Error : ' + errorThrown);
+									} // error closed
+								}).responseJSON; //ajax closed
 
-							(function($){ // encapsulate jQuery
-								$(function () {
-									$('#scatter-plot').highcharts({
-										chart: {
-											type: 'scatter',
-											marginTop: 20,
-											marginLeft: 45,
-											zoomType: 'xy',
+								var i;
+								for (i =0; i<Object.keys(huga3).length; i++) {
+										document.write('@' + huga3[i]["siteName"] + '<BR>');
+								}
+							</script>
+						<span>
+					</div>
+					<div class="col-md-6" id="scatter-plot" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-color:#FFCCCC;">
+						<span style="font-size: 0.75em; font-weight: bold;">Many reviewers have negative sentiment</span><br>
+						<span style="font-size: 0.6em;">
+							<script>
+								var huga4 = $.ajax({
+									type: 'POST',
+									url: 'getLowerRight.php',
+									data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
+									dataType: "json",
+									context: document.body,
+									global: false,
+									async:false,
+									success: function(data) {
+										return data;
+									}, //success closed
+									error: function(XMLHttpRequest, textStatus, errorThrown) {
+										alert('Error : ' + errorThrown);
+									} // error closed
+								}).responseJSON; //ajax closed
 
-	    backgroundColor: '#FAFAF5',
-										},
-										title: {
-											text: ''
-										},
-										subtitle: {
-											text: ''
-										},
-										xAxis: {
-											allowDecimals: false,
-											title: {
-												enabled: true,
-												text: 'Total mentions'
-											},
-											startOnTick: true,
-											endOnTick: true,
-											showLastLabel: true
-										},
-										yAxis: {
-											min: -1,
-											max: 1,
-											title: {
-												margin: 70,
-												text: 'Avg. Sentiment Score'
-											},
-											
-											labels: {
-												enabled: false,
-												format: '{value}',
-												overflow: 'none'
-											},
-											plotLines: [{
-													width: 2,
-													value: 1,
-													label: {
-															text: 'Positive',
-															style: {
-																color: '#666'
-																},
-															align: 'left',
-															x: -60,
-															y: 4
-													}
-											},{
-													width: 2,
-													value: 0,
-													label: {
-															text: 'Neutral',
-															style: {
-																color: '#666'
-																},
-															align: 'left',
-															x: -60,
-															y: 4
-													}
-											},{
-													width: 2,
-													value: -1,
-													label: {
-															text: 'Negative',
-															style: {
-																color: '#666'
-																},
-															align: 'left',
-															x: -65,
-															y: 4
-													}
-											}]
-										},
-										legend: {
-											enabled: false,
-											layout: 'vertical',
-											align: 'left',
-											verticalAlign: 'top',
-											x: 10,
-											y: 70,
-											floating: true,
-											borderWidth: 1
-										},
-										plotOptions: {
-											scatter: {
-												animation: {
-													duration: 500
-												},
-												marker: {
-													radius: 5,
-													symbol: 'circle',
-													states: {
-														hover: {
-															enabled: true,
-															lineColor: 'rgb(100,100,100)'
-														}
-													}
-												},
-												dataLabels: {
-													enabled: false,
-													format: '{series.name}',
-												},
-												states: {
-													hover: {
-														marker: {
-															enabled: false
-														}
-													}
-												},
-												tooltip: {
-													headerFormat: '<b>{series.name}</b><br>',
-													pointFormat: '{point.x} mentions, Score:{point.y}'
-												}
-										}
-									},
-									series: seriesopt
-									});
-								});
-							})(jQuery);
-							//console.log(nega0);
-						}, //success closed
-						error: function(XMLHttpRequest, textStatus, errorThrown) {
-							alert('Error : ' + errorThrown);
-						} // error closed
-					}); //ajax closed
-				</script>
-			</div><!-- id="scatter-plot" -->
+								var i;
+								for (i =0; i<Object.keys(huga4).length; i++) {
+										document.write('@' + huga4[i]["siteName"] + '<BR>');
+								}
+							</script>
+						<span>
+					</div>
+				</div>
+			</div>
 			<div class="col-md-6" id="nega-posi-history" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
 				<script> // Stack Bar Graph by Highcharts
 						$.ajax({
