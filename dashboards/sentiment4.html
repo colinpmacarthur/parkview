@@ -285,7 +285,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6" id="nega-posi-history" style="height: 250px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
+			<div class="col-md-6" id="nega-posi-history" style="height: 350px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
 				<script> // Stack Bar Graph by Highcharts
 						$.ajax({
 							type: 'POST',
@@ -294,7 +294,7 @@
 							dataType: "json",
 
 							success: function(hoge) {
-								console.log(JSON.stringify(hoge[<?php echo '"' . $year . 'Q' . $quarter . '"' ?>]["negative"]));
+								//console.log(JSON.stringify(hoge[<?php echo '"' . $year . 'Q' . $quarter . '"' ?>]["negative"]));
 								var nega0 = Number(hoge[<?php echo '"' . $year . 'Q' . $quarter . '"' ?>]["negative"]);
 								var nega1 = Number(hoge[<?php echo '"' . $p1year . 'Q' . $p1quarter . '"' ?>]["negative"]);
 								var nega2 = Number(hoge[<?php echo '"' . $p2year . 'Q' . $p2quarter . '"' ?>]["negative"]);
@@ -403,7 +403,6 @@
 								alert('Error : ' + errorThrown);
 							} // error closed
 						}); //ajax closed
-
 				</script>
 			</div><!-- id="nega-posi-history" -->
 		</div><!-- id="upper" -->
@@ -432,8 +431,8 @@
 							alert('Error : ' + errorThrown);
 						} // error closed
 					}).responseJSON; //ajax closed
-				console.log(JSON.stringify(piyo));
-				console.log(piyo[0].siteName);
+				//console.log(JSON.stringify(piyo));
+				//console.log(piyo[0].siteName);
 
 				// loading google Google Charts
 				google.load( 'visualization', '1', { packages:['corechart'] });
@@ -492,7 +491,12 @@
 
 				function initialize(){
 
-				var mapcenter = new google.maps.LatLng(40.468507, -121.454999);
+					var imageBounds = new google.maps.LatLngBounds(
+						new google.maps.LatLng(40.3992219943574, -121.5944674000167),
+						new google.maps.LatLng(40.59298671019573, -121.2307010666845));
+
+
+					var mapcenter = new google.maps.LatLng(40.468507, -121.454999);
 
 					// map values
 					var map = new google.maps.Map($('#map_canvas')[0], {
@@ -500,6 +504,11 @@
 						center: mapcenter,
 						mapTypeId: google.maps.MapTypeId.ROADMAP
 					});
+
+          var lassenOverlay = new google.maps.GroundOverlay(
+              'http://localground.org/static/images/lassen.png',
+              imageBounds);
+          lassenOverlay.setMap(map);
 
 					// start for loop
 					var i;
@@ -510,11 +519,13 @@
 							text: piyo[i].siteName,
 							map: map,
 							fontSize: 12,
-							align: 'center'
+							align: 'center',
+							position: new google.maps.LatLng(piyo[i].latitude, piyo[i].longitude),
+							zIndex: 1
 						});
 
 						// add the label to the map
-						mapLabel.set('position', new google.maps.LatLng(piyo[i].latitude, piyo[i].longitude));
+						mapLabel:
 
 						// each chart data from JSON
 						var data = google.visualization.arrayToDataTable(
@@ -528,26 +539,23 @@
 						// set chart options
 						var options = {
 							fontSize: 'automatic',
-							//title: piyo[i].siteName, //don't need because of labeling by mapLabel function
 							pieHole: 0.35,
-							//pieSliceText: 'value', //
 							backgroundColor: 'transparent',
 							slices: {0: {color: '#89AC0A'}, 1: {color: '#9FC77A'}, 2: {color: '#BBEA90'}}, //positive, neutral, negative
 							pieSliceText: 'none',
-							//pieSliceTextStyle: {color: '#333333'},
 							legend: 'none'
 						};
 
 						// set size option corresponding to total numbers of nega+neut+posi
 						var	sizeopt;
 						if ((Number(piyo[i].negative) + Number(piyo[i].neutral) + Number(piyo[i].positive))<=1) {
-							sizeopt = 36;
+							sizeopt = 24;
 						} else if ((Number(piyo[i].negative) + Number(piyo[i].neutral) + Number(piyo[i].positive))<=2) {
-							sizeopt = 18;
-						} else if ((Number(piyo[i].negative) + Number(piyo[i].neutral) + Number(piyo[i].positive))<=3) {
 							sizeopt = 12;
+						} else if ((Number(piyo[i].negative) + Number(piyo[i].neutral) + Number(piyo[i].positive))<=3) {
+							sizeopt = 8;
 						} else {
-							sizeopt = 10;
+							sizeopt = 8;
 						}
 
 						// put a doughnat chart on googlemaps as a marker
