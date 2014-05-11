@@ -148,17 +148,17 @@ class ParkViewPage
         echo '
             <div class="row" >
 	    	    <div class="col-md-8" style="padding-left:0px;">
-	    	    	<h3>'.$this->getPageName().' Q'.$this->getQuarter().'-'.$this->getYear().'</h3>
+	    	    	<h3>'.$this->getPageName().': Quarter '.$this->getQuarter().' - '.$this->getYear().'</h3>
 	    		</div>
 	    		<div class="col-md-4 time-selectors" >
 	    			<div class="dropdown time-selector">
 	    			<button class="btn btn-primary dropdown-toggle" style="font-weight: 600;" data-toggle="dropdown">Select Quarter<span class="caret"></span></button>
 	    			<span class="dropdown-arrow"></span>
 	    				<ul class="dropdown-menu">
-	    				    <li><a href="?year=2013&quarter=1">2013 - quarter 1</a></li>
-	    				    <li><a href="?year=2013&quarter=2">2013 - quarter 2</a></li>
-	    				    <li><a href="?year=2013&quarter=3">2013 - quarter 3</a></li>
-	    				    <li><a href="?year=2013&quarter=4">2013 - quarter 4</a></li>
+	    				    <li><a href="?year=2013&quarter=4">Quarter 4 - 2013</a></li>
+	    				    <li><a href="?year=2013&quarter=3">Quarter 3 - 2013</a></li>
+	    				    <li><a href="?year=2013&quarter=2">Quarter 2 - 2013</a></li>
+	    				    <li><a href="?year=2013&quarter=1">Quarter 1 - 2013</a></li>
 	    				</u>
 	    			</div>
 	    		</div>

@@ -11,7 +11,7 @@
 			.stat-type {line-height: 1.2em; margin-bottom: 0.5em;}
 			.stat-context {font-size: 0.75em; color: #27ae60; margin-bottom: 2em; line-height: 1em;}
 			.report-row {border-top: 1px solid #ecf0f1; padding-top: 1.5em;}
-			body { padding-top: 70px; }
+			body { padding-top: 100px; }
 			div#type1_center {text-align: center;}
 			span#type1_left {float: left;}
 			span#type1_right {float: right;}
@@ -138,44 +138,33 @@
 
 	<div class="container">
 		<div class="row">
-			<div style="margin-left: -15px;" class="col-md-8">
-				<h3>Negative Reviews: <?php echo "Q" . $quarter . "-" . $year; ?></h3>
+			<div style="margin-left: -30px; margin-right:30px;" class="col-md-8">
+				<h3>Negative Reviews: <?php echo "Quarter " . $quarter . " - " . $year; ?></h3>
 			</div>
-			<div class="col-md-2 time-selectors col-md-offset-2" style="font-weight: 900;">
-				<form>
-	        <select id="seasonList" name="herolist" value="Season" class="select-block" style="font-weight: 600;"  onChange="top.location.href=value">
-						<option value="#">Select Quarter</option>
-	          <option value="?quarter=1&year=2014">Q1 - 2014</option>
-	          <option value="?quarter=4&year=2013">Q4 - 2013</option>
-	          <option value="?quarter=3&year=2013">Q3 - 2013</option>
-	          <option value="?quarter=2&year=2013">Q2 - 2013</option>
-	          <option value="?quarter=1&year=2013">Q1 - 2013</option>
-	          <option value="?quarter=4&year=2012">Q4 - 2012</option>
-	          <option value="?quarter=3&year=2012">Q3 - 2012</option>
-	          <option value="?quarter=2&year=2012">Q2 - 2012</option>
-	          <option value="?quarter=1&year=2012">Q1 - 2012</option>
-	          <option value="?quarter=4&year=2011">Q4 - 2011</option>
-	          <option value="?quarter=3&year=2011">Q3 - 2011</option>
-	          <option value="?quarter=2&year=2011">Q2 - 2011</option>
-	          <option value="?quarter=1&year=2011">Q1 - 2011</option>
-	          <option value="?quarter=4&year=2010">Q4 - 2010</option>
-	          <option value="?quarter=3&year=2010">Q3 - 2010</option>
-	          <option value="?quarter=2&year=2010">Q2 - 2010</option>
-	          <option value="?quarter=1&year=2010">Q1 - 2010</option>
-        	</select>
-				</form>
-			</div>
+			<div class="col-md-4 time-selectors" >
+	    			<div class="dropdown time-selector">
+	    			<button class="btn btn-primary dropdown-toggle" style="font-weight: 600;" data-toggle="dropdown">Select Quarter<span class="caret"></span></button>
+	    			<span class="dropdown-arrow"></span>
+					<ul class="dropdown-menu">
+	    				    <li><a href="?year=2013&quarter=4">Quarter 4 - 2013</a></li>
+	    				    <li><a href="?year=2013&quarter=3">Quarter 3 - 2013</a></li>
+	    				    <li><a href="?year=2013&quarter=2">Quarter 2 - 2013</a></li>
+	    				    <li><a href="?year=2013&quarter=1">Quarter 1 - 2013</a></li>
+	    				</u>
+
+	    		</div>
+
 		</div>
 		<div class="row">
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Matrix of Sentiment Scores vs Mentions</div>
-			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Number of Negative Reviews per Quarter</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161;">Sentiment Scores vs. Mentions</div>
+			<div class="col-md-6" style="padding: 10px 5px 5px 5px; font-weight: 600; color: #616161; padding-left: 30px;">Number of Negative Reviews per Quarter</div>
 		</div>
-		<div class="row" id="upper" style="background-color: #FAFAF5">
-			<div class="col-md-6" id="matrix">
+		<div class="row" id="upper">
+			<div class="col-md-6" id="matrix" style="background-color: #FAFAF5;">
 				<div class="row" id="upper1">
-					<div class="col-md-6" id="matrix-positive1" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-image: url(images/bg/positive1.png); background-repeat: no-repeat; background-position: center center;">
-						<span style="font-size: 0.75em; font-weight: bold;">Positive Sentiment</span><br>
-						<span style="font-size: 0.6em;">
+					<div class="col-md-6" id="matrix-positive1" style="padding: 10px; height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; ">
+						<span style="font-size: 0.9em; font-weight: bold;">Few Reviews, Positive Sentiment</span><br /><br />
+						<span style="font-size: 0.75em;">
 							<script>
 								var huga1 = $.ajax({
 									type: 'POST',
@@ -195,14 +184,14 @@
 
 								var i;
 								for (i =0; i<Object.keys(huga1).length; i++) {
-										document.write('@' + huga1[i]["siteName"] + '<BR>');
+										document.write('<div style="font-size: 30px; position: relative; color: #89AC6A; top: -5px; float: left;">&#149;</div>' + huga1[i]["siteName"] + '<BR><BR>');
 								}
 							</script>
 						</span>
 					</div>
-					<div class="col-md-6" id="matrix-positive2" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-image: url(images/bg/positive2.png); background-repeat: no-repeat; background-position: center center;">
-						<span style="font-size: 0.75em; font-weight: bold;">Much Positive Sentiment</span><br>
-						<span style="font-size: 0.6em;">
+					<div class="col-md-6" id="matrix-positive2" style="padding: 10px; height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; ">
+						<span style="font-size: 0.9em; font-weight: bold;">Many Reviews, Positive Sentiment</span><br /><br />
+						<span style="font-size: 0.75em;">
 							<script>
 								var huga2 = $.ajax({
 									type: 'POST',
@@ -222,16 +211,16 @@
 
 								var i;
 								for (i =0; i<Object.keys(huga2).length; i++) {
-										document.write('@' + huga2[i]["siteName"] + '<BR>');
+										document.write('<div style="font-size: 30px; position: relative; color: #89AC6A; top: -5px; float: left;">&#149;</div>' + huga2[i]["siteName"] + '<BR><BR>');
 								}
 							</script>
 						<span>
 					</div>
 				</div>
 				<div class="row" id="upper2" style="background-color: #FAFAF5">
-					<div class="col-md-6" id="matrix-negative1" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-image: url(images/bg/negative1.png); background-repeat: no-repeat; background-position: center center;">
-						<span style="font-size: 0.75em; font-weight: bold;">Negative Sentiment</span><br>
-						<span style="font-size: 0.6em;">
+					<div class="col-md-6" id="matrix-negative1" style="padding: 10px; height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; ">
+						<span style="font-size: 0.9em; font-weight: bold;">Few Reviews, Negative Sentiment</span><br /><br />
+						<span style="font-size: 0.75em;">
 							<script>
 								var huga3 = $.ajax({
 									type: 'POST',
@@ -251,14 +240,14 @@
 
 								var i;
 								for (i =0; i<Object.keys(huga3).length; i++) {
-										document.write('@' + huga3[i]["siteName"] + '<BR>');
+										document.write('<div style="font-size: 30px; position: relative; color: #BF452A; top: -5px; float: left;">&#149;</div>' + huga3[i]["siteName"] + '<BR><BR>');
 								}
 							</script>
 						<span>
 					</div>
-					<div class="col-md-6" id="matrix-negative2" style="height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; background-color:#FFCCCC; background-image: url(images/bg/negative2.png); background-repeat: no-repeat; background-position: center center;">
-						<span style="font-size: 0.75em; font-weight: bold;">Much Negative Sentiment</span><br>
-						<span style="font-size: 0.6em;">
+					<div class="col-md-6" id="matrix" style="padding: 10px; height: 175px; border: 1px solid #EEEEEE; line-height: 0.8; ">
+						<span style="font-size: 0.9em; font-weight: bold;">Many Reviews, Positive Sentiment</span><br /><br />
+						<span style="font-size: 0.75em;">
 							<script>
 								var huga4 = $.ajax({
 									type: 'POST',
@@ -278,14 +267,14 @@
 
 								var i;
 								for (i =0; i<Object.keys(huga4).length; i++) {
-										document.write('@' + huga4[i]["siteName"] + '<BR>');
+										document.write('<div style="font-size: 30px; position: relative; color: #BF452A; top: -5px; float: left;">&#149;</div>' + huga4[i]["siteName"] + '<BR><BR>');
 								}
 							</script>
 						<span>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6" id="nega-posi-history" style="height: 350px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
+			<div class="col-md-6" id="nega-posi-history" style="padding-left: 30px; height: 350px;"><!-- border-radius: 5px; border: 1px solid #000000;"> -->
 				<script> // Stack Bar Graph by Highcharts
 						$.ajax({
 							type: 'POST',
@@ -384,15 +373,15 @@
 											series: [
 											{name: 'Negative',
 												data: [nega4, nega3, nega2, nega1, nega0],
-												color: '#BBEA90'
+												color: '#BF452A'
 											}, {
 												name: 'Neutral',
 												data: [neut4, neut3, neut2, neut1, neut0],
-												color: '#9FC77A'
+												color: '#F4B912'
 											}, {
 												name: 'Positive',
 												data: [posi4, posi3, posi2, posi1, posi0],
-												color: '#89AC0A'
+												color: '#89AC6A'
 											}]
 										});
 									});
@@ -409,7 +398,7 @@
 		</div><!-- id="upper" -->
 		<div class="row" id="rower">
 			<div class="col-md-6" style="padding: 40px 5px 5px 5px; font-weight: 600; color: #616161;">Sentiment Score Map</div>
-			<div class="col-md-6" style="padding: 40px 5px 5px 5px; font-weight: 600; color: #616161;">3 Recent Negative Sentiment Reviews</div>
+			<div class="col-md-6" style="padding: 40px 5px 5px 5px; font-weight: 600; color: #616161; padding-left: 30px;">Recent Negative 	Reviews</div>
 		</div>
 		<div class="row">
 			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -532,7 +521,7 @@
 							pieHole: 0.35,
 							//pieSliceText: 'value', //
 							backgroundColor: 'transparent',
-							slices: {0: {color: '#89AC0A'}, 1: {color: '#9FC77A'}, 2: {color: '#BBEA90'}}, //positive, neutral, negative
+							slices: {0: {color: '#89AC6A'}, 1: {color: '#F4B912'}, 2: {color: '#BF452A'}}, //positive, neutral, negative
 							pieSliceText: 'none',
 							//pieSliceTextStyle: {color: '#333333'},
 							legend: 'none'
@@ -565,7 +554,7 @@
 				$(initialize);
 			</script>
 
-			<div class="col-md-6" id="recent-nega-comments" style="height: 350px; font-size: small;"> <!-- border-radius: 5px; border: 1px solid #000000; "> -->
+			<div class="col-md-6" id="recent-nega-comments" style="height: 350px; font-size: small; padding-left: 30px;"> <!-- border-radius: 5px; border: 1px solid #000000; "> -->
 				<?php
 						$modosu = $endmonth+1;
 

@@ -620,8 +620,8 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  background: #27ae60;
-  border-color: #27ae60;
+  background: #6FA661;
+  border-color: #6FA661;
 }
 .btn-primary.disabled,
 .btn-primary[disabled],
@@ -2249,7 +2249,7 @@ select[multiple].navbar-form .btn {
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #1abc9c;
+  color: white;
   background-color: transparent;
 }
 .navbar-default .navbar-toggle:before {

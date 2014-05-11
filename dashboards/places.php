@@ -85,7 +85,7 @@ $page->setYearQuarter(htmlspecialchars($_GET["year"]),htmlspecialchars($_GET["qu
 					google.maps.event.addDomListener(window, 'load', initialize);
 				</script>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6" style="overflow: scroll; height: 700px;">
 					<span style="color: #616161; font-weight: 600;">Park Places</span><?php
 						$i = 1;
 						foreach ($page->db->getPlaceRanked() as $place)
