@@ -40,7 +40,7 @@ $year = $_GET['year'];
 						$.ajax({
 							type: 'POST',
 							url: 'getSnsRatingsByLocation.php',
-							data: {'year':$year, 'quarter':$quarter},
+							data: {'year':<?php echo $year; ?>, 'quarter':<?php echo $quarter; ?>},
 							dataType: "json",
 
 							success: function(hoge) {
