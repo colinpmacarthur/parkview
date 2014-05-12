@@ -38,7 +38,7 @@ $page->setYearQuarter(htmlspecialchars($_GET["year"]),htmlspecialchars($_GET["qu
 						$.ajax({
 							type: 'POST',
 							url: 'getSnsRatingsByLocation.php',
-							data: {'year':2013, 'quarter':1},
+							data: {'year':$year, 'quarter':$quarter1},
 							dataType: "json",
 
 							success: function(hoge) {
