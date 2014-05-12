@@ -4,6 +4,8 @@ require_once "ParkViewPage.php";
 $page = new ParkViewPage;
 $page->setPageName('Popular Places');
 $page->setYearQuarter(htmlspecialchars($_GET["year"]),htmlspecialchars($_GET["quarter"]));
+$quarter = $_GET['quarter'];
+$year = $_GET['year'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
