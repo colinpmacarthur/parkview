@@ -3,7 +3,7 @@
 	$startmonth = $endmonth-2;
 	$year = $_POST['year'];
 	$quarter = $_POST['quarter'];
-	$targetSNS = "1, 3";
+	$targetSNS = "1, 2, 3, 4, 5";
 	//get data from mysql and put them into an array
 	try{
 		$geolocation = null;
